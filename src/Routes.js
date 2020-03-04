@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import asyncComponent from './Utilities/asyncComponent';
 
-const SamplePage = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './SmartComponents/SamplePage/SamplePage'));
+const Email = asyncComponent(() => import(/* webpackChunkName: "SamplePage" */ './PresentationalComponents/Email/Email'));
+
 const paths = {
-    samplepage: '/email'
+    email: '/email'
 };
 
 const InsightsRoute = ({ component: Component, rootClass, ...rest }) => {
@@ -25,7 +26,7 @@ InsightsRoute.propTypes = {
 export const Routes = () => {
     return (
         <Switch>
-            <InsightsRoute path={ paths.email } component={ SamplePage } rootClass='samplepage'/>
+            <InsightsRoute path={ paths.email } component={ Email } rootClass='email'/>
 
             { /* Finally, catch all unmatched routes */ }
             <Redirect path='*' to={ paths.email } push />
