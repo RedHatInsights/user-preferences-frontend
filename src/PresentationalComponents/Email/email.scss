@@ -1,0 +1,24 @@
+// js generates class '.page__{rootClass}' that wraps the content in your page added to the root tag
+// Found in Routes.js as the rootClass
+
+.pref-email {
+  
+  .pref-email_head {
+    font-size: var(--pf-global--FontSize--xl);
+    padding-bottom: 16px;
+  }
+
+  .pref-email_subheader {
+    margin-top: 8px;
+    font-size: var(--pf-global--FontSize--md);
+    font-weight: var(--pf-global--FontWeight--normal);
+  }
+
+  .pref-email_bold {
+    font-weight: var(--pf-global--FontWeight--bold);
+  }
+  
+  .pref-email_loader {
+    min-width: 180px;
+  }
+}
