@@ -7,6 +7,27 @@ import FormRender from '@data-driven-forms/react-form-renderer';
 import PropTypes from 'prop-types';
 import { DESCRIPTIVE_CHECKBOX, DescriptiveCheckbox } from '../../SmartComponents/FormComponents';
 
+const FormButtons = ({ submitting, valid, pristine, onCancel }) => (
+    <div>
+        <Button
+            type="submit"
+            isDisabled={ submitting || !valid }
+            style={ { marginRight: 16 } }
+            variant="primary">Save</Button>
+        <Button
+            variant="link"
+            isDisabled={ pristine }
+            onClick={ onCancel }>Cancel</Button>
+    </div>
+);
+
+FormButtons.propTypes = {
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    valid: PropTypes.bool,
+    onCancel: PropTypes.func
+};
+
 const Email = () => {
 
     const [ currentUser, setCurrentUser ] = useState({});
@@ -31,28 +52,6 @@ const Email = () => {
 
     const cancelEmail = () => {
         console.log('cancel pressed');
-    };
-
-    const FormButtons = ({ submitting, valid, pristine, onCancel }) => {
-        return (
-        <div>
-            <Button
-                type="submit"
-                isDisabled={ submitting || !valid }
-                style={ { marginRight: 16 } }
-                variant="primary">Save</Button>
-            <Button
-                variant="link"
-                isDisabled={ pristine }
-                onClick={ onCancel }>Cancel</Button>
-        </div>
-    );
-
-    FormButtons.propTypes = {
-        submitting: PropTypes.bool,
-        pristine: PropTypes.bool,
-        valid: PropTypes.bool,
-        onCancel: PropTypes.func
     };
 
     return (
