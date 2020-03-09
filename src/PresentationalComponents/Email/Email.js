@@ -5,7 +5,7 @@ import { Main, PageHeader, PageHeaderTitle, Skeleton } from '@redhat-cloud-servi
 import { Button, Card, CardBody, Stack, StackItem, Flex, FlexItem, FlexModifiers, CardHeader } from '@patternfly/react-core';
 import FormRender from '@data-driven-forms/react-form-renderer';
 import PropTypes from 'prop-types';
-import { DATA_LIST, DESCRIPTIVE_CHECKBOX, DescriptiveCheckbox, DataListLayout } from '../../SmartComponents/FormComponents';
+import { DESCRIPTIVE_CHECKBOX, DescriptiveCheckbox } from '../../SmartComponents/FormComponents';
 
 const Email = () => {
 
@@ -22,20 +22,7 @@ const Email = () => {
     }, []);
 
     const schema = {
-        fields: [{
-            name: 'email-preferences',
-            component: DATA_LIST,
-            sections: Object.entries(email).map(([ key, schema ]) => ({
-                label: schema?.title,
-                name: key,
-                fields: [{
-                    label: 'Label of a checkbox',
-                    description: 'some description',
-                    isDanger: true,
-                    component: DESCRIPTIVE_CHECKBOX
-                }]
-            }))
-        }]
+        fields: []
     };
 
     const saveValues = (values) => {
@@ -48,19 +35,18 @@ const Email = () => {
 
     const FormButtons = ({ submitting, valid, pristine, onCancel }) => {
         return (
-            <div>
-                <Button
-                    type="submit"
-                    isDisabled={ submitting || !valid }
-                    style={ { marginRight: 16 } }
-                    variant="primary">Save</Button>
-                <Button
-                    variant="link"
-                    isDisabled={ pristine }
-                    onClick={ onCancel }>Cancel</Button>
-            </div>
-        );
-    };
+        <div>
+            <Button
+                type="submit"
+                isDisabled={ submitting || !valid }
+                style={ { marginRight: 16 } }
+                variant="primary">Save</Button>
+            <Button
+                variant="link"
+                isDisabled={ pristine }
+                onClick={ onCancel }>Cancel</Button>
+        </div>
+    );
 
     FormButtons.propTypes = {
         submitting: PropTypes.bool,
@@ -108,7 +94,6 @@ const Email = () => {
                                 <FormRender
                                     formFieldsMapper={ {
                                         ...formFieldsMapper,
-                                        [DATA_LIST]: DataListLayout,
                                         [DESCRIPTIVE_CHECKBOX]: DescriptiveCheckbox
                                     } }
                                     layoutMapper={ layoutMapper }
