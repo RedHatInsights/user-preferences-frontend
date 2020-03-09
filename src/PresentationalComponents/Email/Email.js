@@ -5,6 +5,7 @@ import { Main, PageHeader, PageHeaderTitle, Skeleton } from '@redhat-cloud-servi
 import { Button, Card, CardBody, Stack, StackItem, Flex, FlexItem, FlexModifiers, CardHeader } from '@patternfly/react-core';
 import FormRender from '@data-driven-forms/react-form-renderer';
 import PropTypes from 'prop-types';
+import { DATA_LIST, DESCRIPTIVE_CHECKBOX, DescriptiveCheckbox, DataListLayout } from '../../SmartComponents/FormComponents';
 
 const Email = () => {
 
@@ -21,7 +22,20 @@ const Email = () => {
     }, []);
 
     const schema = {
-        fields: []
+        fields: [{
+            name: 'email-preferences',
+            component: DATA_LIST,
+            sections: Object.entries(email).map(([ key, schema ]) => ({
+                label: schema?.title,
+                name: key,
+                fields: [{
+                    label: 'Label of a checkbox',
+                    description: 'some description',
+                    isDanger: true,
+                    component: DESCRIPTIVE_CHECKBOX
+                }]
+            }))
+        }]
     };
 
     const saveValues = (values) => {
@@ -92,7 +106,11 @@ const Email = () => {
                             </CardHeader>
                             <CardBody>
                                 <FormRender
-                                    formFieldsMapper={ formFieldsMapper }
+                                    formFieldsMapper={ {
+                                        ...formFieldsMapper,
+                                        [DATA_LIST]: DataListLayout,
+                                        [DESCRIPTIVE_CHECKBOX]: DescriptiveCheckbox
+                                    } }
                                     layoutMapper={ layoutMapper }
                                     schema={ schema }
                                     renderFormButtons={ props => <FormButtons { ...props } onCancel={ cancelEmail } /> }

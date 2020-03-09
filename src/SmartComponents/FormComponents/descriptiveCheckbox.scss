@@ -1,0 +1,16 @@
+.pref-c__descriptive-checkbox {
+  .pref-c__checkbox-label {
+    font-weight: var(--pf-global--FontWeight--bold);
+    margin-left: var(--pf-global--spacer--md);
+  }
+
+  .pref-c__checkbox-label-error {
+    color: var(--pf-global--danger-color--200);
+  }
+  
+  .pref-c__checkbox-description {
+    font-size: var(--pf-global--FontSize--md);
+    color: var(--pf-global--Color--100);
+    margin-left: var(--pf-global--spacer--md);
+  }
+}
