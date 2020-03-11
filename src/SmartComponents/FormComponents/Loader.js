@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // eslint-disable-next-line no-unused-vars
 const Loader = ({ name, size, FieldProvider, formOptions, ...rest }) => (
-    <div>
+    <div { ...rest }>
         <Skeleton size={ size }></Skeleton>
     </div>
 );

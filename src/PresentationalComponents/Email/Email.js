@@ -5,7 +5,7 @@ import { Main, PageHeader, PageHeaderTitle, Skeleton } from '@redhat-cloud-servi
 import { Button, Card, CardBody, Stack, StackItem, Flex, FlexItem, FlexModifiers, CardHeader } from '@patternfly/react-core';
 import FormRender from '@data-driven-forms/react-form-renderer';
 import PropTypes from 'prop-types';
-import { DESCRIPTIVE_CHECKBOX, DescriptiveCheckbox } from '../../SmartComponents/FormComponents';
+import { DESCRIPTIVE_CHECKBOX, DescriptiveCheckbox, LOADER, Loader } from '../../SmartComponents/FormComponents';
 
 const FormButtons = ({ submitting, valid, pristine, onCancel }) => (
     <div>
@@ -93,7 +93,8 @@ const Email = () => {
                                 <FormRender
                                     formFieldsMapper={ {
                                         ...formFieldsMapper,
-                                        [DESCRIPTIVE_CHECKBOX]: DescriptiveCheckbox
+                                        [DESCRIPTIVE_CHECKBOX]: DescriptiveCheckbox,
+                                        [LOADER]: Loader
                                     } }
                                     layoutMapper={ layoutMapper }
                                     schema={ schema }
