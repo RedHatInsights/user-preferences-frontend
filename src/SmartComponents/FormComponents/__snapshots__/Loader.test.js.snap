@@ -2,6 +2,7 @@
 
 exports[`Loader component tests should render correctly 1`] = `
 <Loader
+  name=""
   size="sm"
 >
   <div>
