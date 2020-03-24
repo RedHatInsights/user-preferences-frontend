@@ -3,8 +3,8 @@
         "insights": {
             "title": "Insights"
         },
-        "custom-policies": {
-            "title": "Custom policies"
+        "policies": {
+            "title": "Policies"
         },
         "unsubscribe": {
             "title": "",
