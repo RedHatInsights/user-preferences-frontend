@@ -121,7 +121,10 @@ const Email = () => {
                                             <Skeleton size='lg'></Skeleton>
                                         )}
                                     </FlexItem>
-                                    <a href={ `https://www.${insights.chrome.isBeta ? 'qa.' : ''}redhat.com/wapps/ugc/protected/personalInfo.html` }>
+                                    <a
+                                        rel="noopener noreferrer"
+                                        target="_blank"
+                                        href={ `https://www.${insights.chrome.isBeta ? 'qa.' : ''}redhat.com/wapps/ugc/protected/personalInfo.html` }>
                                         Not correct?
                                     </a>
                                 </Flex>
