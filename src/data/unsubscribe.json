@@ -3,6 +3,7 @@
         "name": "unsubscribe.from-all",
         "isGlobal": true,
         "label": "Unsubscribe from all",
+        "initialValue": false,
         "component": "descriptiveCheckbox"
       }
     ]

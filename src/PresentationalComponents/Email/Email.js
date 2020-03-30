@@ -3,6 +3,7 @@ import './email.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { formFieldsMapper, layoutMapper } from '@data-driven-forms/pf4-component-mapper';
 import { Main, PageHeader, PageHeaderTitle, Skeleton } from '@redhat-cloud-services/frontend-components';
+import { isEmpty } from 'lodash';
 import {
     Button,
     Card,
@@ -27,28 +28,31 @@ import { emailPreferences, register } from '../../store';
 import { saveEmailValues } from '../../actions';
 import { calculateEmailConfig, getSection } from '../../Utilities/functions';
 
-const FormButtons = ({ submitting, pristine, reset }) => (
-    <div>
-        <Button
-            type="submit"
-            isDisabled={ submitting || pristine }
-            style={ { marginRight: 16 } }
-            variant="primary">Submit</Button>
-        <Button
-            variant="link"
-            isDisabled={ pristine }
-            onClick={ () => reset() }>
+const FormButtons = ({ pristine, dirtyFieldsSinceLastSubmit, submitSucceeded, reset }) => {
+    const noChanges = isEmpty(dirtyFieldsSinceLastSubmit) || !submitSucceeded && pristine;
+    return (
+        <div>
+            <Button
+                type="submit"
+                isDisabled={ noChanges }
+                style={ { marginRight: 16 } }
+                variant="primary">Submit</Button>
+            <Button
+                variant="link"
+                isDisabled={ noChanges }
+                onClick={ () => reset() }>
                 Cancel
-        </Button>
-    </div>
-);
+            </Button>
+        </div>
+    );
+};
 
 FormButtons.propTypes = {
     reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    pristine: PropTypes.bool,
+    dirtyFieldsSinceLastSubmit: PropTypes.Object,
     onCancel: PropTypes.func,
-    initialValues: PropTypes.any
+    pristine: PropTypes.bool,
+    submitSucceeded: PropTypes.bool
 };
 
 const Email = () => {
