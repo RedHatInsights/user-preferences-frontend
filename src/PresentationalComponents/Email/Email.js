@@ -121,7 +121,9 @@ const Email = () => {
                                             <Skeleton size='lg'></Skeleton>
                                         )}
                                     </FlexItem>
-                                    <a href='#'>Not correct?</a>
+                                    <a href={ `https://www.${insights.chrome.isBeta ? 'qa.' : ''}redhat.com/wapps/ugc/protected/personalInfo.html` }>
+                                        Not correct?
+                                    </a>
                                 </Flex>
                             </CardBody>
                         </Card>
