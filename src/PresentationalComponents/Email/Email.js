@@ -33,9 +33,9 @@ const FormButtons = ({ pristine, dirtyFieldsSinceLastSubmit, submitSucceeded, re
     return (
         <div>
             <Button
+                className="pref-email__form-button"
                 type="submit"
                 isDisabled={ noChanges }
-                style={ { marginRight: 16 } }
                 variant="primary">Submit</Button>
             <Button
                 variant="link"
