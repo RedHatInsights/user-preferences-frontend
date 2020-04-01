@@ -74,7 +74,7 @@ const Email = () => {
     const store = useSelector(({ emailPreferences }) => emailPreferences);
 
     // eslint-disable-next-line no-unused-vars
-    const saveValues = ({ unsubscribe, ...values }) => {
+    const saveValues = ({ unsubscribe, ...values }, formApi) => {
         Object.entries(emailConfig)
         .filter(([ , { isVisible }]) => isVisible === true)
         .forEach(([ application, { localFile, schema, url }]) => {
@@ -82,6 +82,7 @@ const Email = () => {
                 dispatch(saveEmailValues({ application, values, url }));
             }
         });
+        formApi.initialize(values);
     };
 
     const calculateSection = (key, schema) => {
