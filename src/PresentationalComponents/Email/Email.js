@@ -27,23 +27,24 @@ import { emailPreferences, register } from '../../store';
 import { saveEmailValues } from '../../actions';
 import { calculateEmailConfig, getSection } from '../../Utilities/functions';
 
-const FormButtons = ({ submitting, pristine, onCancel }) => (
+const FormButtons = ({ submitting, pristine, reset }) => (
     <div>
         <Button
             type="submit"
             isDisabled={ submitting || pristine }
             style={ { marginRight: 16 } }
-            variant="primary">Save</Button>
+            variant="primary">Submit</Button>
         <Button
             variant="link"
             isDisabled={ pristine }
-            onClick={ onCancel }>
+            onClick={ () => reset() }>
                 Cancel
         </Button>
     </div>
 );
 
 FormButtons.propTypes = {
+    reset: PropTypes.func,
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
     onCancel: PropTypes.func,
@@ -77,10 +78,6 @@ const Email = () => {
                 dispatch(saveEmailValues({ application, values, url }));
             }
         });
-    };
-
-    const cancelEmail = () => {
-        console.log('cancel pressed');
     };
 
     const calculateSection = (key, schema) => {
@@ -144,7 +141,6 @@ const Email = () => {
                             </CardHeader>
                             <CardBody className="pref-email_form">
                                 {isLoaded ? <FormRender
-                                    keepDirtyOnReinitialize
                                     formFieldsMapper={ {
                                         ...formFieldsMapper,
                                         [DESCRIPTIVE_CHECKBOX]: DescriptiveCheckbox,
@@ -160,7 +156,7 @@ const Email = () => {
                                             .map(([ key, schema ]) => calculateSection(key, schema))
                                         }]
                                     } }
-                                    renderFormButtons={ props => <FormButtons { ...props } onCancel={ cancelEmail } /> }
+                                    renderFormButtons={ props => <FormButtons { ...props } /> }
                                     onSubmit={ saveValues }
                                 /> : <Bullseye>
                                     <Spinner />
