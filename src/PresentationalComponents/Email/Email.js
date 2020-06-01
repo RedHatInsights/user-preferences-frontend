@@ -82,7 +82,7 @@ const Email = () => {
         });
     };
 
-    const personalInfoUrl = `https://www.${insights.chrome.isProd ? '' : 'qa.'}redhat.com/wapps/ugc/protected/personalInfo.html`;
+    const personalInfoUrl = `https://www.${insights.chrome.isProd ? '' : 'qa.'}redhat.com/wapps/ugc/protected/emailChange.html`;
 
     return (
         <React.Fragment>
