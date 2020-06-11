@@ -2,7 +2,7 @@ import React from 'react';
 import { Skeleton } from '@redhat-cloud-services/frontend-components';
 import { getEmailSchema } from '../actions';
 import { loaderField } from './constants';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/';
 
 export const getSchema = (app) => !app || !app.loaded ? loaderField : app.schema;
 
