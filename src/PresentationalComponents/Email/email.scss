@@ -18,6 +18,10 @@
         .pf-c-data-list__item:last-of-type { border: 0; }
 
         .pf-c-data-list__item-content {
+            &.pref-u-condensed {
+                padding-bottom: 0;
+                padding-top: 0;
+            }
             .pf-c-data-list__cell{
                 > * {
                     padding-bottom: var(--pf-global--spacer--md);

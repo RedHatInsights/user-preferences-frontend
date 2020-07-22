@@ -102,7 +102,7 @@ const Email = () => {
                                 <DataList>
                                     <DataListItem>
                                         <DataListItemRow>
-                                            <DataListItemCells dataListCells={ [
+                                            <DataListItemCells className="pref-u-condensed" dataListCells={ [
                                                 <DataListCell
                                                     isFilled={ false }
                                                     className="pref-c-title pref-u-bold pref-u-condensed"
