@@ -93,7 +93,7 @@ const Email = () => {
                 <Stack gutter="md">
                     <StackItem>
                         <Card className="pref-email__info">
-                            <CardHeader className="pref-email__info-head">
+                            <CardHeader>
                                 <TextContent>
                                     <Text component={ TextVariants.h2 }>Your information</Text>
                                 </TextContent>
@@ -103,16 +103,19 @@ const Email = () => {
                                     <DataListItem>
                                         <DataListItemRow>
                                             <DataListItemCells dataListCells={ [
-                                                <DataListCell isFilled={ false } className="pref-c-title pref-u-bold" key="email-title">
+                                                <DataListCell
+                                                    isFilled={ false }
+                                                    className="pref-c-title pref-u-bold pref-u-condensed"
+                                                    key="email-title">
                                                     Email address
                                                 </DataListCell>,
                                                 <DataListCell
                                                     isFilled
                                                     key="email-value"
-                                                    className="pref-email__info-user-email"
+                                                    className="pref-email__info-user-email pref-u-condensed"
                                                 >
                                                     { isLoaded ? (
-                                                        <Fragment>
+                                                        <Fragment className="pref-u-condensed">
                                                             <span>{currentUser.email}</span>
                                                             <a
                                                                 rel="noopener noreferrer"
@@ -134,7 +137,7 @@ const Email = () => {
                     </StackItem>
                     <StackItem>
                         <Card>
-                            <CardHeader className="pref-email__info-head pref-email__subs-info">
+                            <CardHeader className="pref-email__info-head">
                                 <TextContent>
                                     <Text component={ TextVariants.h2 }>Email subscriptions</Text>
                                 </TextContent>
