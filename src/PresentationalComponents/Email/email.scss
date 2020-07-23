@@ -47,8 +47,8 @@
 
     .pref-u-bold { font-weight: var(--pf-global--FontWeight--bold); }
 
-    .pref-u-condensed {
-        padding-top: 8px !important;
+    div.pref-u-condensed {
+        padding-top: var(--pf-global--spacer--sm);
         padding-bottom: 0px;
     }
 
@@ -58,6 +58,7 @@
 
     .pref-email__info-head {
         display: block;
+        padding-bottom: 0px;
     }
 }
 
@@ -98,10 +99,15 @@
                 padding-top: var(--pf-global--spacer--lg);
             }
         }
-
-        .pref-u-condensed {
-            padding-top: 0px !important;
-            padding-bottom: 0px;
+        
+        ul.pf-c-data-list {
+            .pf-c-data-list__item {
+                div.pf-c-data-list__cell.pref-u-condensed {
+                    padding-top: 0px;
+                    padding-bottom: 0px;
+                }
+            }
         }
     }
 }
+
