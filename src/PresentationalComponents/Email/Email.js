@@ -137,11 +137,11 @@ const Email = () => {
                     </StackItem>
                     <StackItem>
                         <Card>
-                            <CardHeader className="pref-email__info-head">
+                            <CardHeader className="pf-u-pb-0">
                                 <TextContent>
                                     <Text component={ TextVariants.h2 }>Email subscriptions</Text>
+                                    <Text component={ TextVariants.p }>Select the cloud.redhat.com emails you want to receive.</Text>
                                 </TextContent>
-                                <div className="pref-email_subheader">Select the cloud.redhat.com emails you want to receive.</div>
                             </CardHeader>
                             <CardBody className="pref-email_form">
                                 {isLoaded ? <FormRender
