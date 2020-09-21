@@ -14,7 +14,7 @@ const FormButtons = ({ dirtyFieldsSinceLastSubmit, submitSucceeded, pristine }) 
             className="pref-email__form-button"
             type="submit"
             isDisabled={ noChanges }
-            variant="primary">Submit</Button>
+            variant="primary">Save</Button>
         <Button
             variant="link"
             isDisabled={ noChanges }
