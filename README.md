@@ -63,3 +63,8 @@ And of course you can combine these values together so if your schema is being s
     }
 }
 ```
+
+## Dev Instructions
+
+* `npm install`
+* Run both `npm run start` & `SPANDX_CONFIG=path/to/user-preferences-frontend/profiles/local-frontend.js sh path/to/insights-proxy/scripts/run.sh`
