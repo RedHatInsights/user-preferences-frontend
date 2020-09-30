@@ -13,10 +13,12 @@ const FormButtons = ({ dirtyFieldsSinceLastSubmit, submitSucceeded, pristine }) 
         <Button
             className="pref-email__form-button"
             type="submit"
+            ouiaId="user-pref-primary-button"
             isDisabled={ noChanges }
             variant="primary">Save</Button>
         <Button
             variant="link"
+            ouiaId="user-pref-reset-button"
             isDisabled={ noChanges }
             onClick={ () => reset() }>
             Cancel

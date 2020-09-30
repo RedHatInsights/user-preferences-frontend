@@ -92,7 +92,7 @@ const Email = () => {
             <Main className="pref-email">
                 <Stack hasGutter>
                     <StackItem>
-                        <Card className="pref-email__info">
+                        <Card className="pref-email__info" ouiaId="user-pref-info-card">
                             <CardHeader>
                                 <TextContent>
                                     <Text component={ TextVariants.h2 }>Your information</Text>
@@ -136,7 +136,7 @@ const Email = () => {
                         </Card>
                     </StackItem>
                     <StackItem>
-                        <Card>
+                        <Card ouiaId="user-pref-email-subscriptions-card">
                             <CardHeader className="pf-u-pb-0">
                                 <TextContent>
                                     <Text component={ TextVariants.h2 }>Email subscriptions</Text>
