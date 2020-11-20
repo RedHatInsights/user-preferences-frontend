@@ -3,7 +3,19 @@
         "advisor": {
             "title": "Advisor",
             "url": "/user-preferences/",
-            "apiName": "insights"
+            "apiName": "insights",
+            "permissions": [
+                {
+                    "method": "hasLoosePermissions",
+                    "args": [[
+                        "insights:*:*",
+                        "insights:*:read",
+                        "advisor:*:*",
+                        "advisor:*:read",
+                        "advisor:rules:read"
+                    ]]
+                }
+            ]
         },
         "policies": {
             "title": "Policies",

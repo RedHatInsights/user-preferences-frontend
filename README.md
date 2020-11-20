@@ -22,7 +22,9 @@ We have designed a few custom components to be used when working with data drive
 
 If your application should be hidden behind some permission checker (similiar to [cloud-services-config#permissions](https://github.com/RedHatInsights/cloud-services-config/tree/ci-beta#permissionsmethod)) you can add `permissions` field to your application in `config.json`. It can either be object with method and list of arguments, or array with method and list of arguments.
 
-The list of all methods can be found [insights-chrome#permissions](https://github.com/RedHatInsights/insights-chrome#permissions)
+The list of all methods can be found [insights-chrome#permissions](https://github.com/RedHatInsights/insights-chrome#permissions) with additional functions:
+
+* `hasLoosePermissions` - for checking if user has at least one of given permissions
 
 ```JSON
 {
@@ -63,3 +65,8 @@ And of course you can combine these values together so if your schema is being s
     }
 }
 ```
+
+## Dev Instructions
+
+* `npm install`
+* Run both `npm run start` & `SPANDX_CONFIG=path/to/user-preferences-frontend/profiles/local-frontend.js sh path/to/insights-proxy/scripts/run.sh`

@@ -6,9 +6,17 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 
 export const getSchema = (app) => !app || !app.loaded ? loaderField : app.schema;
 
+export const visibilityFunctions = {
+    ...insights.chrome?.visibilityFunctions,
+    hasLoosePermissions: async (permissions = []) => {
+        const userPermissions = await insights.chrome.getUserPermissions();
+        return permissions.some((item) => userPermissions?.find(({ permission }) => permission === item));
+    }
+};
+
 export const calculatePermissions = (permissions) => Promise.all(
     [ permissions ].flat()
-    .map(({ method, args }) => insights.chrome?.visibilityFunctions?.[method]?.(...args || []))
+    .map(({ method, args }) => visibilityFunctions?.[method]?.(...args || []))
 ).then((visibility) => visibility.every(Boolean));
 
 export const calculateEmailConfig = (

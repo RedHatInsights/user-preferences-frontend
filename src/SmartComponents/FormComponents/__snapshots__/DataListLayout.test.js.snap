@@ -82,7 +82,7 @@ exports[`DataListLayout checkbox tests should render correctly 1`] = `
     }
   }
 >
-  <Component
+  <DataList
     __versions={
       Object {
         "final-form": "4.19.1",
@@ -247,7 +247,7 @@ exports[`DataListLayout checkbox tests should render correctly 1`] = `
         }
       }
     >
-      <Component
+      <DataListItem
         aria-labelledby="simple-item1"
         key="0"
       >
@@ -268,20 +268,20 @@ exports[`DataListLayout checkbox tests should render correctly 1`] = `
             label="test"
             rowid="simple-item1"
           >
-            <Component>
+            <DataListItemRow>
               <div
                 className="pf-c-data-list__item-row"
               >
-                <Component
+                <DataListItemCells
                   dataListCells={
                     Array [
-                      <Unknown
+                      <DataListCell
                         className="pref-c-title pref-u-bold"
                         isFilled={false}
                       >
                         test
-                      </Unknown>,
-                      <Unknown
+                      </DataListCell>,
+                      <DataListCell
                         isFilled={true}
                       />,
                     ]
@@ -292,7 +292,7 @@ exports[`DataListLayout checkbox tests should render correctly 1`] = `
                   <div
                     className="pf-c-data-list__item-content"
                   >
-                    <Component
+                    <DataListCell
                       className="pref-c-title pref-u-bold"
                       isFilled={false}
                       key="0-title"
@@ -302,23 +302,23 @@ exports[`DataListLayout checkbox tests should render correctly 1`] = `
                       >
                         test
                       </div>
-                    </Component>
-                    <Component
+                    </DataListCell>
+                    <DataListCell
                       isFilled={true}
                       key="0-content"
                     >
                       <div
                         className="pf-c-data-list__cell"
                       />
-                    </Component>
+                    </DataListCell>
                   </div>
-                </Component>
+                </DataListItemCells>
               </div>
-            </Component>
+            </DataListItemRow>
           </DataListRow>
         </li>
-      </Component>
+      </DataListItem>
     </ul>
-  </Component>
+  </DataList>
 </DataListLayout>
 `;
