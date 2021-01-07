@@ -26,6 +26,18 @@
               }
           ]
         },
+        "notifications": {
+            "title": "Notifications (Beta)",
+            "permissions": [
+                {
+                    "method": "hasPermissions",
+                    "args": [["notifications:*:*"]]
+                },
+                {
+                    "method": "isBeta"
+                }
+            ]
+        },
         "unsubscribe": {
             "title": "",
             "localFile": "data/unsubscribe.json"
