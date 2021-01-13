@@ -7,7 +7,8 @@ import {
   calculateEmailConfig,
   concatApps,
   distributeSuccessError,
-  dispatchMessages, visibilityFunctions,
+  dispatchMessages,
+  visibilityFunctions,
 } from './functions';
 import { loaderField } from './constants';
 import { mock } from '../__mock__/schemaLoader';
