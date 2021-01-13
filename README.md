@@ -26,6 +26,8 @@ The list of all methods can be found [insights-chrome#permissions](https://githu
 
 * `hasLoosePermissions` - for checking if user has at least one of given permissions
 
+Note: All functions can use the negated form by prefixing the name with `!`. e.g. `!isBeta`.
+
 ```JSON
 {
     "email-preference": {

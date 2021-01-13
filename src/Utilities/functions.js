@@ -7,7 +7,19 @@ import { addNotification } from '@redhat-cloud-services/frontend-components-noti
 export const getSchema = (app) =>
   !app || !app.loaded ? loaderField : app.schema;
 
-export const visibilityFunctions = {
+const withNegatedFunction = (booleanFunctions) => {
+  return {
+    ...booleanFunctions,
+    ...Object.fromEntries(
+      Object.keys(booleanFunctions).map((methodName) => [
+        `!${methodName}`,
+        (...args) => !booleanFunctions[methodName](...args),
+      ])
+    ),
+  };
+};
+
+export const visibilityFunctions = withNegatedFunction({
   ...insights.chrome?.visibilityFunctions,
   hasLoosePermissions: async (permissions = []) => {
     const userPermissions = await insights.chrome.getUserPermissions();
@@ -15,7 +27,7 @@ export const visibilityFunctions = {
       userPermissions?.find(({ permission }) => permission === item)
     );
   },
-};
+});
 
 export const calculatePermissions = (permissions) =>
   Promise.all(

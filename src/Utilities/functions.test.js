@@ -7,7 +7,7 @@ import {
   calculateEmailConfig,
   concatApps,
   distributeSuccessError,
-  dispatchMessages,
+  dispatchMessages, visibilityFunctions,
 } from './functions';
 import { loaderField } from './constants';
 import { mock } from '../__mock__/schemaLoader';
@@ -71,12 +71,31 @@ describe('getSection', () => {
   });
 });
 
+describe('negatedFunctions', () => {
+  it('should negate all base functions', async () => {
+    expect(visibilityFunctions).toHaveProperty('!something');
+  });
+
+  it('should negate the original function', async () => {
+    expect(visibilityFunctions['!something'](true)).toBe(false);
+    expect(visibilityFunctions['!something'](false)).toBe(true);
+    expect(visibilityFunctions['!something']()).toBe(true);
+  });
+});
+
 describe('calculatePermissions', () => {
   it('should check visibility of one function', async () => {
     const isVisible = await calculatePermissions({
       method: 'something',
     });
     expect(isVisible).toBe(false);
+  });
+
+  it('should check visibility of one function in its negated form', async () => {
+    const isVisible = await calculatePermissions({
+      method: '!something',
+    });
+    expect(isVisible).toBe(true);
   });
 
   it('should check visibility of array of functions', async () => {
