@@ -21,18 +21,17 @@
             "title": "Policies",
             "permissions": [
               {
+                  "method": "!isBeta"
+              },
+              {
                   "method": "hasPermissions",
                   "args": [["policies:*:*"]]
               }
-          ]
+            ]
         },
         "notifications": {
             "title": "Notifications (Beta)",
             "permissions": [
-                {
-                    "method": "hasPermissions",
-                    "args": [["notifications:*:*"]]
-                },
                 {
                     "method": "isBeta"
                 }
