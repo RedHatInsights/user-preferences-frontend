@@ -77,7 +77,8 @@
     "stylelint-scss": "^3.19.0",
     "webpack": "^5.26.0",
     "webpack-bundle-analyzer": "^4.4.0",
-    "webpack-cli": "^4.5.0"
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
   },
   "transformIgnorePatterns": [
     "/node_modules/(?!@redhat-cloud-services)"
@@ -99,7 +100,8 @@
     "nightly": "npm run deploy"
   },
   "routes": {
-    "email": "/email"
+    "email": "/email",
+    "notification": "/notification/:bundleName"
   },
   "insights": {
     "appname": "user-preferences"

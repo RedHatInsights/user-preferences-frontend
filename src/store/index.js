@@ -1,6 +1,7 @@
 import ReducerRegistry from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import promiseMiddleware from 'redux-promise-middleware';
 export { default as emailPreferences } from './email-preferences';
+export { default as notificationPreferences } from './notification-preferences';
 import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
 
 let registry;

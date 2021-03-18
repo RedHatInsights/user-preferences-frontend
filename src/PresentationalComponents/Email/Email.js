@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState } from 'react';
 import './email.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -10,7 +10,6 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { Skeleton } from '@redhat-cloud-services/frontend-components/Skeleton';
 import {
   Card,
   CardBody,
@@ -22,11 +21,6 @@ import {
   TextVariants,
   Spinner,
   Bullseye,
-  DataList,
-  DataListItem,
-  DataListItemRow,
-  DataListItemCells,
-  DataListCell,
 } from '@patternfly/react-core';
 import FormRender from '@data-driven-forms/react-form-renderer/form-renderer';
 import {
@@ -38,7 +32,6 @@ import {
   Loader,
 } from '../../SmartComponents/FormComponents';
 import config from '../../config/config.json';
-import { emailPreferences, register } from '../../store';
 import { saveEmailValues } from '../../actions';
 import {
   calculateEmailConfig,
@@ -47,22 +40,18 @@ import {
   dispatchMessages,
 } from '../../Utilities/functions';
 import FormButtons from '../shared/FormButtons';
+import YourInformation from '../shared/YourInformation';
+import useLoaded from '../shared/useLoaded';
+import { emailPreferences, register } from '../../store';
 
 const Email = () => {
-  const [emailConfig, setEmailConfig] = useState({});
-  const [currentUser, setCurrentUser] = useState({});
-  const [isLoaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async () => {
-      register(emailPreferences);
-      const { identity } = await insights.chrome.auth.getUser();
-      setCurrentUser(identity.user);
-      setEmailConfig(await calculateEmailConfig(config, dispatch));
-      setLoaded(true);
-    })();
-  }, []);
+  const [emailConfig, setEmailConfig] = useState({});
+  const isLoaded = useLoaded(async () => {
+    register(emailPreferences);
+    setEmailConfig(await calculateEmailConfig(config, dispatch));
+  });
 
   const store = useSelector(({ emailPreferences }) => emailPreferences);
 
@@ -107,10 +96,6 @@ const Email = () => {
     });
   };
 
-  const personalInfoUrl = `https://www.${
-    insights.chrome.isProd ? '' : 'qa.'
-  }redhat.com/wapps/ugc/protected/emailChange.html`;
-
   return (
     <React.Fragment>
       <PageHeader>
@@ -119,53 +104,7 @@ const Email = () => {
       <Main className="pref-email">
         <Stack hasGutter>
           <StackItem>
-            <Card className="pref-email__info" ouiaId="user-pref-info-card">
-              <CardHeader>
-                <TextContent>
-                  <Text component={TextVariants.h2}>Your information</Text>
-                </TextContent>
-              </CardHeader>
-              <CardBody>
-                <DataList>
-                  <DataListItem>
-                    <DataListItemRow>
-                      <DataListItemCells
-                        className="pref-u-condensed"
-                        dataListCells={[
-                          <DataListCell
-                            isFilled={false}
-                            className="pref-c-title pref-u-bold pref-u-condensed"
-                            key="email-title"
-                          >
-                            Email address
-                          </DataListCell>,
-                          <DataListCell
-                            isFilled
-                            key="email-value"
-                            className="pref-email__info-user-email pref-u-condensed"
-                          >
-                            {isLoaded ? (
-                              <Fragment>
-                                <span>{currentUser.email}</span>
-                                <a
-                                  rel="noopener noreferrer"
-                                  target="_blank"
-                                  href={personalInfoUrl}
-                                >
-                                  Not correct?
-                                </a>
-                              </Fragment>
-                            ) : (
-                              <Skeleton size="lg"></Skeleton>
-                            )}
-                          </DataListCell>,
-                        ]}
-                      />
-                    </DataListItemRow>
-                  </DataListItem>
-                </DataList>
-              </CardBody>
-            </Card>
+            <YourInformation />
           </StackItem>
           <StackItem>
             <Card ouiaId="user-pref-email-subscriptions-card">
