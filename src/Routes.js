@@ -1,11 +1,16 @@
 import React, { Fragment, lazy, Suspense } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import pckg from '../package.json';
-import Notification from './PresentationalComponents/Notification/Notification';
 
 const Email = lazy(() =>
   import(
     /* webpackChunkName: "Email" */ './PresentationalComponents/Email/Email'
+  )
+);
+
+const Notification = lazy(() =>
+  import(
+    /* webpackChunkName: "Notification" */ './PresentationalComponents/Notification/Notification'
   )
 );
 
