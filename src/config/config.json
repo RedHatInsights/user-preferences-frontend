@@ -41,5 +41,12 @@
             "title": "",
             "localFile": "data/unsubscribe.json"
         }
+    },
+    "notification-preference": {
+        "insights": {
+            "title": "Insights",
+            "application": "notifications",
+            "resourceType": "notification-preference?bundleName=insights"
+        }
     }
 }

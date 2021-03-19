@@ -19,7 +19,7 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
-import { componentMapper } from '@data-driven-forms/pf4-component-mapper/component-mapper/component-mapper';
+import componentMapper from '@data-driven-forms/pf4-component-mapper/component-mapper/component-mapper';
 import {
   DATA_LIST,
   DataListLayout,
@@ -28,7 +28,7 @@ import {
   Loader,
   LOADER,
 } from '../../SmartComponents/FormComponents';
-import { FormTemplate } from '@data-driven-forms/pf4-component-mapper';
+import FormTemplate from '@data-driven-forms/pf4-component-mapper/form-template';
 import FormButtons from '../shared/FormButtons';
 import FormRender from '@data-driven-forms/react-form-renderer/form-renderer/form-renderer';
 import { useDispatch, useSelector } from 'react-redux';

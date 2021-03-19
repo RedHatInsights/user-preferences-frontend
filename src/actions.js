@@ -2,20 +2,15 @@ import { getApplicationSchema, saveValues as save } from './api';
 import { ACTION_TYPES } from './constants';
 import config from './config/config.json';
 
-const notificationUrlForBundle = (bundleName) =>
-  `/user-config/notification-preference?bundleName=${bundleName}`;
+const notificationConfigForBundle = (bundleName) =>
+  config['notification-preference']?.[bundleName];
 
-export const getNotificationSchema = ({
-  bundleName,
-  apiVersion,
-  notificationServiceName = 'notifications',
-}) => ({
+export const getNotificationSchema = ({ bundleName, apiVersion }) => ({
   type: ACTION_TYPES.GET_NOTIFICATION_SCHEMA,
   payload: getApplicationSchema(
-    notificationServiceName,
+    notificationConfigForBundle(bundleName)?.application,
     apiVersion,
-    '',
-    notificationUrlForBundle(bundleName)
+    notificationConfigForBundle(bundleName)?.resourceType
   ),
   meta: {
     bundleName,
@@ -29,19 +24,13 @@ export const getNotificationSchema = ({
   },
 });
 
-export const saveNotificationValues = ({
-  bundleName,
-  values,
-  apiVersion,
-  notificationServiceName = 'notifications',
-}) => ({
+export const saveNotificationValues = ({ bundleName, values, apiVersion }) => ({
   type: ACTION_TYPES.SAVE_NOTIFICATION_SCHEMA,
   payload: save(
-    notificationServiceName,
+    notificationConfigForBundle(bundleName)?.application,
     values,
     apiVersion,
-    '',
-    notificationUrlForBundle(bundleName)
+    notificationConfigForBundle(bundleName)?.resourceType
   ),
   meta: {
     bundleName: bundleName,
