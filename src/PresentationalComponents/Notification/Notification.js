@@ -19,7 +19,7 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
-import componentMapper from '@data-driven-forms/pf4-component-mapper/component-mapper/component-mapper';
+import componentMapper from '@data-driven-forms/pf4-component-mapper/component-mapper';
 import {
   DATA_LIST,
   DataListLayout,
@@ -78,25 +78,24 @@ const Notification = () => {
     async ({ unsubscribe, ...values }) => {
       const action = saveNotificationValues({ bundleName, values });
       dispatch(action);
-      action.payload
-        .then(() => {
-          dispatch(
-            addNotification({
-              dismissable: false,
-              variant: 'success',
-              title: `Notification preferences successfully saved`,
-            })
-          );
-        })
-        .catch(() => {
-          dispatch(
-            addNotification({
-              dismissable: false,
-              variant: 'danger',
-              title: `Notification preferences unsuccessfully saved`,
-            })
-          );
-        });
+      try {
+        await action.payload;
+        dispatch(
+          addNotification({
+            dismissable: false,
+            variant: 'success',
+            title: `Notification preferences successfully saved`,
+          })
+        );
+      } catch (e) {
+        dispatch(
+          addNotification({
+            dismissable: false,
+            variant: 'danger',
+            title: `Notification preferences unsuccessfully saved`,
+          })
+        );
+      }
     },
     [bundleName]
   );
