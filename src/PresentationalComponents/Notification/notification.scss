@@ -36,7 +36,7 @@
 
     .pf-c-data-list__item-row { padding-left: 0; }
     .pref-email__info-user-email {
-      padding-left: 19px;
+      padding-left: var(--pf-global--spacer--lg);
 
       a {
         padding-left: var(--pf-global--gutter);
