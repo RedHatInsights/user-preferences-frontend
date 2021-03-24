@@ -30,7 +30,7 @@ import {
 } from '../../SmartComponents/FormComponents';
 import FormTemplate from '@data-driven-forms/pf4-component-mapper/form-template';
 import FormButtons from '../shared/FormButtons';
-import FormRender from '@data-driven-forms/react-form-renderer/form-renderer/form-renderer';
+import FormRender from '@data-driven-forms/react-form-renderer/form-renderer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationSchema, saveNotificationValues } from '../../actions';
 import { notificationPreferences, register } from '../../store';
