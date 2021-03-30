@@ -7,7 +7,7 @@ export const loading = (store, { meta }) => {
   return {
     ...store,
     bundleName: meta.bundleName,
-    schema: [],
+    schema: {},
     loaded: false,
   };
 };
@@ -16,7 +16,7 @@ export const getSchema = (store, { payload, meta }) => {
   return {
     ...store,
     bundleName: meta.bundleName,
-    schema: payload || [],
+    schema: payload || {},
     loaded: true,
   };
 };
