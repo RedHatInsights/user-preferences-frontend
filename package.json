@@ -101,7 +101,7 @@
   },
   "routes": {
     "email": "/email",
-    "notification": "/notification/:bundleName"
+    "notification": "/notifications/:bundleName"
   },
   "insights": {
     "appname": "user-preferences"

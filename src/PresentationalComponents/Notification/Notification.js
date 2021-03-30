@@ -49,9 +49,12 @@ const Notification = () => {
   }, []);
 
   useEffect(() => {
-    if (bundleName) {
-      dispatch(getNotificationSchema({ bundleName }));
-    }
+    (async () => {
+      await insights.chrome.auth.getUser();
+      if (bundleName) {
+        dispatch(getNotificationSchema({ bundleName }));
+      }
+    })();
   }, [bundleName]);
 
   const { isLoaded, schema } = useMemo(() => {

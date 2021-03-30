@@ -49,6 +49,7 @@ const Email = () => {
 
   const [emailConfig, setEmailConfig] = useState({});
   const isLoaded = useLoaded(async () => {
+    await insights.chrome.auth.getUser();
     register(emailPreferences);
     setEmailConfig(await calculateEmailConfig(config, dispatch));
   });

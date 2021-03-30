@@ -43,10 +43,15 @@
         }
     },
     "notification-preference": {
-        "insights": {
-            "title": "Insights",
+        "rhel": {
+            "title": "Red Hat Enterprise Linux",
             "application": "notifications",
-            "resourceType": "notification-preference?bundleName=insights"
+            "resourceType": "notification-preference?bundleName=rhel"
+        },
+        "openshift": {
+            "title": "OpenShift",
+            "application": "notifications",
+            "resourceType": "notification-preference?bundleName=openshift"
         }
     }
 }
