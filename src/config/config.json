@@ -17,26 +17,6 @@
                 }
             ]
         },
-        "policies": {
-            "title": "Policies",
-            "permissions": [
-              {
-                  "method": "!isBeta"
-              },
-              {
-                  "method": "hasPermissions",
-                  "args": [["policies:*:*"]]
-              }
-            ]
-        },
-        "notifications": {
-            "title": "Notifications (Beta)",
-            "permissions": [
-                {
-                    "method": "isBeta"
-                }
-            ]
-        },
         "unsubscribe": {
             "title": "",
             "localFile": "data/unsubscribe.json"
