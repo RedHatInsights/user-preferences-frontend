@@ -119,8 +119,7 @@ const Notification = () => {
                 <TextContent>
                   <Text component={TextVariants.h2}>Notifications</Text>
                   <Text component={TextVariants.p}>
-                    Select the console.redhat.com notifications you want to
-                    receive.
+                    Select the notifications you want to receive.
                   </Text>
                 </TextContent>
               </CardHeader>

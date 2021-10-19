@@ -113,7 +113,7 @@ const Email = () => {
                 <TextContent>
                   <Text component={TextVariants.h2}>Email subscriptions</Text>
                   <Text component={TextVariants.p}>
-                    Select the console.redhat.com emails you want to receive.
+                    Select the emails you want to receive.
                   </Text>
                 </TextContent>
               </CardHeader>
