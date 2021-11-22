@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Checkbox } from '@patternfly/react-core';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 import './descriptiveCheckbox.scss';
+import { ExclamationTriangleIcon } from '@patternfly/react-icons';
 
 // eslint-disable-next-line no-unused-vars
 const DescriptiveCheckbox = (props) => {
@@ -14,16 +15,34 @@ const DescriptiveCheckbox = (props) => {
     description,
     isDanger,
     isGlobal,
-    input: { onChange, ...input },
+    checkedWarning,
+    input: { onChange, checked, ...input },
   } = useFieldApi({
     ...props,
     type: 'checkbox',
   });
   const formOptions = useFormApi();
+
+  const descriptionProp = useMemo(
+    () => (
+      <div>
+        {description && (
+          <span className="pref-c-checkbox-description">{description}</span>
+        )}
+        {checked && checkedWarning && (
+          <span className="pref-c-checkbox-warning">
+            <ExclamationTriangleIcon /> {checkedWarning}
+          </span>
+        )}
+      </div>
+    ),
+    [description, checkedWarning, checked]
+  );
+
   return (
     <Checkbox
       {...input}
-      isChecked={input.checked}
+      isChecked={checked}
       id={`descriptive-checkbox-${input.name}`}
       onChange={(...props) => {
         if (isGlobal) {
@@ -51,11 +70,7 @@ const DescriptiveCheckbox = (props) => {
           {label || title}
         </span>
       }
-      {...(description && {
-        description: (
-          <span className="pref-c-checkbox-description">{description}</span>
-        ),
-      })}
+      description={descriptionProp}
     />
   );
 };

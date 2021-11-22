@@ -14,9 +14,19 @@
     .pref-c-checkbox-label-error {
         color: var(--pf-global--danger-color--200);
     }
-  
+
     .pref-c-checkbox-description {
         font-size: var(--pf-global--FontSize--md);
         color: var(--pf-global--Color--100);
+    }
+
+    .pref-c-checkbox-warning {
+        svg {
+            color: var(--pf-global--warning-color--100);
+        }
+
+        font-size: var(--pf-global--FontSize--md);
+        color: var(--pf-global--warning-color--200);
+        font-weight: var(--pf-global--FontWeight--bold);
     }
 }
