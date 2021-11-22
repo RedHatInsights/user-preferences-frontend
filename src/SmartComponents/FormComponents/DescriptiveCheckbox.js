@@ -23,21 +23,24 @@ const DescriptiveCheckbox = (props) => {
   });
   const formOptions = useFormApi();
 
-  const descriptionProp = useMemo(
-    () => (
-      <div>
-        {description && (
-          <span className="pref-c-checkbox-description">{description}</span>
-        )}
-        {checked && checkedWarning && (
-          <span className="pref-c-checkbox-warning">
-            <ExclamationTriangleIcon /> {checkedWarning}
-          </span>
-        )}
-      </div>
-    ),
-    [description, checkedWarning, checked]
-  );
+  const descriptionProp = useMemo(() => {
+    if (description || (checkedWarning && checked)) {
+      return (
+        <div>
+          {description && (
+            <span className="pref-c-checkbox-description">{description}</span>
+          )}
+          {checked && checkedWarning && (
+            <span className="pref-c-checkbox-warning">
+              <ExclamationTriangleIcon /> {checkedWarning}
+            </span>
+          )}
+        </div>
+      );
+    }
+
+    return undefined;
+  }, [description, checkedWarning, checked]);
 
   return (
     <Checkbox

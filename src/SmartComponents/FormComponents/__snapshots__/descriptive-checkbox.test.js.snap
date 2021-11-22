@@ -78,7 +78,6 @@ exports[`Descriptive checkbox tests should render correctly 1`] = `
   }
 >
   <Checkbox
-    checked={true}
     className="pref-c-descriptive-checkbox"
     data-type="descriptive-checkbox"
     id="descriptive-checkbox-"
