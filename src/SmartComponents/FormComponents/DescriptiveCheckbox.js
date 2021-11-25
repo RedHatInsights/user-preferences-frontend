@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Checkbox } from '@patternfly/react-core';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -22,25 +22,6 @@ const DescriptiveCheckbox = (props) => {
     type: 'checkbox',
   });
   const formOptions = useFormApi();
-
-  const descriptionProp = useMemo(() => {
-    if (description || (checkedWarning && checked)) {
-      return (
-        <div>
-          {description && (
-            <span className="pref-c-checkbox-description">{description}</span>
-          )}
-          {checked && checkedWarning && (
-            <span className="pref-c-checkbox-warning">
-              <ExclamationTriangleIcon /> {checkedWarning}
-            </span>
-          )}
-        </div>
-      );
-    }
-
-    return undefined;
-  }, [description, checkedWarning, checked]);
 
   return (
     <Checkbox
@@ -73,7 +54,18 @@ const DescriptiveCheckbox = (props) => {
           {label || title}
         </span>
       }
-      description={descriptionProp}
+      description={
+        <div>
+          {description && (
+            <span className="pref-c-checkbox-description">{description}</span>
+          )}
+          {checked && checkedWarning && (
+            <span className="pref-c-checkbox-warning">
+              <ExclamationTriangleIcon /> {checkedWarning}
+            </span>
+          )}
+        </div>
+      }
     />
   );
 };

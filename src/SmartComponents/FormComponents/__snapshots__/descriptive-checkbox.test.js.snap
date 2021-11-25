@@ -80,6 +80,7 @@ exports[`Descriptive checkbox tests should render correctly 1`] = `
   <Checkbox
     className="pref-c-descriptive-checkbox"
     data-type="descriptive-checkbox"
+    description={<div />}
     id="descriptive-checkbox-"
     isChecked={true}
     isDisabled={false}
@@ -127,6 +128,11 @@ exports[`Descriptive checkbox tests should render correctly 1`] = `
           test label
         </span>
       </label>
+      <span
+        className="pf-c-check__description"
+      >
+        <div />
+      </span>
     </div>
   </Checkbox>
 </DescriptiveCheckbox>
