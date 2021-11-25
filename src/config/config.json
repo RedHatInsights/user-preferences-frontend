@@ -37,6 +37,11 @@
             "title": "Application Services",
             "application": "notifications",
             "resourceType": "notification-preference?bundleName=application-services"
+        },
+        "ansible": {
+            "title": "Ansible",
+            "application": "notifications",
+            "resourceType": "notification-preference?bundleName=ansible"
         }
     }
 }
