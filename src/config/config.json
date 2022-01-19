@@ -32,6 +32,11 @@
             "title": "OpenShift",
             "application": "notifications",
             "resourceType": "notification-preference?bundleName=openshift"
+        },
+        "console": {
+            "title": "Console",
+            "application": "notifications",
+            "resourceType": "notification-preference?bundleName=console"
         }
     }
 }
