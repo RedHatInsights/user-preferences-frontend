@@ -42,6 +42,11 @@
             "title": "Ansible",
             "application": "notifications",
             "resourceType": "notification-preference?bundleName=ansible"
+        },
+        "console": {
+            "title": "Console",
+            "application": "notifications",
+            "resourceType": "notification-preference?bundleName=console"
         }
     }
 }
