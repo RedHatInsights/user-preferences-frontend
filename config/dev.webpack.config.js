@@ -1,23 +1,26 @@
+const { apiRoutes } = require('./api-routes');
+
 const { resolve } = require('path');
 
-const webpackProxy = {
-  deployment: process.env.BETA ? 'beta/apps' : 'apps',
-  useProxy: true,
-  env: 'ci-beta',
-  appUrl: process.env.BETA
-    ? '/beta/user-preferences/email'
-    : '/user-preferences/email',
+const env = () => {
+  const type = process.env.USE_PROD ? 'prod' : 'stage';
+  const stable = process.env.BETA ? 'beta' : 'stable';
+  return `${type}-${stable}`;
+};
+
+const routes = () => {
+  return process.env.USE_CUSTOM_ROUTES ? apiRoutes : undefined;
 };
 
 const config = require('@redhat-cloud-services/frontend-components-config');
 const { config: webpackConfig, plugins } = config({
   rootFolder: resolve(__dirname, '../'),
   debug: true,
-  https: true,
-  sassPrefix: '.email, .userPreferences',
-  modules: ['userPreferences'],
-  ...(process.env.BETA ? { deployment: 'beta/apps' } : {}),
-  ...(process.env.PROXY && webpackProxy),
+  useProxy: true,
+  deployment: process.env.BETA ? 'beta/apps' : 'apps',
+  appUrl: process.env.BETA ? '/beta/user-preferences' : '/user-preferences',
+  env: env(),
+  routes: routes()
 });
 
 const modulesConfig =
