@@ -20,7 +20,7 @@ const { config: webpackConfig, plugins } = config({
   deployment: process.env.BETA ? 'beta/apps' : 'apps',
   appUrl: process.env.BETA ? '/beta/user-preferences' : '/user-preferences',
   env: env(),
-  routes: routes()
+  routes: routes(),
 });
 
 const modulesConfig =

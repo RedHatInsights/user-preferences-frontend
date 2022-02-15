@@ -1,6 +1,6 @@
 const API_PORT = 8085;
 
 const apiRoutes = {
-    '/api/integrations/': { host: `http://localhost:${API_PORT}` },
-    '/api/notifications/': { host: `http://localhost:${API_PORT}` }
+    '/api/user-preferences/': { host: `http://localhost:${API_PORT}` },
+    '/api/user-preferences/': { host: `http://localhost:${API_PORT}` }
 };
