@@ -86,8 +86,4 @@ and run the application:
 npm start
 ```
 
-After that, you can head to the page show (stage by default).
-You can set the environment and if you want to use your local development server by copying the file [env.sample](./env.sample) to `.env`
-and starting again by calling `npm start`.
-
 For more info refer to [Insights Frontend Starter App README](https://github.com/RedHatInsights/insights-frontend-starter-app/blob/master/README.md)
