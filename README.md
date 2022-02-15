@@ -70,5 +70,24 @@ And of course you can combine these values together so if your schema is being s
 
 ## Dev Instructions
 
-* `npm install`
-* Run both `npm run start` & `SPANDX_CONFIG=path/to/user-preferences-frontend/profiles/local-frontend.js sh path/to/insights-proxy/scripts/run.sh`
+
+You need to configure your `/etc/hosts` to have the hosts for `prod.foo` and `stage.foo`.
+Check or execute [this](https://raw.githubusercontent.com/RedHatInsights/insights-proxy/master/scripts/patch-etc-hosts.sh) script for details.
+
+Install the dependencies using `npm``:
+
+```shell
+npm install
+```
+
+and run the application:
+
+```shell
+npm start
+```
+
+After that, you can head to the page show (stage by default).
+You can set the environment and if you want to use your local development server by copying the file [env.sample](./env.sample) to `.env`
+and starting again by calling `yarn start`.
+
+For more info refer to [Insights Frontend Starter App README](https://github.com/RedHatInsights/insights-frontend-starter-app/blob/master/README.md)
