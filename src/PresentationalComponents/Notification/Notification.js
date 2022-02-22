@@ -45,7 +45,7 @@ const Notification = () => {
   const store = useSelector(
     ({ notificationPreferences }) => notificationPreferences
   );
-  const bundleDisplayTitle = notificationConfigForBundle(bundleName);
+  const bundleDisplayTitle = notificationConfigForBundle(bundleName).title;
 
   useEffect(() => {
     register(notificationPreferences);
@@ -116,7 +116,7 @@ const Notification = () => {
         <Split>
           <SplitItem isFilled>
             <PageHeaderTitle
-              title={`My Notifications | ${bundleDisplayTitle.title}`}
+              title={`My Notifications | ${bundleDisplayTitle}`}
             />
             <StackItem>
               This service allows you to opt-in and out of recieving
