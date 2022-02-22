@@ -45,7 +45,7 @@ const Notification = () => {
   const store = useSelector(
     ({ notificationPreferences }) => notificationPreferences
   );
-  const bundleDisplayTitle = notificationConfigForBundle(bundleName);
+  const bundleDisplayTitle = notificationConfigForBundle(bundleName).title;
 
   useEffect(() => {
     register(notificationPreferences);
