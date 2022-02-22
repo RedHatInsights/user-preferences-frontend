@@ -1,6 +1,7 @@
 import React from 'react';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getEmailSchema } from '../actions';
+import config from './config/config.json';
 import { loaderField } from './constants';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 
@@ -18,6 +19,9 @@ const withNegatedFunction = (booleanFunctions) => {
     ),
   };
 };
+
+export const notificationConfigForBundle = (bundleName) =>
+  config['notification-preference']?.[bundleName];
 
 export const visibilityFunctions = withNegatedFunction({
   ...insights.chrome?.visibilityFunctions,
