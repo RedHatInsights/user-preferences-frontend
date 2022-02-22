@@ -38,6 +38,7 @@ import {
 import { notificationPreferences, register } from '../../store';
 import unsubscribe from '../../config/data/unsubscribe.json';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import getBaseName from '../../Utilities/getBaseName';
 
 const Notification = () => {
   const { bundleName } = useParams();
@@ -122,7 +123,10 @@ const Notification = () => {
               This service allows you to opt-in and out of recieving
               notifications. Your Organization Administrator has configured
               which notifications you can or can not recieve in their
-              <a href={`/settings/notifications/${bundleName}`}> Settings</a>.
+              <a href={getBaseName(`/settings/notifications/${bundleName}`)}>
+                Settings
+              </a>
+              .
             </StackItem>
           </SplitItem>
         </Split>
