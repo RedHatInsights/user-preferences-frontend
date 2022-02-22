@@ -13,10 +13,9 @@ import {
   CardHeader,
   Spinner,
   Stack,
+  Split,
+  SplitItem,
   StackItem,
-  Text,
-  TextContent,
-  TextVariants,
 } from '@patternfly/react-core';
 import componentMapper from '@data-driven-forms/pf4-component-mapper/component-mapper';
 import {
@@ -31,7 +30,11 @@ import FormTemplate from '@data-driven-forms/pf4-component-mapper/form-template'
 import FormButtons from '../shared/FormButtons';
 import FormRender from '@data-driven-forms/react-form-renderer/form-renderer';
 import { useDispatch, useSelector } from 'react-redux';
-import { getNotificationSchema, saveNotificationValues } from '../../actions';
+import {
+  notificationConfigForBundle,
+  getNotificationSchema,
+  saveNotificationValues,
+} from '../../actions';
 import { notificationPreferences, register } from '../../store';
 import unsubscribe from '../../config/data/unsubscribe.json';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
@@ -42,6 +45,7 @@ const Notification = () => {
   const store = useSelector(
     ({ notificationPreferences }) => notificationPreferences
   );
+  const bundleDisplayTitle = notificationConfigForBundle(bundleName);
 
   useEffect(() => {
     register(notificationPreferences);
@@ -109,20 +113,25 @@ const Notification = () => {
   return (
     <React.Fragment>
       <PageHeader>
-        <PageHeaderTitle title="Notification Insights" />
+        <Split>
+          <SplitItem isFilled>
+            <PageHeaderTitle
+              title={`My Notifications | ${bundleDisplayTitle.title}`}
+            />
+            <StackItem>
+              This service allows you to opt-in and out of recieving
+              notifications. Your Organization Administrator has configured
+              which notifications you can or can not recieve in their
+              <a href={`/settings/notifications/${bundleName}`}> Settings</a>.
+            </StackItem>
+          </SplitItem>
+        </Split>
       </PageHeader>
       <Main className="pref-notification">
         <Stack hasGutter>
           <StackItem>
             <Card ouiaId="user-pref-notification-subscriptions-card">
-              <CardHeader className="pf-u-pb-0">
-                <TextContent>
-                  <Text component={TextVariants.h2}>Notifications</Text>
-                  <Text component={TextVariants.p}>
-                    Select the notifications you want to receive.
-                  </Text>
-                </TextContent>
-              </CardHeader>
+              <CardHeader className="pf-u-pb-0"></CardHeader>
               <CardBody className="pref-notification_form">
                 {isLoaded ? (
                   <FormRender

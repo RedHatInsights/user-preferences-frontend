@@ -2,7 +2,7 @@ import { getApplicationSchema, saveValues as save } from './api';
 import { ACTION_TYPES } from './constants';
 import config from './config/config.json';
 
-const notificationConfigForBundle = (bundleName) =>
+export const notificationConfigForBundle = (bundleName) =>
   config['notification-preference']?.[bundleName];
 
 export const getNotificationSchema = ({ bundleName, apiVersion }) => ({
