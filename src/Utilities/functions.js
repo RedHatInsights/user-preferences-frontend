@@ -2,7 +2,7 @@ import React from 'react';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getEmailSchema } from '../actions';
 import { loaderField } from './constants';
-import config from '../config/config';
+import config from '../config/config.json';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 
 export const getSchema = (app) =>
