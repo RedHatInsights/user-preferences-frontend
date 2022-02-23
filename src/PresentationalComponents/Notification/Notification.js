@@ -115,11 +115,12 @@ const Notification = () => {
           <SplitItem isFilled>
             <PageHeaderTitle
               title={`My Notifications | ${bundleDisplayTitle}`}
+              style={{ paddingBottom: '8px' }}
             />
             <StackItem>
-              This service allows you to opt-in and out of recieving
+              This service allows you to opt-in and out of receiving
               notifications. Your Organization Administrator has configured
-              which notifications you can or can not recieve in their
+              which notifications you can or can not receive in their
               <a href={getBaseName(`/settings/notifications/${bundleName}`)}>
                 Settings
               </a>
