@@ -31,7 +31,7 @@ import FormButtons from '../shared/FormButtons';
 import FormRender from '@data-driven-forms/react-form-renderer/form-renderer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationSchema, saveNotificationValues } from '../../actions';
-import { notificationConfigForBundle } from './Utilities/functions';
+import { notificationConfigForBundle } from '../../Utilities/functions';
 import { notificationPreferences, register } from '../../store';
 import unsubscribe from '../../config/data/unsubscribe.json';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
