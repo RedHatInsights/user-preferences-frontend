@@ -17,6 +17,7 @@ import {
   SplitItem,
   StackItem,
 } from '@patternfly/react-core';
+import { useChromePush } from '../../Utilities/functions';
 import componentMapper from '@data-driven-forms/pf4-component-mapper/component-mapper';
 import {
   DATA_LIST,
@@ -35,15 +36,15 @@ import { notificationConfigForBundle } from '../../Utilities/functions';
 import { notificationPreferences, register } from '../../store';
 import unsubscribe from '../../config/data/unsubscribe.json';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
-import getBaseName from '../../Utilities/getBaseName';
 
 const Notification = () => {
   const { bundleName } = useParams();
+  const navigateTo = useChromePush();
   const dispatch = useDispatch();
   const store = useSelector(
     ({ notificationPreferences }) => notificationPreferences
   );
-  const bundleDisplayTitle = notificationConfigForBundle(bundleName).title;
+  const bundleDisplayTitle = notificationConfigForBundle(bundleName)?.title;
 
   useEffect(() => {
     register(notificationPreferences);
@@ -114,14 +115,19 @@ const Notification = () => {
         <Split>
           <SplitItem isFilled>
             <PageHeaderTitle
+              className="notif-page-header"
               title={`My Notifications | ${bundleDisplayTitle}`}
-              style={{ paddingBottom: '8px' }}
             />
             <StackItem>
               This service allows you to opt-in and out of receiving
               notifications. Your Organization Administrator has configured
               which notifications you can or can not receive in their
-              <a href={getBaseName(`/settings/notifications/${bundleName}`)}>
+              <a
+                onClick={(e) =>
+                  navigateTo(e, `/settings/notifications/${bundleName}`)
+                }
+                href={`/settings/notifications/${bundleName}`}
+              >
                 Settings
               </a>
               .
