@@ -12,6 +12,13 @@ export const loading = (store, { meta }) => {
   };
 };
 
+export const getSchemas = (store, { payload }) => {
+  return {
+    ...store,
+    bundles: payload,
+  };
+};
+
 export const getSchema = (store, { payload, meta }) => {
   return {
     ...store,
@@ -24,6 +31,7 @@ export const getSchema = (store, { payload, meta }) => {
 export default {
   notificationPreferences: applyReducerHash(
     {
+      [ACTION_TYPES.GET_NOTIFICATION_SCHEMAS]: getSchemas,
       [ACTION_TYPES.GET_NOTIFICATION_SCHEMA]: getSchema,
       [`${ACTION_TYPES.GET_NOTIFICATION_SCHEMA}_FULFILLED`]: getSchema,
       [`${ACTION_TYPES.GET_NOTIFICATION_SCHEMA}_PENDING`]: loading,

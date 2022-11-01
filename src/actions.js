@@ -3,6 +3,11 @@ import { ACTION_TYPES } from './constants';
 import config from './config/config.json';
 import { notificationConfigForBundle } from './Utilities/functions';
 
+export const getNotificationSchemas = (payload) => ({
+  type: ACTION_TYPES.GET_NOTIFICATION_SCHEMAS,
+  payload,
+});
+
 export const getNotificationSchema = ({ bundleName, apiVersion }) => ({
   type: ACTION_TYPES.GET_NOTIFICATION_SCHEMA,
   payload: getApplicationSchema(

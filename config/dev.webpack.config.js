@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const webpackProxy = {
   deployment: process.env.BETA ? 'beta/apps' : 'apps',
   useProxy: true,
-  env: 'ci-beta',
+  env: 'stage-beta',
   appUrl: process.env.BETA
     ? '/beta/user-preferences/email'
     : '/user-preferences/email',

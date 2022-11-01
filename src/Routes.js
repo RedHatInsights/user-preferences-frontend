@@ -14,10 +14,21 @@ const Notification = lazy(() =>
   )
 );
 
+const Notifications = lazy(() =>
+  import(
+    /* webpackChunkName: "Notifications" */ './PresentationalComponents/Notifications/Notifications'
+  )
+);
+
 export const Routes = () => (
   <Suspense fallback={Fragment}>
     <Switch>
       <Route path={pckg.routes.email} component={Email} rootClass="email" />
+      <Route
+        path={pckg.routes.notifications}
+        component={Notifications}
+        rootClass="notifications"
+      />
       <Route
         path={pckg.routes.notification}
         component={Notification}
