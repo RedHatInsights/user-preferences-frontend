@@ -1,28 +1,28 @@
 .pref-notifications {
-    &--title {
-      display: flex;      
-      align-items: center;
-      background-color: var(--pf-global--BackgroundColor--100);
-      padding: var(--pf-global--spacer--lg) 0 var(--pf-global--spacer--sm) var(--pf-global--spacer--lg);
-      .pf-c-label { margin-left: var(--pf-global--spacer--md); }
-    }
-    &--subtitle {
-      position: relative;
-      background-color: var(--pf-global--BackgroundColor--100);
-      border-bottom: 1px solid var(--pf-global--BorderColor--100);
-      padding: 0  var(--pf-global--spacer--lg) var(--pf-global--spacer--lg) var(--pf-global--spacer--lg);
-    }
-    &--menu {
-      border-right: 1px solid var(--pf-global--BorderColor--100);
-      background-color: var(--pf-global--BackgroundColor--100);
-    }
-    &--section {
-      background-color: var(--pf-global--BackgroundColor--100);
-      height: calc(100vh - 112px - 70px);
-      overflow-x: auto;
-      padding: 0 var(--pf-global--spacer--lg);
-    }
+  &--header {
+    z-index: 1;
   }
+  &--title {
+    .pf-c-label { margin-left: var(--pf-global--spacer--md); }
+  }
+  &--subtitle {
+    border-bottom: 1px solid var(--pf-global--BorderColor--100);
+  }
+  &--menu {
+    border-right: 1px solid var(--pf-global--BorderColor--100);
+  }
+  &--section {
+    overflow-x: auto;
+  }
+  &--buttons {
+    position: fixed;
+    bottom: 0;
+    border-top: 1px solid var(--pf-global--BorderColor--100);
+    width: 100%;
+    padding: var(--pf-global--spacer--md) var(--pf-global--spacer--lg);
+    background-color: var(--pf-global--BackgroundColor--100);
+  }
+}
 
 @media only screen and (max-width: 768px) {
   .sticky {

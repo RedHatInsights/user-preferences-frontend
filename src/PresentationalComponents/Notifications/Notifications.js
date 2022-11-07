@@ -1,32 +1,15 @@
+{
+  /*...(Object.entries(emailConfig)
+                          .filter(([key]) => key === state.section)
+                          .map(
+                            ([key, schema]) =>
+                              calculateSection(key, schema)?.fields?.[0]?.fields
+                          ) || []), */
+}
+
 import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
-import {
-  Bullseye,
-  Button,
-  Divider,
-  Dropdown,
-  Grid,
-  GridItem,
-  KebabToggle,
-  Menu,
-  MenuContent,
-  MenuGroup,
-  MenuInput,
-  MenuItem,
-  MenuList,
-  OverflowMenu,
-  OverflowMenuContent,
-  OverflowMenuControl,
-  OverflowMenuGroup,
-  OverflowMenuItem,
-  Spinner,
-  Split,
-  SplitItem,
-  StackItem,
-  Text,
-  TextInput,
-  Title,
-} from '@patternfly/react-core';
+import { Split, SplitItem, Text, Title } from '@patternfly/react-core';
 import { menuItems } from './data';
 import './notifications.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,13 +22,12 @@ import { getNotificationSchemas } from '../../actions';
 import { getApplicationSchema } from '../../api';
 import {
   calculateEmailConfig,
+  getSection,
   notificationConfigForBundle,
 } from '../../Utilities/functions';
 import { FormRenderer } from '@data-driven-forms/react-form-renderer';
-import {
-  FormTemplate,
-  componentMapper,
-} from '@data-driven-forms/pf4-component-mapper';
+import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
+import { FormTemplate } from './FormTemplate';
 import FormButtons from '../shared/FormButtons';
 import {
   DATA_LIST,
@@ -55,7 +37,6 @@ import {
   LOADER,
   Loader,
 } from '../../SmartComponents/FormComponents';
-import { ButtonVariant } from '@patternfly/react-core/dist/js/components/Button/Button';
 import useLoaded from '../shared/useLoaded';
 import config from '../../config/config.json';
 
@@ -72,75 +53,62 @@ const reducer = (state, action) => {
   }
 };
 
-const renderPageHeading = (bundleTitle, sectionTitle) => (
-  <React.Fragment>
-    <Title
-      headingLevel="h3"
-      size="xl"
-      className="pf-u-pb-xs pf-u-mt-lg"
-      style={{ paddingLeft: 0 }}
-    >
-      {`${sectionTitle} | ${bundleTitle}`}
-    </Title>
-    Configure your {sectionTitle} notifications.
-  </React.Fragment>
-);
+const prepareSections = (bundles, searchValue = '') =>
+  Object.entries(menuItems).reduce((acc, [bundleKey, value]) => {
+    const sections = [
+      ...(bundles[bundleKey]?.sections?.filter(
+        (section) =>
+          section.name
+            .toLocaleLowerCase()
+            .includes(searchValue.toLocaleLowerCase()) ||
+          section.label
+            .toLocaleLowerCase()
+            .includes(searchValue.toLocaleLowerCase())
+      ) || []),
+    ];
+    // Add email?
+    return {
+      ...acc,
+      ...(sections?.length > 0
+        ? {
+            [bundleKey]: {
+              ...value,
+              sections,
+            },
+          }
+        : {}),
+    };
+  }, {});
 
 const Notifications = () => {
   const dispatch = useDispatch();
-  const mastheadHeight = useRef(0);
-  const search = useRef(null);
   const title = useRef(null);
 
+  const [isLoading, setLoading] = useState(false);
   const [emailConfig, setEmailConfig] = useState({});
-  const isLoaded = useLoaded(async () => {
+  const isEmailLoaded = useLoaded(async () => {
     await insights.chrome.auth.getUser();
     register(emailPreferences);
     setEmailConfig(await calculateEmailConfig(config, dispatch));
   });
 
-  console.log(emailConfig, isLoaded);
-
-  const resizeObserver = new ResizeObserver((entries) => {
-    const content = document.getElementById('notifications-menu-content');
-    content.style.maxHeight = `${Math.min(
-      entries[0].target.getBoundingClientRect().height -
-        search.current?.getBoundingClientRect().height -
-        1,
-      window.innerHeight -
-        mastheadHeight.current -
-        title.current?.getBoundingClientRect().height -
-        search.current?.getBoundingClientRect().height -
-        1
-    )}px`;
-  });
+  const store = useSelector(({ emailPreferences }) => emailPreferences);
 
   const { bundles } = useSelector(({ notificationPreferences }) => ({
-    bundles: {},
-    ...notificationPreferences,
+    bundles: Object.entries(menuItems)?.reduce(
+      (acc, [key, value]) => ({
+        ...acc,
+        ...(notificationPreferences?.bundles?.[key]?.sections?.length > 0
+          ? { [key]: { ...value, ...notificationPreferences?.bundles?.[key] } }
+          : {}),
+      }),
+      {}
+    ),
   }));
-
-  const initialState = {
-    bundle: Object.entries(bundles)?.filter(
-      (entry) => entry[1]?.sections.length > 0
-    )?.[0]?.[0],
-    section: Object.entries(bundles)?.filter(
-      (entry) => entry[1]?.sections.length > 0
-    )?.[0]?.[1]?.sections[0].name,
-  };
-
-  const [state, change] = useReducer(reducer, initialState);
 
   useEffect(() => {
     register(notificationPreferences);
-    mastheadHeight.current =
-      window.innerHeight -
-      document
-        .getElementsByClassName('pf-c-page__main')[0]
-        .getBoundingClientRect().height;
-    const menuElement = document.getElementById('notifications-menu');
-
-    resizeObserver.observe(menuElement);
+    setLoading(true);
     (async () => {
       await insights.chrome.auth.getUser();
       const promises = Object.keys(menuItems).map((bundleName) =>
@@ -162,36 +130,21 @@ const Notifications = () => {
           {}
         );
         dispatch(getNotificationSchemas(newValues));
-        const initial = Object.entries(newValues).find(
-          (entry) => entry[1]?.sections.length > 0
-        );
-        change({
-          type: 'changeTab',
-          payload: {
-            bundle: initial?.[0],
-            section: initial?.[1]?.sections[0].name,
-          },
-        });
+        setLoading(false);
       });
     })();
-
-    return () => {
-      resizeObserver.unobserve(menuElement);
-    };
   }, []);
-
-  console.log(menuItems, bundles);
 
   return (
     <React.Fragment>
-      <Split>
-        <SplitItem isFilled>
+      <Split className="pref-notifications--header">
+        <SplitItem className="pf-u-background-color-100" isFilled>
           <div ref={title}>
             <PageHeaderTitle
-              className="pref-notifications--title sticky"
+              className="pref-notifications--title sticky pf-u-pt-lg pf-u-pb-sm pf-u-pl-lg"
               title="My Notifications"
             />
-            <Text className="pref-notifications--subtitle">
+            <Text className="pref-notifications--subtitle pf-u-pb-lg pf-u-pl-lg">
               This service allows you to opt-in and out of receiving
               notifications. Your Organization Administrator has configured
               which notifications you can or can not receive in their{' '}
@@ -200,117 +153,31 @@ const Notifications = () => {
           </div>
         </SplitItem>
       </Split>
-      <Grid>
-        <GridItem
-          id="notifications-menu"
-          className="pf-m-3-col-on-md pref-notifications--menu"
-        >
-          <Menu isPlain isScrollable>
-            <MenuInput ref={search} className="pf-u-mx-sm">
-              <TextInput
-                placeholder="Search applications"
-                // value={input}
-                aria-label="Filter menu items"
-                iconVariant="search"
-                type="search"
-                // onChange={(value) => handleTextInputChange(value)}
-              />
-            </MenuInput>
-            <Divider />
-            <MenuContent id="notifications-menu-content">
-              {Object.entries(menuItems)
-                ?.filter(([key]) => bundles[key]?.sections.length > 0)
-                .map(([key, { title }]) => (
-                  <MenuGroup key={key} label={title} className="pf-u-px-sm">
-                    <MenuList>
-                      {bundles[key]?.sections.map((section) => (
-                        <MenuItem
-                          onClick={() =>
-                            change({
-                              type: 'changeTab',
-                              payload: { bundle: key, section: section.name },
-                            })
-                          }
-                          itemId={section.name}
-                          key={section.name}
-                          className="pf-u-px-sm"
-                        >
-                          {section.label}
-                        </MenuItem>
-                      ))}
-                    </MenuList>
-                  </MenuGroup>
-                ))}
-            </MenuContent>
-          </Menu>
-        </GridItem>
-        <GridItem className="pf-m-9-col-on-md pref-notifications--section">
-          {Object.keys(bundles).length > 0 ? ( //replace with a loading flag
-            <React.Fragment>
-              <StackItem className="pf-u-mb-xl">
-                {renderPageHeading(
-                  menuItems[state.bundle]?.title,
-                  bundles[state.bundle]?.sections.find(
-                    (section) => section.name === state.section
-                  )?.label
-                )}
-                {/** Do we want it to come together with the schema? */}
-              </StackItem>
-
-              <StackItem>
-                <FormRenderer
-                  componentMapper={{
-                    ...componentMapper,
-                    [DESCRIPTIVE_CHECKBOX]: DescriptiveCheckbox,
-                    [LOADER]: Loader,
-                    [DATA_LIST]: DataListLayout,
-                  }}
-                  FormTemplate={(props) => (
-                    <FormTemplate {...props} FormButtons={FormButtons} />
-                  )}
-                  schema={
-                    bundles[state.bundle]?.sections.find(
-                      (section) => section.name === state.section
-                    )?.fields[0]
-                  }
-                  onSubmit={() => null}
-                />
-              </StackItem>
-              <OverflowMenu breakpoint="lg">
-                <OverflowMenuContent isPersistent>
-                  <OverflowMenuGroup groupType="button">
-                    <OverflowMenuItem>
-                      <Button variant={ButtonVariant.primary}>Primary</Button>
-                    </OverflowMenuItem>
-                    <OverflowMenuItem>
-                      <Button variant={ButtonVariant.secondary}>
-                        Secondary
-                      </Button>
-                    </OverflowMenuItem>
-                  </OverflowMenuGroup>
-                </OverflowMenuContent>
-                <OverflowMenuControl>
-                  <Dropdown
-                    onSelect={() => null}
-                    toggle={<KebabToggle onToggle={() => null} />}
-                    isOpen={true}
-                    isPlain
-                    dropdownItems={[]}
-                    isFlipEnabled
-                    menuAppendTo="parent"
-                  />
-                </OverflowMenuControl>
-              </OverflowMenu>
-            </React.Fragment>
-          ) : (
-            <Bullseye>
-              <Spinner />
-            </Bullseye>
-          )}
-        </GridItem>
-      </Grid>
+      <FormRenderer
+        componentMapper={{
+          ...componentMapper,
+          [DESCRIPTIVE_CHECKBOX]: DescriptiveCheckbox,
+          [LOADER]: Loader,
+          [DATA_LIST]: DataListLayout,
+        }}
+        FormTemplate={(props) => (
+          <FormTemplate
+            {...props}
+            schema={bundles}
+            title={title.current}
+            isLoading={isLoading}
+            FormButtons={FormButtons}
+          />
+        )}
+        schema={
+          { fields: [] }
+          // bundles[state.bundle]?.sections.find(
+          //   (section) => section.name === state.section
+          // )?.fields[0]
+        }
+        onSubmit={() => null}
+      />
     </React.Fragment>
   );
 };
-
 export default Notifications;

@@ -1,6 +1,7 @@
 {
     "email-preference": {
         "advisor": {
+            "bundle": "rhel",
             "title": "Advisor",
             "url": "/user-preferences/",
             "apiName": "insights",

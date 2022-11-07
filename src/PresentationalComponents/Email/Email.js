@@ -96,6 +96,12 @@ const Email = () => {
       setEmailConfig(config);
     });
   };
+  console.log(
+    'calculate',
+    Object.entries(emailConfig).map(([key, schema]) =>
+      calculateSection(key, schema)
+    )
+  );
 
   return (
     <React.Fragment>
