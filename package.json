@@ -41,7 +41,8 @@
     "moduleNameMapper": {
       "\\.(css|scss)$": "identity-obj-proxy"
     },
-    "testURL": "http://localhost:5000/"
+    "testURL": "http://localhost:5000/",
+    "test": "TZ=UTC jest --verbose --no-cache"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
