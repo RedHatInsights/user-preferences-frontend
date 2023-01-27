@@ -100,9 +100,16 @@ const Notifications = () => {
           values: {
             bundles: {
               [bundleName]: {
-                notifications: omit(
-                  values.bundles[bundleName].notifications,
-                  UNSUBSCRIBE_ALL
+                applications: Object.entries(
+                  values.bundles[bundleName].applications
+                ).reduce(
+                  (acc, [key, value]) => ({
+                    ...acc,
+                    [key]: {
+                      notifications: omit(value.notifications, UNSUBSCRIBE_ALL),
+                    },
+                  }),
+                  {}
                 ),
               },
             },
