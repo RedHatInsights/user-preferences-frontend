@@ -157,7 +157,13 @@ describe('Notifications tests', () => {
       values: {
         bundles: {
           'application-services': {
-            notifications: {},
+            applications: {
+              rhosak: {
+                notifications: {
+                  INSTANT: false,
+                },
+              },
+            },
           },
         },
       },
