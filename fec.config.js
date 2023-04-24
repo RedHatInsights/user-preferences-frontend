@@ -1,5 +1,5 @@
 module.exports = {
-  appUrl: '/user-preferences/notifications',
+  appUrl: ['/user-preferences/notifications'],
   debug: true,
   useProxy: true,
   proxyVerbose: true,

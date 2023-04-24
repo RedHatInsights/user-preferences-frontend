@@ -12,7 +12,7 @@ const UserReferences = () => (
     }}
   >
     <Provider store={registry.getStore()}>
-      <Router basename={getBaseName(window.location.pathname, 1)}>
+      <Router basename={getBaseName(window.location.pathname)}>
         <App />
       </Router>
     </Provider>
