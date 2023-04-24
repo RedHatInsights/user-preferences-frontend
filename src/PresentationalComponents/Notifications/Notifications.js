@@ -31,8 +31,10 @@ import { prepareFields } from './utils';
 import { UNSUBSCRIBE_ALL } from '../../Utilities/constants';
 import FormTemplate from './NotificationTemplate';
 import './notifications.scss';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
 const Notifications = () => {
+  const { auth } = useChrome();
   const dispatch = useDispatch();
   const titleRef = useRef(null);
   const [isLoading, setLoading] = useState(false);
@@ -47,7 +49,7 @@ const Notifications = () => {
   useEffect(() => {
     setLoading(true);
     (async () => {
-      await insights.chrome.auth.getUser();
+      await auth.getUser();
       setEmailConfig(await calculateEmailConfig(config, dispatch));
       const promises = Object.keys(config['notification-preference']).map(
         (bundleName) =>

@@ -14,10 +14,12 @@ import {
 import React, { Fragment } from 'react';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/Skeleton';
 import useCurrentUser from './useCurrentUser';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 
 const YourInformation = () => {
-  const env = insights.chrome.getEnvironment();
-  const prefix = insights.chrome.isProd ? '' : `${env === 'ci' ? 'qa' : env}.`;
+  const { getEnvironment, isProd } = useChrome();
+  const env = getEnvironment();
+  const prefix = isProd() ? '' : `${env === 'ci' ? 'qa' : env}.`;
 
   const { isLoaded, currentUser } = useCurrentUser();
 
