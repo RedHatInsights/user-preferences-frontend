@@ -1,45 +1,6 @@
 export const userPrefInitialState = {
   notificationsReducer: {
     bundles: {
-      'application-services': {
-        name: 'notification-preferences',
-        label: null,
-        component: 'section',
-        sections: [
-          {
-            name: 'rhosak',
-            label: 'Streams for Apache Kafka',
-            component: null,
-            fields: [
-              {
-                name: null,
-                label: null,
-                component: null,
-                fields: [
-                  {
-                    name: 'bundles[application-services].applications[rhosak].notifications[INSTANT]',
-                    label: 'Instant notification',
-                    description: 'Description.',
-                    initialValue: true,
-                    component: 'descriptiveCheckbox',
-                    validate: [],
-                    checkedWarning: 'Some warning',
-                  },
-                  {
-                    name: 'is_subscribed',
-                    label: 'Email test',
-                    description: 'Description.',
-                    initialValue: true,
-                    component: 'descriptiveCheckbox',
-                    validate: [],
-                    checkedWarning: 'Some warning',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
       console: {
         name: 'notification-preferences',
         label: null,
@@ -59,7 +20,16 @@ export const userPrefInitialState = {
                     name: 'bundles[console].applications[sources].notifications[INSTANT]',
                     label: 'Instant notification',
                     description: 'Description.',
-                    initialValue: false,
+                    initialValue: true,
+                    component: 'descriptiveCheckbox',
+                    validate: [],
+                    checkedWarning: 'Another warning',
+                  },
+                  {
+                    name: 'is_subscribed',
+                    label: 'email test',
+                    description: 'Description.',
+                    initialValue: true,
                     component: 'descriptiveCheckbox',
                     validate: [],
                     checkedWarning: 'Another warning',

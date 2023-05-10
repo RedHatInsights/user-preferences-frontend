@@ -24,11 +24,6 @@
         }
     },
     "notification-preference": {
-        "application-services": {
-            "title": "Application Services",
-            "application": "notifications",
-            "resourceType": "notification-preference?bundleName=application-services"
-        },
         "openshift": {
             "title": "OpenShift",
             "application": "notifications",

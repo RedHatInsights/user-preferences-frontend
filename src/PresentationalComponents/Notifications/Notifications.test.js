@@ -153,12 +153,12 @@ describe('Notifications tests', () => {
     expect(queryByText(wrapper.container, 'Save')).toEqual(null);
     expect(saveNotificationValues).toHaveBeenCalledTimes(1);
     expect(saveNotificationValues).toHaveBeenCalledWith({
-      bundleName: 'application-services',
+      bundleName: 'console',
       values: {
         bundles: {
-          'application-services': {
+          console: {
             applications: {
-              rhosak: {
+              sources: {
                 notifications: {
                   INSTANT: false,
                 },
