@@ -1,5 +1,15 @@
+import APIFactory from '@redhat-cloud-services/notifications-client';
 import instance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import getPreferences from '@redhat-cloud-services/notifications-client/dist/UserConfigResourceV1GetPreferences';
+import getSettingsSchema from '@redhat-cloud-services/notifications-client/dist/UserConfigResourceV1GetSettingsSchema';
+import saveSettings from '@redhat-cloud-services/notifications-client/dist/UserConfigResourceV1SaveSettings';
 export { instance };
+
+const notificationsApi = APIFactory('/api/notifications/v1', undefined, {
+  getPreferences,
+  getSettingsSchema,
+  saveSettings,
+});
 
 instance.interceptors.response.use((response) => {
   if (response?.config?.data) {
@@ -24,9 +34,10 @@ export const getApplicationSchema = (
   );
 
 export const getNotificationsSchema = (apiVersion = 'v1') =>
-  instance.get(
-    `/api/notifications/${apiVersion}/user-config/notification-event-type-preference`
-  );
+  notificationsApi.getPreferences();
+// instance.get(
+//   `/api/notifications/${apiVersion}/user-config/notification-event-type-preference`
+// );
 
 export const saveValues = async (apiName, values, apiVersion = 'v1', url) =>
   instance.post(
