@@ -1,5 +1,5 @@
-export const getNavFromURL = (history, fields, defaults) => {
-  const searchParams = new URLSearchParams(history?.location?.search);
+export const getNavFromURL = (location, navigate, fields, defaults) => {
+  const searchParams = new URLSearchParams(location?.search);
   const params = Object.fromEntries(searchParams);
 
   if (
@@ -14,23 +14,29 @@ export const getNavFromURL = (history, fields, defaults) => {
     if (defaults.bundle && defaults.app) {
       searchParams.set('bundle', defaults.bundle);
       searchParams.set('app', defaults.app);
-      history.replace({
-        pathname: history.location.pathname,
-        search: searchParams.toString(),
-      });
+      navigate(
+        {
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        },
+        { replace: true }
+      );
     }
     return { ...params, ...defaults };
   }
 };
 
-export const setNavToURL = (history, params) => {
-  let searchParams = new URLSearchParams(history?.location?.search);
+export const setNavToURL = (location, navigate, params) => {
+  let searchParams = new URLSearchParams(location?.search);
   Object.entries(params).forEach(([key, value]) => {
     searchParams.set(key, value);
   });
 
-  history.replace({
-    pathname: history.location.pathname,
-    search: searchParams.toString(),
-  });
+  navigate(
+    {
+      pathname: location.pathname,
+      search: searchParams.toString(),
+    },
+    { replace: true }
+  );
 };

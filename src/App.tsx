@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
-import { Routes } from './Routes';
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import './App.scss';
+import Routing from './Routing';
 
-const App = (props) => {
+const App = () => {
   const { auth, updateDocumentTitle } = useChrome();
 
   updateDocumentTitle?.('User Preferences');
@@ -21,7 +21,7 @@ const App = (props) => {
   return (
     <Fragment>
       <NotificationsPortal />
-      <Routes childProps={props} />
+      <Routing />
     </Fragment>
   );
 };

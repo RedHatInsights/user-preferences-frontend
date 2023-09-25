@@ -17,7 +17,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getNavFromURL } from './urlSync';
 
@@ -35,11 +35,12 @@ const renderEmptyState = (setSearch) => (
 );
 
 const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
-  const history = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { bundle, app } = useMemo(
-    () => getNavFromURL(history, fields, {}),
-    [history?.location.search]
+    () => getNavFromURL(location, navigate, fields, {}),
+    [location.search]
   );
 
   return (
