@@ -75,9 +75,9 @@
     "prop-types": "^15.7.2",
     "redux-mock-store": "^1.5.4",
     "sass-loader": "^11.0.1",
-    "stylelint": "^13.12.0",
-    "stylelint-config-recommended-scss": "^4.2.0",
-    "stylelint-scss": "^3.19.0",
+    "stylelint": "^15.10.3",
+    "stylelint-config-recommended-scss": "^13.0.0",
+    "stylelint-scss": "^5.2.1",
     "webpack-bundle-analyzer": "^4.4.0"
   },
   "transformIgnorePatterns": [
