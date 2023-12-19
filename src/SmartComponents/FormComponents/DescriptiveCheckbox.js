@@ -23,7 +23,6 @@ const DescriptiveCheckbox = (props) => {
     ...props,
     type: 'checkbox',
   });
-  console.log(useFieldApi);
   const formOptions = useFormApi();
 
   return (
