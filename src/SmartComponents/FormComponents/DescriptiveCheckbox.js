@@ -17,17 +17,20 @@ const DescriptiveCheckbox = (props) => {
     checkedWarning,
     infoMessage,
     afterChange,
+    disabled,
     input: { onChange, checked, ...input },
   } = useFieldApi({
     ...props,
     type: 'checkbox',
   });
+  console.log(useFieldApi);
   const formOptions = useFormApi();
 
   return (
     <Checkbox
       {...input}
       isChecked={checked}
+      isDisabled={disabled}
       id={`descriptive-checkbox-${input.name}`}
       onChange={(checked, event, ...rest) => {
         onChange(checked, event, ...rest);
