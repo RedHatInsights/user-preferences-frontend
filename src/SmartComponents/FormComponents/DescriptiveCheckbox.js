@@ -1,13 +1,11 @@
 import React from 'react';
-import { Checkbox } from '@patternfly/react-core';
+import { Checkbox } from '@patternfly/react-core/dist/dynamic/components/Checkbox';
 import PropTypes from 'prop-types';
 import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import './descriptiveCheckbox.scss';
-import {
-  ExclamationTriangleIcon,
-  InfoCircleIcon,
-} from '@patternfly/react-icons';
+import ExclamationTriangleIcon from '@patternfly/react-icons/dist/dynamic/icons/exclamation-triangle-icon';
+import InfoCircleIcon from '@patternfly/react-icons/dist/dynamic/icons/info-circle-icon';
 
 const DescriptiveCheckbox = (props) => {
   const {
@@ -31,7 +29,7 @@ const DescriptiveCheckbox = (props) => {
       isChecked={checked}
       isDisabled={disabled}
       id={`descriptive-checkbox-${input.name}`}
-      onChange={(checked, event, ...rest) => {
+      onChange={(event, checked, ...rest) => {
         onChange(checked, event, ...rest);
         afterChange?.(formOptions, checked);
       }}

@@ -6,7 +6,7 @@ const FormTabGroup = ({ fields }) => {
   const formOptions = useFormApi();
 
   return (
-    <div className="pf-c-form">
+    <div className="pf-v5-c-form">
       {formOptions.renderForm(fields, formOptions)}
     </div>
   );

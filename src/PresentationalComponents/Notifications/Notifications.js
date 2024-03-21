@@ -3,7 +3,9 @@ import omit from 'lodash/omit';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
-import { Bullseye, Spinner, Text } from '@patternfly/react-core';
+import { Bullseye } from '@patternfly/react-core/dist/dynamic/layouts/Bullseye';
+import { Spinner } from '@patternfly/react-core/dist/dynamic/components/Spinner';
+import { Text } from '@patternfly/react-core/dist/dynamic/components/Text';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 import { ScalprumComponent } from '@scalprum/react-core';
@@ -101,6 +103,7 @@ const Notifications = () => {
     }
     Promise.all(promises)
       .then(() => {
+        formApi.reset(values);
         dispatch(
           addNotification({
             dismissable: true,

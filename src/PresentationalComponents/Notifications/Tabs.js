@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormApi } from '@data-driven-forms/react-form-renderer';
-import { Text, Title } from '@patternfly/react-core';
+import { Text } from '@patternfly/react-core/dist/dynamic/components/Text';
+import { Title } from '@patternfly/react-core/dist/dynamic/components/Title';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormState } from 'react-final-form';
 import { getNavFromURL, setNavToURL } from './urlSync';
@@ -9,10 +10,10 @@ import TabsMenu from './TabsMenu';
 
 const renderPageHeading = (bundleTitle, sectionTitle) => (
   <React.Fragment>
-    <Title headingLevel="h3" size="xl" className="pf-u-pb-xs">
+    <Title headingLevel="h3" size="xl" className="pf-v5-u-pb-xs">
       {`${sectionTitle} | ${bundleTitle}`}
     </Title>
-    <Text className="pf-u-mb-md">
+    <Text className="pf-v5-u-mb-md">
       Configure your {sectionTitle} notifications.
     </Text>
   </React.Fragment>
@@ -42,7 +43,8 @@ const FormTabs = ({ fields, titleRef, bundles }) => {
       gridElement.style.height = `${
         container.getBoundingClientRect().height - buttonsHeight
       }px`;
-      const menuMaxHeight =
+      let menuMaxHeight;
+      menuMaxHeight =
         container.getBoundingClientRect().height -
         titleRef.current.getBoundingClientRect().height -
         searchRef.current.getBoundingClientRect().height -
