@@ -88,8 +88,9 @@ const Notifications = () => {
       ),
     };
     const promises = [dispatch(saveNotificationValues(notificationValues))];
+    const submitEmail = formApi.getState().dirtyFields['is_subscribed'];
     // temporary submitting of RHEL Advisor email pref.
-    if (formApi.getState().dirtyFields['is_subscribed']) {
+    if (submitEmail) {
       const { url, apiName } = emailConfig['advisor'];
       const action = saveEmailValues({
         application: 'advisor',
@@ -101,6 +102,8 @@ const Notifications = () => {
     }
     Promise.all(promises)
       .then(() => {
+        submitEmail && setEmailConfig(calculateEmailConfig(config, dispatch));
+        dispatch(getNotificationsSchema());
         dispatch(
           addNotification({
             dismissable: true,
