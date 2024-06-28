@@ -10,19 +10,18 @@ import {
   Menu,
   MenuContent,
   MenuGroup,
-  MenuInput,
-  MenuItem,
   MenuList,
   TextInput,
   Title,
 } from '@patternfly/react-core';
+import { MenuItem, MenuSearch, MenuSearchInput } from '@patternfly/react-core/dist/dynamic/components/Menu';
 import { SearchIcon } from '@patternfly/react-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import { getNavFromURL } from './urlSync';
 
-const renderEmptyState = (setSearch) => (
-  <EmptyState variant={EmptyStateVariant.small} className="pf-u-mt-lg">
+const renderEmptyState = (setSearch: (searchString: string) => any) => (
+  <EmptyState variant={EmptyStateVariant.sm} className="pf-u-mt-lg">
     <EmptyStateIcon icon={SearchIcon} />
     <Title headingLevel="h4" size="lg">
       No matching services found
@@ -34,7 +33,15 @@ const renderEmptyState = (setSearch) => (
   </EmptyState>
 );
 
-const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
+export type TabsMenuProps = {
+  fields: any[],
+  search: string,
+  setSearch: (searchValue: any) => void,
+  searchRef: any,
+  onClick: (e: void, bundleName: string, sectionName: string) => void,
+}
+
+const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }: TabsMenuProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -45,16 +52,18 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
 
   return (
     <Menu isPlain isScrollable>
-      <MenuInput ref={searchRef} className="pf-u-mx-sm">
-        <TextInput
-          aria-label="Filter menu items"
-          placeholder="Search services"
-          iconVariant="search"
-          type="search"
-          onChange={(value) => setSearch(value)}
-          value={search}
-        />
-      </MenuInput>
+      <MenuSearch>
+        <MenuSearchInput ref={searchRef} className="pf-u-mx-sm">
+          <TextInput
+            aria-label="Filter menu items"
+            placeholder="Search services"
+            customIcon="search"
+            type="search"
+            onChange={(value) => setSearch(value)}
+            value={search}
+          />
+        </MenuSearchInput>
+      </MenuSearch>
       <Divider />
       <MenuContent id="notifications-menu-content">
         {fields.some((bundle) => bundle.fields.length > 0)
@@ -67,7 +76,7 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
                 >
                   <MenuList>
                     {fields.map(
-                      ({ label: sectionLabel, name: sectionName }) => (
+                      ({ label: sectionLabel, name: sectionName }: {label: string, name: string}) => (
                         <MenuItem
                           onClick={(e) => onClick(e, bundleName, sectionName)}
                           key={`menu-item-${bundleName}-${sectionName}`}
@@ -87,14 +96,6 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
       </MenuContent>
     </Menu>
   );
-};
-
-TabsMenu.propTypes = {
-  fields: PropTypes.array.isRequired,
-  search: PropTypes.string,
-  setSearch: PropTypes.func,
-  searchRef: PropTypes.object,
-  onClick: PropTypes.func,
 };
 
 export default TabsMenu;
