@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, lazy, useMemo } from 'react';
+import React, { Suspense, lazy, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import pathnames from './Utilities/pathnames';
 import { InvalidObject } from '@redhat-cloud-services/frontend-components';
@@ -28,7 +28,7 @@ const renderRoutes = (routes: RouteType[] = []) =>
 
 export const Routing = () => {
   const renderedRoutes = useMemo(() => renderRoutes(routes), [routes]);
-  return (<Suspense fallback={Fragment}>
+  return (<Suspense fallback={<InvalidObject/>}>
     <Routes>
       {renderedRoutes}
       {/* Catch all unmatched routes */}
