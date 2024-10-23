@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/RedHatInsights/user-preferences-frontend.svg?branch=master)](https://travis-ci.org/RedHatInsights/user-preferences-frontend)
 
+foo
+
 # user-preferences-frontend
 
 This application is for forms for users to change their preferences. If you want to be part of this application please open PR and update `src/config/config.json`. Each user preferences page uses this config and it will automatically fetch new data driven form schemas based on it.

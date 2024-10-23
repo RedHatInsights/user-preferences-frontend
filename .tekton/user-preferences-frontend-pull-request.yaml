@@ -329,6 +329,13 @@ spec:
           - image: registry.access.redhat.com/ubi8/nodejs-18
             workingDir: /var/workdir
             name: unit-tests
+            computeResources:
+              requests:
+                memory: 8Gi
+                cpu: 4000m
+              limits:
+                memory: 8Gi
+                cpu: 4000m
             securityContext:
               runAsUser: 0
             script: |
