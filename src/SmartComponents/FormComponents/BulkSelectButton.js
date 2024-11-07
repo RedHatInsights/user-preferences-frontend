@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 import './BulkSelectButton.scss';
+import { useSearchParams } from 'react-router-dom';
 
 const BulkSelectButton = (props) => {
   const formOptions = useFormApi();
@@ -12,10 +13,16 @@ const BulkSelectButton = (props) => {
     type: 'button',
   });
 
+  const [searchParams] = useSearchParams();
+
   return (
     <Button
       className="pref-c-bulk-select-button"
       variant="secondary"
+      isDisabled={
+        searchParams.get('bundle') === 'openshift' &&
+        searchParams.get('app') === 'cluster-manager'
+      }
       {...input}
       id={`bulk-select-${section}`}
       onClick={() => onClick?.(formOptions, input)}

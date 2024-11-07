@@ -14,6 +14,11 @@ jest.mock('@data-driven-forms/react-form-renderer/use-field-api', () =>
   }))
 );
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useSearchParams: () => [new URLSearchParams()],
+}));
+
 describe('BulkSelectButton tests', () => {
   const onClickMock = jest.fn(() => mockInputOnChange());
 
