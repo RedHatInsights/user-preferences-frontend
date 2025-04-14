@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedHatInsights/frontend-components/refs/heads/master/packages/config-utils/src/feo/spec/frontend-crd.schema.json
+
 apiVersion: v1
 kind: Template
 metadata:
@@ -6,8 +8,9 @@ objects:
   - apiVersion: cloud.redhat.com/v1alpha1
     kind: Frontend
     metadata:
-      name: user-preferences
+      name: userPreferences
     spec:
+      feoConfigEnabled: true
       envName: ${ENV_NAME}
       title: User Preferences
       deploymentRepo: https://github.com/RedHatInsights/user-preferences-frontend
@@ -18,37 +21,33 @@ objects:
         paths:
           - /apps/user-preferences
       image: ${IMAGE}:${IMAGE_TAG}
-      navItems:
-        - title: "Email Preferences"
-          appId: "userPreferences"
-          href: /user-preferences/email
-        - title: "Notifications"
-          expandable: true
-          routes:
-            - appId: "userPreferences"
-              title: "Openshift"
-              href: "/user-preferences/notifications/openshift"
-            - appId: "userPreferences"
-              title: "Red Hat Enterprise Linux"
-              href: "/user-preferences/notifications/rhel"
-            - appId: "userPreferences"
-              title: "Edge"
-              href: "/user-preferences/notifications/edge"
-            - appId: "userPreferences"
-              title: "Console"
-              href: "/user-preferences/notifications/console"
       module:
         manifestLocation: "/apps/user-preferences/fed-mods.json"
+        defaultDocumentTitle: User Preferences | User Preferences
         modules:
-          - id: "user-preferences-email"
-            module: "./RootApp"
-            routes:
-              - pathname: /user-preferences
-              - pathname: /user-preferences/email
-          - id: "user-preferences-notifications"
-            module: "./RootApp"
-            routes:
-              - pathname: "/user-preferences/notifications"      
+        - id: user-preferences-notifications
+          module: "./RootApp"
+          routes:
+          - pathname: "/user-preferences"
+          - pathname: "/user-preferences/email"
+          - pathname: "/settings/notifications/user-preferences"
+      bundleSegments:
+        - segmentId: email-preferences
+          bundleId: user-preferences
+          navItems:
+            - title: Email preferences
+              id: emailPreferences
+              href: "/user-preferences/email"
+          position: 300
+      
+      searchEntries:
+        - id: user-preferences
+          title: Email preferences
+          href: /user-preferences/email
+          description: Configure your email preferences and their schedule
+          alt_title:
+            - email schedule
+            - errata
 
 parameters:
   - name: ENV_NAME
