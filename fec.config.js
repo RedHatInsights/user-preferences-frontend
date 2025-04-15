@@ -6,10 +6,7 @@ module.exports = {
   useProxy: true,
   proxyVerbose: true,
   sassPrefix: '.email, .userPreferences',
-  /**
-   * Change to false after your app is registered in configuration files
-   */
-  interceptChromeConfig: false,
+  frontendCRDPath: path.resolve(__dirname, '.rhcicd/frontend.yml'),
   /**
    * Add additional webpack plugins
    */
