@@ -8,7 +8,7 @@ objects:
   - apiVersion: cloud.redhat.com/v1alpha1
     kind: Frontend
     metadata:
-      name: userPreferences
+      name: user-preferences
     spec:
       feoConfigEnabled: true
       envName: ${ENV_NAME}
