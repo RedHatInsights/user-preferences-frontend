@@ -6,7 +6,8 @@ metadata:
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "master"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
+      == "master"
     pipelinesascode.tekton.dev/pipeline: https://github.com/RedHatInsights/konflux-pipelines/raw/main/pipelines/platform-ui/docker-build-run-unit-tests.yaml
   creationTimestamp: null
   labels:
@@ -31,13 +32,14 @@ spec:
     value: |
       #!/bin/bash
       set -ex
-      
+
       npm install
       npm run lint
       npm test --  --runInBand --no-cache
   pipelineRef:
-    name: docker-build  
-  taskRunTemplate: {}
+    name: docker-build
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-user-preferences-frontend
   workspaces:
   - name: workspace
     volumeClaimTemplate:
