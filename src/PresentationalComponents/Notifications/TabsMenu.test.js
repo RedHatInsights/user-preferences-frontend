@@ -1,12 +1,6 @@
 import React from 'react';
 import { Form, RendererContext } from '@data-driven-forms/react-form-renderer';
-import {
-  fireEvent,
-  getByRole,
-  getByText,
-  render,
-  screen,
-} from '@testing-library/react';
+import { fireEvent, getByText, render, screen } from '@testing-library/react';
 import TabsMenu from './TabsMenu';
 
 const mockedNavigate = jest.fn();
