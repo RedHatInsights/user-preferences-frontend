@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@patternfly/react-core';
+import { Button, Tooltip } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
@@ -15,14 +15,31 @@ const BulkSelectButton = (props) => {
 
   const [searchParams] = useSearchParams();
 
-  return (
+  const showTooltipAndDisableButton =
+    searchParams.get('bundle') === 'openshift' &&
+    searchParams.get('app') === 'cluster-manager';
+
+  return showTooltipAndDisableButton ? (
+    <Tooltip content="You can not unsubscribe from these notifications. Please contact your org admin for more information.">
+      <Button
+        className="pref-c-bulk-select-button"
+        variant="secondary"
+        isDisabled={
+          searchParams.get('bundle') === 'openshift' &&
+          searchParams.get('app') === 'cluster-manager'
+        }
+        {...input}
+        id={`bulk-select-${section}`}
+        onClick={() => onClick?.(formOptions, input)}
+      >
+        {input.value ? 'Select' : 'Deselect'} all
+      </Button>
+    </Tooltip>
+  ) : (
     <Button
       className="pref-c-bulk-select-button"
       variant="secondary"
-      isDisabled={
-        searchParams.get('bundle') === 'openshift' &&
-        searchParams.get('app') === 'cluster-manager'
-      }
+      isDisabled={showTooltipAndDisableButton}
       {...input}
       id={`bulk-select-${section}`}
       onClick={() => onClick?.(formOptions, input)}

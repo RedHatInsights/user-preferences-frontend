@@ -17,7 +17,6 @@ import {
   MenuSearch,
   MenuSearchInput,
   SearchInput,
-  TextInput,
 } from '@patternfly/react-core';
 import { SearchIcon } from '@patternfly/react-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
