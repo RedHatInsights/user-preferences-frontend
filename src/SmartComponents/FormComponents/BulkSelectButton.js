@@ -17,7 +17,7 @@ const BulkSelectButton = (props) => {
 
   return (
     <Button
-      className="pref-c-bulk-select-button"
+      className="pref-c-bulk-select-button pf-v5-u-mb-md"
       variant="secondary"
       isDisabled={
         searchParams.get('bundle') === 'openshift' &&
