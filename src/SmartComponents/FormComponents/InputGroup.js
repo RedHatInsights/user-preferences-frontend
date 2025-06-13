@@ -12,7 +12,9 @@ const InputGroup = ({ fields, label, level, description }) => {
       className={`pref-c-input-${level === 1 ? 'category' : 'group'}`}
       label={label}
     >
-      {description ? <Text className="pf-u-pb-md">{description}</Text> : null}
+      {description ? (
+        <Text className="pf-v5-u-pb-md">{description}</Text>
+      ) : null}
       {formOptions.renderForm(fields, formOptions)}
     </FormGroup>
   );

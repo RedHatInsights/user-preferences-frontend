@@ -9,10 +9,10 @@ import TabsMenu from './TabsMenu';
 
 const renderPageHeading = (bundleTitle, sectionTitle) => (
   <React.Fragment>
-    <Title headingLevel="h3" size="xl" className="pf-u-pb-xs">
+    <Title headingLevel="h3" size="xl" className="pf-v5-u-pb-xs">
       {`${sectionTitle} | ${bundleTitle}`}
     </Title>
-    <Text className="pf-u-mb-md">
+    <Text className="pf-v5-u-mb-md">
       Configure your {sectionTitle} notifications.
     </Text>
   </React.Fragment>

@@ -24,7 +24,7 @@ import PropTypes from 'prop-types';
 import { getNavFromURL } from './urlSync';
 
 const renderEmptyState = (setSearch) => (
-  <EmptyState variant={EmptyStateVariant.sm} className="pf-u-mt-lg">
+  <EmptyState variant={EmptyStateVariant.sm} className="pf-v5-u-mt-lg">
     <EmptyStateHeader
       titleText="No matching services found"
       icon={<EmptyStateIcon icon={SearchIcon} />}
@@ -51,7 +51,7 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
   return (
     <Menu isPlain isScrollable>
       <MenuSearch>
-        <MenuSearchInput ref={searchRef} className="pf-u-mx-sm">
+        <MenuSearchInput ref={searchRef} className="pf-v5-u-mx-sm">
           <SearchInput
             data-testid="search-input"
             aria-label="Filter menu items"
@@ -71,7 +71,7 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
               fields.length > 0 ? (
                 <MenuGroup
                   label={bundleLabel}
-                  className="pf-u-px-sm"
+                  className="pf-v5-u-px-sm"
                   key={`menu-group-${bundleName}`}
                 >
                   <MenuList>
