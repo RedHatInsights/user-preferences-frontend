@@ -42,21 +42,21 @@ spec:
       npm test -- --runInBand --no-cache
   pipelineRef:
     name: docker-build
-    taskRunTemplate:
-      serviceAccountName: build-pipeline-service-accounts-sc
-      workspaces:
-      - name: workspace
-        volumeClaimTemplate:
-          metadata:
-            creationTimestamp: null
-          spec:
-            accessModes:
-            - ReadWriteOnce
-            resources:
-              requests:
-                storage: 1Gi
-          status: {}
-      - name: git-auth
-        secret:
-          secretName: '{{ git_auth_secret }}'
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-user-preferences-frontend-sc
+  workspaces:
+  - name: workspace
+    volumeClaimTemplate:
+      metadata:
+        creationTimestamp: null
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+      status: {}
+  - name: git-auth
+    secret:
+      secretName: '{{ git_auth_secret }}'
 status: {}
