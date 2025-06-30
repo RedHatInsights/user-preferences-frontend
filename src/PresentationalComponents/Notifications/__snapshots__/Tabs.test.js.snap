@@ -15,7 +15,7 @@ exports[`Tabs tests should render correctly 1`] = `
         class="pf-v5-c-menu__search"
       >
         <div
-          class="pf-v5-c-menu__search-input pf-u-mx-sm"
+          class="pf-v5-c-menu__search-input pf-v5-u-mx-sm"
         >
           <div
             class="pf-v5-c-text-input-group"
@@ -66,7 +66,7 @@ exports[`Tabs tests should render correctly 1`] = `
         id="notifications-menu-content"
       >
         <section
-          class="pf-v5-c-menu__group pf-u-px-sm"
+          class="pf-v5-c-menu__group pf-v5-u-px-sm"
         >
           <h1
             class="pf-v5-c-menu__group-title"
@@ -128,7 +128,7 @@ exports[`Tabs tests should render correctly 1`] = `
     class="pref-notifications--inputs"
   >
     <h3
-      class="pf-v5-c-title pf-m-xl pf-u-pb-xs"
+      class="pf-v5-c-title pf-m-xl pf-v5-u-pb-xs"
       data-ouia-component-id="OUIA-Generated-Title-1"
       data-ouia-component-type="PF5/Title"
       data-ouia-safe="true"
@@ -136,7 +136,7 @@ exports[`Tabs tests should render correctly 1`] = `
       Advisor | RHEL
     </h3>
     <p
-      class="pf-u-mb-md"
+      class="pf-v5-u-mb-md"
       data-ouia-component-id="OUIA-Generated-Text-1"
       data-ouia-component-type="PF5/Text"
       data-ouia-safe="true"
@@ -166,7 +166,7 @@ exports[`Tabs tests should render loading correctly 1`] = `
         class="pf-v5-c-menu__search"
       >
         <div
-          class="pf-v5-c-menu__search-input pf-u-mx-sm"
+          class="pf-v5-c-menu__search-input pf-v5-u-mx-sm"
         >
           <div
             class="pf-v5-c-text-input-group"
@@ -217,7 +217,7 @@ exports[`Tabs tests should render loading correctly 1`] = `
         id="notifications-menu-content"
       >
         <div
-          class="pf-v5-c-empty-state pf-m-sm pf-u-mt-lg"
+          class="pf-v5-c-empty-state pf-m-sm pf-v5-u-mt-lg"
         >
           <div
             class="pf-v5-c-empty-state__content"
@@ -280,7 +280,7 @@ exports[`Tabs tests should render loading correctly 1`] = `
     class="pref-notifications--inputs"
   >
     <h3
-      class="pf-v5-c-title pf-m-xl pf-u-pb-xs"
+      class="pf-v5-c-title pf-m-xl pf-v5-u-pb-xs"
       data-ouia-component-id="OUIA-Generated-Title-2"
       data-ouia-component-type="PF5/Title"
       data-ouia-safe="true"
@@ -288,7 +288,7 @@ exports[`Tabs tests should render loading correctly 1`] = `
       undefined | undefined
     </h3>
     <p
-      class="pf-u-mb-md"
+      class="pf-v5-u-mb-md"
       data-ouia-component-id="OUIA-Generated-Text-2"
       data-ouia-component-type="PF5/Text"
       data-ouia-safe="true"

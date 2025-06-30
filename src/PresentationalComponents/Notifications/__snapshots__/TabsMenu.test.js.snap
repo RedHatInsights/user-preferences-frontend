@@ -12,7 +12,7 @@ exports[`TabsMenu tests should render empty state correctly 1`] = `
       class="pf-v5-c-menu__search"
     >
       <div
-        class="pf-v5-c-menu__search-input pf-u-mx-sm"
+        class="pf-v5-c-menu__search-input pf-v5-u-mx-sm"
       >
         <div
           class="pf-v5-c-text-input-group"
@@ -63,7 +63,7 @@ exports[`TabsMenu tests should render empty state correctly 1`] = `
       id="notifications-menu-content"
     >
       <div
-        class="pf-v5-c-empty-state pf-m-sm pf-u-mt-lg"
+        class="pf-v5-c-empty-state pf-m-sm pf-v5-u-mt-lg"
       >
         <div
           class="pf-v5-c-empty-state__content"
@@ -136,7 +136,7 @@ exports[`TabsMenu tests should render nav correctly 1`] = `
       class="pf-v5-c-menu__search"
     >
       <div
-        class="pf-v5-c-menu__search-input pf-u-mx-sm"
+        class="pf-v5-c-menu__search-input pf-v5-u-mx-sm"
       >
         <div
           class="pf-v5-c-text-input-group"
@@ -187,7 +187,7 @@ exports[`TabsMenu tests should render nav correctly 1`] = `
       id="notifications-menu-content"
     >
       <section
-        class="pf-v5-c-menu__group pf-u-px-sm"
+        class="pf-v5-c-menu__group pf-v5-u-px-sm"
       >
         <h1
           class="pf-v5-c-menu__group-title"
