@@ -3,8 +3,8 @@ import ReducerRegistry, {
   applyReducerHash,
 } from '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry';
 import promiseMiddleware from 'redux-promise-middleware';
-import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications/notificationsMiddleware';
-import { notificationsReducer as notifications } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import notificationsMiddleware from '@redhat-cloud-services/frontend-components-notifications';
+import { notificationsReducer as notifications } from '@redhat-cloud-services/frontend-components-notifications';
 import reduxLogger from 'redux-logger';
 import emailReducer, {
   emailInitialState,

@@ -5,7 +5,7 @@ exports[`DataListLayout checkbox tests should render correctly 1`] = `
   <ul
     __versions="[object Object]"
     aria-label="test label"
-    class="pf-v5-c-data-list pf-m-grid-md"
+    class="pf-v6-c-data-list pf-m-grid-md"
     dirtyfields="[object Object]"
     dirtyfieldssincelastsubmit="[object Object]"
     errors="[object Object]"
@@ -20,23 +20,22 @@ exports[`DataListLayout checkbox tests should render correctly 1`] = `
     visited="[object Object]"
   >
     <li
-      aria-labelledby="simple-item1"
-      class="pf-v5-c-data-list__item"
+      class="pf-v6-c-data-list__item"
       id=""
     >
       <div
-        class="pf-v5-c-data-list__item-row"
+        class="pf-v6-c-data-list__item-row"
       >
         <div
-          class="pf-v5-c-data-list__item-content"
+          class="pf-v6-c-data-list__item-content"
         >
           <div
-            class="pf-v5-c-data-list__cell pf-m-no-fill pref-c-title pref-u-bold"
+            class="pf-v6-c-data-list__cell pf-m-no-fill pref-c-title pref-u-bold"
           >
             test
           </div>
           <div
-            class="pf-v5-c-data-list__cell"
+            class="pf-v6-c-data-list__cell"
           />
         </div>
       </div>
