@@ -8,35 +8,35 @@
     }
 
     .pref-c-checkbox-label {
-        font-weight: var(--pf-v5-global--FontWeight--bold);
+        font-weight: var(--pf-t--global--font--weight--heading--bold);
     }
 
     .pref-c-checkbox-label-error {
-        color: var(--pf-v5-global--danger-color--200);
+        color: var(--pf-v6-global--danger-color--200);
     }
 
     .pref-c-checkbox-description {
-        font-size: var(--pf-v5-global--FontSize--xs);
-        color: var(--pf-v5-global--Color--dark-200);
+        font-size: var(--pf-t--global--font--size--xs);
+        color: var(--pf-v6-global--Color--dark-200);
     }
 
     .pref-c-checkbox-warning {
         svg {
-            color: var(--pf-v5-global--warning-color--100);
+            color: var(--pf-v6-global--warning-color--100);
         }
 
-        font-size: var(--pf-v5-global--FontSize--md);
-        color: var(--pf-v5-global--warning-color--200);
-        font-weight: var(--pf-v5-global--FontWeight--bold);
+        font-size: var(--pf-t--global--font--size--md);
+        color: var(--pf-v6-global--warning-color--200);
+        font-weight: var(--pf-t--global--font--weight--heading--bold);
     }
 
     .pref-c-checkbox-info {
         svg {
-            color: var(--pf-v5-global--info-color--100);
+            color: var(--pf-v6-global--info-color--100);
         }
 
-        font-size: var(--pf-v5-global--FontSize--md);
-        color: var(--pf-v5-global--info-color--200);
-        font-weight: var(--pf-v5-global--FontWeight--bold);
+        font-size: var(--pf-t--global--font--size--md);
+        color: var(--pf-v6-global--info-color--200);
+        font-weight: var(--pf-t--global--font--weight--heading--bold);
     }
 }

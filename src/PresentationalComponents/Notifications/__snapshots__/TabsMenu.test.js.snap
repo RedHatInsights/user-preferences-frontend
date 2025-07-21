@@ -3,35 +3,34 @@
 exports[`TabsMenu tests should render empty state correctly 1`] = `
 <div>
   <div
-    class="pf-v5-c-menu pf-m-plain pf-m-scrollable"
+    class="pf-v6-c-menu pf-m-plain pf-m-scrollable"
     data-ouia-component-id="OUIA-Generated-Menu-1"
-    data-ouia-component-type="PF5/Menu"
+    data-ouia-component-type="PF6/Menu"
     data-ouia-safe="true"
   >
     <div
-      class="pf-v5-c-menu__search"
+      class="pf-v6-c-menu__search"
     >
       <div
-        class="pf-v5-c-menu__search-input pf-v5-u-mx-sm"
+        class="pf-v6-c-menu__search-input pf-v6-u-mx-sm"
       >
         <div
-          class="pf-v5-c-text-input-group"
-          customicon="[object Object]"
+          class="pf-v6-c-text-input-group"
           data-testid="search-input"
           type="search"
         >
           <div
-            class="pf-v5-c-text-input-group__main pf-m-icon"
+            class="pf-v6-c-text-input-group__main pf-m-icon"
           >
             <span
-              class="pf-v5-c-text-input-group__text"
+              class="pf-v6-c-text-input-group__text"
             >
               <span
-                class="pf-v5-c-text-input-group__icon"
+                class="pf-v6-c-text-input-group__icon"
               >
                 <svg
                   aria-hidden="true"
-                  class="pf-v5-svg"
+                  class="pf-v6-svg"
                   fill="currentColor"
                   height="1em"
                   role="img"
@@ -45,7 +44,7 @@ exports[`TabsMenu tests should render empty state correctly 1`] = `
               </span>
               <input
                 aria-label="Filter menu items"
-                class="pf-v5-c-text-input-group__text-input"
+                class="pf-v6-c-text-input-group__text-input"
                 placeholder="Search services"
                 type="text"
                 value=""
@@ -56,27 +55,27 @@ exports[`TabsMenu tests should render empty state correctly 1`] = `
       </div>
     </div>
     <hr
-      class="pf-v5-c-divider"
+      class="pf-v6-c-divider"
     />
     <div
-      class="pf-v5-c-menu__content"
+      class="pf-v6-c-menu__content"
       id="notifications-menu-content"
     >
       <div
-        class="pf-v5-c-empty-state pf-m-sm pf-v5-u-mt-lg"
+        class="pf-v6-c-empty-state pf-m-sm pf-v6-u-mt-lg"
       >
         <div
-          class="pf-v5-c-empty-state__content"
+          class="pf-v6-c-empty-state__content"
         >
           <div
-            class="pf-v5-c-empty-state__header"
+            class="pf-v6-c-empty-state__header"
           >
             <div
-              class="pf-v5-c-empty-state__icon"
+              class="pf-v6-c-empty-state__icon"
             >
               <svg
                 aria-hidden="true"
-                class="pf-v5-svg"
+                class="pf-v6-svg"
                 fill="currentColor"
                 height="1em"
                 role="img"
@@ -89,32 +88,35 @@ exports[`TabsMenu tests should render empty state correctly 1`] = `
               </svg>
             </div>
             <div
-              class="pf-v5-c-empty-state__title"
+              class="pf-v6-c-empty-state__title"
             >
               <h4
-                class="pf-v5-c-empty-state__title-text"
+                class="pf-v6-c-empty-state__title-text"
               >
                 No matching services found
               </h4>
             </div>
           </div>
           <div
-            class="pf-v5-c-empty-state__body"
+            class="pf-v6-c-empty-state__body"
           >
             Adjust your filters and try again.
           </div>
           <div
-            class="pf-v5-c-empty-state__footer"
+            class="pf-v6-c-empty-state__footer"
           >
             <button
-              aria-disabled="false"
-              class="pf-v5-c-button pf-m-link"
+              class="pf-v6-c-button pf-m-link"
               data-ouia-component-id="OUIA-Generated-Button-link-1"
-              data-ouia-component-type="PF5/Button"
+              data-ouia-component-type="PF6/Button"
               data-ouia-safe="true"
               type="button"
             >
-              Clear filters
+              <span
+                class="pf-v6-c-button__text"
+              >
+                Clear filters
+              </span>
             </button>
           </div>
         </div>
@@ -127,35 +129,34 @@ exports[`TabsMenu tests should render empty state correctly 1`] = `
 exports[`TabsMenu tests should render nav correctly 1`] = `
 <div>
   <div
-    class="pf-v5-c-menu pf-m-plain pf-m-scrollable"
+    class="pf-v6-c-menu pf-m-plain pf-m-scrollable"
     data-ouia-component-id="OUIA-Generated-Menu-3"
-    data-ouia-component-type="PF5/Menu"
+    data-ouia-component-type="PF6/Menu"
     data-ouia-safe="true"
   >
     <div
-      class="pf-v5-c-menu__search"
+      class="pf-v6-c-menu__search"
     >
       <div
-        class="pf-v5-c-menu__search-input pf-v5-u-mx-sm"
+        class="pf-v6-c-menu__search-input pf-v6-u-mx-sm"
       >
         <div
-          class="pf-v5-c-text-input-group"
-          customicon="[object Object]"
+          class="pf-v6-c-text-input-group"
           data-testid="search-input"
           type="search"
         >
           <div
-            class="pf-v5-c-text-input-group__main pf-m-icon"
+            class="pf-v6-c-text-input-group__main pf-m-icon"
           >
             <span
-              class="pf-v5-c-text-input-group__text"
+              class="pf-v6-c-text-input-group__text"
             >
               <span
-                class="pf-v5-c-text-input-group__icon"
+                class="pf-v6-c-text-input-group__icon"
               >
                 <svg
                   aria-hidden="true"
-                  class="pf-v5-svg"
+                  class="pf-v6-svg"
                   fill="currentColor"
                   height="1em"
                   role="img"
@@ -169,7 +170,7 @@ exports[`TabsMenu tests should render nav correctly 1`] = `
               </span>
               <input
                 aria-label="Filter menu items"
-                class="pf-v5-c-text-input-group__text-input"
+                class="pf-v6-c-text-input-group__text-input"
                 placeholder="Search services"
                 type="text"
                 value=""
@@ -180,39 +181,39 @@ exports[`TabsMenu tests should render nav correctly 1`] = `
       </div>
     </div>
     <hr
-      class="pf-v5-c-divider"
+      class="pf-v6-c-divider"
     />
     <div
-      class="pf-v5-c-menu__content"
+      class="pf-v6-c-menu__content"
       id="notifications-menu-content"
     >
       <section
-        class="pf-v5-c-menu__group pf-v5-u-px-sm"
+        class="pf-v6-c-menu__group pf-v6-u-px-sm"
       >
         <h1
-          class="pf-v5-c-menu__group-title"
+          class="pf-v6-c-menu__group-title"
         >
           Red Hat Enterprise Linux
         </h1>
         <ul
-          class="pf-v5-c-menu__list"
+          class="pf-v6-c-menu__list"
           role="menu"
         >
           <li
-            class="pf-v5-c-menu__list-item"
+            class="pf-v6-c-menu__list-item"
             role="none"
           >
             <button
-              class="pf-v5-c-menu__item"
+              class="pf-v6-c-menu__item"
               role="menuitem"
               tabindex="0"
               type="button"
             >
               <span
-                class="pf-v5-c-menu__item-main"
+                class="pf-v6-c-menu__item-main"
               >
                 <span
-                  class="pf-v5-c-menu__item-text"
+                  class="pf-v6-c-menu__item-text"
                 >
                   Advisor
                 </span>
