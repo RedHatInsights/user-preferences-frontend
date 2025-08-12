@@ -1,15 +1,15 @@
 .pref-c-input-category {
-    .pf-v5-c-form__label-text {
-        font-size: var(--pf-v5-global--FontSize--lg);
-        font-weight: var(--pf-v5-global--FontWeight--normal);
+    .pf-v6-c-form__label-text {
+        font-size: var(--pf-t--global--font--size--lg);
+        font-weight: var(--pf-t--global--font--weight--body--default);
     }
 }
 
 .pref-c-input-group {
-    padding-top: var(--pf-v5-global--spacer--sm);
-    padding-bottom: var(--pf-v5-global--spacer--sm);
-    .pf-v5-c-form__label-text {
-        font-size: var(--pf-v5-global--FontSize--md);
-        font-weight: var(--pf-v5-global--FontWeight--bold);
+    padding-top: var(--pf-t--global--spacer--sm);
+    padding-bottom: var(--pf-t--global--spacer--sm);
+    .pf-v6-c-form__label-text {
+        font-size: var(--pf-t--global--font--size--md);
+        font-weight: var(--pf-t--global--font--weight--heading--bold);
     }
 }
