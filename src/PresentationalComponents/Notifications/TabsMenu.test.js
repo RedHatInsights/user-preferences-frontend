@@ -104,7 +104,7 @@ describe('TabsMenu tests', () => {
     expect(container).toMatchSnapshot();
   });
   it('should set search on input typing', () => {
-    const { container } = render(
+    render(
       <Form onSubmit={() => undefined}>
         {() => (
           <RendererContext.Provider
