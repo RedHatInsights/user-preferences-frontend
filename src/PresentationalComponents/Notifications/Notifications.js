@@ -5,7 +5,7 @@ import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
 import { Bullseye, Content, Spinner } from '@patternfly/react-core';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications';
+import { useNotifications } from '@redhat-cloud-services/frontend-components-notifications';
 import { ScalprumComponent } from '@scalprum/react-core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useStore } from 'react-redux';
@@ -39,7 +39,7 @@ import './notifications.scss';
 const Notifications = () => {
   const { auth } = useChrome();
   const dispatch = useDispatch();
-  const addNotification = useAddNotification();
+  const { addNotification } = useNotifications();
   const titleRef = useRef(null);
   const [emailConfig, setEmailConfig] = useState({});
   const store = useStore();
