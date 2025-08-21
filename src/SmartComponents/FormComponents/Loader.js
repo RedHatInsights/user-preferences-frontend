@@ -3,7 +3,7 @@ import { Skeleton } from '@redhat-cloud-services/frontend-components/Skeleton';
 import PropTypes from 'prop-types';
 
 const Loader = ({
-  name = '',
+  name = '', // eslint-disable-line no-unused-vars
   size = 'md',
   FieldProvider,
   validate,
