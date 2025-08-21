@@ -190,7 +190,7 @@ exports[`TabsMenu tests should render nav correctly 1`] = `
       id="notifications-menu-content"
     >
       <section
-        class="pf-v6-c-menu__group pf-v6-u-px-sm"
+        class="pf-v6-c-menu__group pf-v6-u-px-sm pf-v6-u-font-size-xs"
       >
         <h1
           class="pf-v6-c-menu__group-title"
@@ -202,11 +202,11 @@ exports[`TabsMenu tests should render nav correctly 1`] = `
           role="menu"
         >
           <li
-            class="pf-v6-c-menu__list-item"
+            class="pf-v6-c-menu__list-item pf-v6-u-font-size-md"
             role="none"
           >
             <button
-              class="pf-v6-c-menu__item"
+              class="pf-v6-c-menu__item pf-v6-u-font-size-md"
               role="menuitem"
               tabindex="0"
               type="button"

@@ -5,7 +5,7 @@ import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
 import { Bullseye, Content, Spinner } from '@patternfly/react-core';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications';
 import { ScalprumComponent } from '@scalprum/react-core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useStore } from 'react-redux';
@@ -39,6 +39,7 @@ import './notifications.scss';
 const Notifications = () => {
   const { auth } = useChrome();
   const dispatch = useDispatch();
+  const addNotification = useAddNotification();
   const titleRef = useRef(null);
   const [emailConfig, setEmailConfig] = useState({});
   const store = useStore();
@@ -102,22 +103,18 @@ const Notifications = () => {
       .then(() => {
         submitEmail && setEmailConfig(calculateEmailConfig(config, dispatch));
         dispatch(getNotificationsSchema());
-        dispatch(
-          addNotification({
-            dismissable: true,
-            variant: 'success',
-            title: 'Notification preferences successfully saved',
-          })
-        );
+        addNotification({
+          dismissable: true,
+          variant: 'success',
+          title: 'Notification preferences successfully saved',
+        });
       })
       .catch(() => {
-        dispatch(
-          addNotification({
-            dismissable: true,
-            variant: 'danger',
-            title: 'Notification preferences unsuccessfully saved',
-          })
-        );
+        addNotification({
+          dismissable: true,
+          variant: 'danger',
+          title: 'Notification preferences unsuccessfully saved',
+        });
       });
   };
 
@@ -130,7 +127,10 @@ const Notifications = () => {
               className="pref-notifications--title sticky"
               title="My Notifications"
             />
-            <Content component="p" className="pref-notifications--subtitle pf-v6-u-font-size-md">
+            <Content
+              component="p"
+              className="pref-notifications--subtitle pf-v6-u-font-size-md"
+            >
               Opt in or out of receiving notifications, and choose how you want
               to be notified. Your Organization Administrator has configured
               which notifications you can or can’t receive in their{' '}
