@@ -5,7 +5,7 @@ import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
 import { Bullseye, Content, Spinner } from '@patternfly/react-core';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
-import { useNotifications } from '@redhat-cloud-services/frontend-components-notifications';
+import { useNotifications } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { ScalprumComponent } from '@scalprum/react-core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useStore } from 'react-redux';
