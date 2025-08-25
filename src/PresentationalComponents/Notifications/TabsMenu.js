@@ -6,8 +6,6 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   EmptyStateVariant,
   Menu,
   MenuContent,
@@ -24,12 +22,13 @@ import PropTypes from 'prop-types';
 import { getNavFromURL } from './urlSync';
 
 const renderEmptyState = (setSearch) => (
-  <EmptyState variant={EmptyStateVariant.sm} className="pf-v5-u-mt-lg">
-    <EmptyStateHeader
-      titleText="No matching services found"
-      icon={<EmptyStateIcon icon={SearchIcon} />}
-      headingLevel="h4"
-    />
+  <EmptyState
+    headingLevel="h4"
+    icon={SearchIcon}
+    titleText="No matching services found"
+    variant={EmptyStateVariant.sm}
+    className="pf-v6-u-mt-lg"
+  >
     <EmptyStateBody>Adjust your filters and try again.</EmptyStateBody>
     <EmptyStateFooter>
       <Button variant={ButtonVariant.link} onClick={() => setSearch('')}>
@@ -51,15 +50,15 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
   return (
     <Menu isPlain isScrollable>
       <MenuSearch>
-        <MenuSearchInput ref={searchRef} className="pf-v5-u-mx-sm">
+        <MenuSearchInput ref={searchRef} className="pf-v6-u-mx-sm">
           <SearchInput
             data-testid="search-input"
             aria-label="Filter menu items"
             placeholder="Search services"
             customIcon={<SearchIcon />}
             type="search"
-            onChange={(_e, value) => setSearch(value)}
-            onClear={(_e) => setSearch('')}
+            onChange={(_, value) => setSearch(value)}
+            onClear={() => setSearch('')}
             value={search}
           />
         </MenuSearchInput>
@@ -71,7 +70,7 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
               fields.length > 0 ? (
                 <MenuGroup
                   label={bundleLabel}
-                  className="pf-v5-u-px-sm"
+                  className="pf-v6-u-px-sm pf-v6-u-font-size-xs"
                   key={`menu-group-${bundleName}`}
                 >
                   <MenuList>
@@ -83,6 +82,7 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
                           isFocused={
                             bundle === bundleName && app === sectionName
                           }
+                          className="pf-v6-u-font-size-md"
                         >
                           {sectionLabel}
                         </MenuItem>

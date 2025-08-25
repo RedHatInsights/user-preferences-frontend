@@ -7,33 +7,39 @@ exports[`FormButtons tests should render correctly 1`] = `
     id="user-pref__form-buttons"
   >
     <div
-      class="pf-v5-c-form__group pf-m-action pref-shared--actions pf-v5-u-px-lg pf-v5-u-py-md"
+      class="pf-v6-c-form__group pf-m-action pref-shared--actions pf-v6-u-px-lg pf-v6-u-py-md"
     >
       <div
-        class="pf-v5-c-form__group-control"
+        class="pf-v6-c-form__group-control"
       >
         <div
-          class="pf-v5-c-form__actions"
+          class="pf-v6-c-form__actions"
         >
           <button
-            aria-disabled="false"
-            class="pf-v5-c-button pf-m-primary"
+            class="pf-v6-c-button pf-m-primary"
             data-ouia-component-id="user-pref__submit-button"
-            data-ouia-component-type="PF5/Button"
+            data-ouia-component-type="PF6/Button"
             data-ouia-safe="true"
             type="submit"
           >
-            Save
+            <span
+              class="pf-v6-c-button__text"
+            >
+              Save
+            </span>
           </button>
           <button
-            aria-disabled="false"
-            class="pf-v5-c-button pf-m-link"
+            class="pf-v6-c-button pf-m-link"
             data-ouia-component-id="user-pref__reset-button"
-            data-ouia-component-type="PF5/Button"
+            data-ouia-component-type="PF6/Button"
             data-ouia-safe="true"
             type="button"
           >
-            Cancel
+            <span
+              class="pf-v6-c-button__text"
+            >
+              Cancel
+            </span>
           </button>
         </div>
       </div>
