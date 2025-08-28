@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormApi } from '@data-driven-forms/react-form-renderer';
-import { Text, Title } from '@patternfly/react-core';
+import { Content, Title } from '@patternfly/react-core';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormState } from 'react-final-form';
 import { getNavFromURL, setNavToURL } from './urlSync';
@@ -9,12 +9,12 @@ import TabsMenu from './TabsMenu';
 
 const renderPageHeading = (bundleTitle, sectionTitle) => (
   <React.Fragment>
-    <Title headingLevel="h3" size="xl" className="pf-u-pb-xs">
+    <Title headingLevel="h3" size="xl" className="pf-v6-u-pb-xs">
       {`${sectionTitle} | ${bundleTitle}`}
     </Title>
-    <Text className="pf-u-mb-md">
+    <Content component="p" className="pf-v6-u-mb-md">
       Configure your {sectionTitle} notifications.
-    </Text>
+    </Content>
   </React.Fragment>
 );
 

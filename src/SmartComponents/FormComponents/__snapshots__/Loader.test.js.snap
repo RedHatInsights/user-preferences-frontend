@@ -4,10 +4,10 @@ exports[`Loader component tests should render correctly 1`] = `
 <div>
   <div>
     <div
-      class="pf-v5-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
+      class="pf-v6-c-skeleton ins-c-skeleton ins-c-skeleton__sm"
     >
       <span
-        class="pf-v5-screen-reader"
+        class="pf-v6-screen-reader"
       />
     </div>
   </div>

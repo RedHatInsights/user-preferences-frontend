@@ -11,7 +11,7 @@ import {
 
 const DescriptiveCheckbox = (props) => {
   const {
-    label,
+    label = '',
     title,
     description,
     checkedWarning,
@@ -20,6 +20,7 @@ const DescriptiveCheckbox = (props) => {
     disabled,
     input: { onChange, checked, ...input },
   } = useFieldApi({
+    name: '',
     ...props,
     type: 'checkbox',
   });
@@ -71,11 +72,6 @@ DescriptiveCheckbox.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   afterChange: PropTypes.func,
-};
-
-DescriptiveCheckbox.defaultProps = {
-  name: '',
-  label: '',
 };
 
 export default DescriptiveCheckbox;

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
+import { NotificationsPortal, NotificationsProvider } from '@redhat-cloud-services/frontend-components-notifications';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import './App.scss';
 import Routing from './Routing';
@@ -19,10 +19,12 @@ const App = () => {
   }, []);
 
   return (
-    <Fragment>
-      <NotificationsPortal />
-      <Routing />
-    </Fragment>
+    <NotificationsProvider>
+      <Fragment>
+        <NotificationsPortal />
+        <Routing />
+      </Fragment>
+    </NotificationsProvider>
   );
 };
 
