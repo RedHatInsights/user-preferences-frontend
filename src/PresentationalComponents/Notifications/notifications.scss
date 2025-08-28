@@ -1,7 +1,7 @@
 .pref-notifications {
     &--container {
       height: 100%;
-      background-color: var(--pf-v5-global--BackgroundColor--100);
+      background-color: var(--pf-t--global--color--background--secondary);
     }
     &--wrapper {
       display: block;
@@ -23,13 +23,13 @@
     &--title {
       display: flex;      
       align-items: center;
-      padding: var(--pf-v5-global--spacer--lg) 0 var(--pf-v5-global--spacer--sm) var(--pf-v5-global--spacer--lg);
-      .pf-v5-c-label { margin-left: var(--pf-v5-global--spacer--md); }
+      padding: var(--pf-t--global--spacer--lg) 0 var(--pf-t--global--spacer--sm) var(--pf-t--global--spacer--lg);
+      .pf-v6-c-label { margin-left: var(--pf-t--global--spacer--md); }
     }
     &--subtitle {
       position: relative;
-      border-bottom: 1px solid var(--pf-v5-global--BorderColor--100);
-      padding: 0  var(--pf-v5-global--spacer--lg) var(--pf-v5-global--spacer--lg) var(--pf-v5-global--spacer--lg);
+      border-bottom: 1px solid var(--pf-t--global--color--border--default);
+      padding: 0  var(--pf-t--global--spacer--lg) var(--pf-t--global--spacer--lg) var(--pf-t--global--spacer--lg);
     }
     &--nav {
       grid-area: nav;

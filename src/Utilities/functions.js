@@ -2,7 +2,6 @@ import React from 'react';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getEmailSchema } from '../redux/actions/email-actions';
 import { loaderField } from './constants';
-import { addNotification } from '@redhat-cloud-services/frontend-components-notifications/redux';
 
 export const getSchema = (app) =>
   !app || !app.loaded ? loaderField : app.schema;
@@ -134,49 +133,37 @@ export const distributeSuccessError = (promisses = []) => {
 };
 
 export const dispatchMessages = (
-  dispatch = () => undefined,
+  addNotification = () => undefined,
   success = [],
   error = []
 ) => {
   if (error.length !== 0 && success.length !== 0) {
-    dispatch(
-      addNotification({
-        dismissable: false,
-        variant: 'success',
-        title: `Email preferences for ${concatApps(
-          success
-        )} successfully saved`,
-      })
-    );
+    addNotification({
+      dismissable: false,
+      variant: 'success',
+      title: `Email preferences for ${concatApps(success)} successfully saved`,
+    });
 
-    dispatch(
-      addNotification({
-        dismissable: false,
-        variant: 'danger',
-        title: `Email preferences for ${concatApps(
-          error
-        )} unsuccessfully saved`,
-      })
-    );
+    addNotification({
+      dismissable: false,
+      variant: 'danger',
+      title: `Email preferences for ${concatApps(error)} unsuccessfully saved`,
+    });
   }
 
   if (error.length === 0 && success.length !== 0) {
-    dispatch(
-      addNotification({
-        dismissable: false,
-        variant: 'success',
-        title: 'Preferences successfully saved',
-      })
-    );
+    addNotification({
+      dismissable: false,
+      variant: 'success',
+      title: 'Preferences successfully saved',
+    });
   }
 
   if (error.length !== 0 && success.length === 0) {
-    dispatch(
-      addNotification({
-        dismissable: false,
-        variant: 'danger',
-        title: 'Preferences unsuccessfully saved',
-      })
-    );
+    addNotification({
+      dismissable: false,
+      variant: 'danger',
+      title: 'Preferences unsuccessfully saved',
+    });
   }
 };

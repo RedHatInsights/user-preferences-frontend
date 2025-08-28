@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useFormApi } from '@data-driven-forms/react-form-renderer';
-import { FormGroup, Text } from '@patternfly/react-core';
+import { Content, FormGroup } from '@patternfly/react-core';
 import './inputGroup.scss';
 
 const InputGroup = ({ fields, label, level, description }) => {
@@ -12,7 +12,11 @@ const InputGroup = ({ fields, label, level, description }) => {
       className={`pref-c-input-${level === 1 ? 'category' : 'group'}`}
       label={label}
     >
-      {description ? <Text className="pf-u-pb-md">{description}</Text> : null}
+      {description ? (
+        <Content component="p" className="pf-v6-u-pb-md">
+          {description}
+        </Content>
+      ) : null}
       {formOptions.renderForm(fields, formOptions)}
     </FormGroup>
   );

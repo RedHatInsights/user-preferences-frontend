@@ -268,67 +268,59 @@ describe('distributeSuccessError', () => {
 });
 
 describe('dispatchMessages', () => {
-  it('should not fail with no messages', () => {
-    const dispatch = jest.fn();
+  it('should not fail with no parameters', () => {
+    const addNotification = jest.fn();
     dispatchMessages();
-    expect(dispatch).not.toHaveBeenCalled();
+    expect(addNotification).not.toHaveBeenCalled();
   });
 
   it('should not fail with no messages', () => {
-    const dispatch = jest.fn();
-    dispatchMessages(dispatch);
-    expect(dispatch).not.toHaveBeenCalled();
+    const addNotification = jest.fn();
+    dispatchMessages(addNotification);
+    expect(addNotification).not.toHaveBeenCalled();
   });
 
   it('should dispatch one success', () => {
-    const dispatch = jest.fn();
-    dispatchMessages(dispatch, ['some', 'message', 'multiple']);
-    expect(dispatch).toHaveBeenCalled();
-    expect(dispatch.mock.calls[0][0]).toMatchObject({
-      payload: {
-        dismissable: false,
-        title: 'Preferences successfully saved',
-        variant: 'success',
-      },
+    const addNotification = jest.fn();
+    dispatchMessages(addNotification, ['some', 'message', 'multiple']);
+    expect(addNotification).toHaveBeenCalled();
+    expect(addNotification.mock.calls[0][0]).toMatchObject({
+      dismissable: false,
+      title: 'Preferences successfully saved',
+      variant: 'success',
     });
   });
 
   it('should dispatch one danger', () => {
-    const dispatch = jest.fn();
-    dispatchMessages(dispatch, [], ['some', 'message', 'multiple']);
-    expect(dispatch).toHaveBeenCalled();
-    expect(dispatch.mock.calls[0][0]).toMatchObject({
-      payload: {
-        dismissable: false,
-        title: 'Preferences unsuccessfully saved',
-        variant: 'danger',
-      },
+    const addNotification = jest.fn();
+    dispatchMessages(addNotification, [], ['some', 'message', 'multiple']);
+    expect(addNotification).toHaveBeenCalled();
+    expect(addNotification.mock.calls[0][0]).toMatchObject({
+      dismissable: false,
+      title: 'Preferences unsuccessfully saved',
+      variant: 'danger',
     });
   });
 
   it('should dispatch one danger and one error', () => {
-    const dispatch = jest.fn();
+    const addNotification = jest.fn();
     dispatchMessages(
-      dispatch,
+      addNotification,
       ['some', 'message', 'multiple'],
       ['some', 'message', 'multiple']
     );
-    expect(dispatch).toHaveBeenCalled();
-    expect(dispatch.mock.calls[0][0]).toMatchObject({
-      payload: {
-        dismissable: false,
-        title:
-          'Email preferences for some, message and multiple successfully saved',
-        variant: 'success',
-      },
+    expect(addNotification).toHaveBeenCalled();
+    expect(addNotification.mock.calls[0][0]).toMatchObject({
+      dismissable: false,
+      title:
+        'Email preferences for some, message and multiple successfully saved',
+      variant: 'success',
     });
-    expect(dispatch.mock.calls[1][0]).toMatchObject({
-      payload: {
-        dismissable: false,
-        title:
-          'Email preferences for some, message and multiple unsuccessfully saved',
-        variant: 'danger',
-      },
+    expect(addNotification.mock.calls[1][0]).toMatchObject({
+      dismissable: false,
+      title:
+        'Email preferences for some, message and multiple unsuccessfully saved',
+      variant: 'danger',
     });
   });
 });

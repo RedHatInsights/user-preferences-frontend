@@ -20,7 +20,7 @@ const FormButtons = ({
       id="user-pref__form-buttons"
       className="pref-shared--buttons pf-m-9-col-on-md"
     >
-      <ActionGroup className="pref-shared--actions pf-u-px-lg pf-u-py-md">
+      <ActionGroup className="pref-shared--actions pf-v6-u-px-lg pf-v6-u-py-md">
         <Button
           type="submit"
           ouiaId="user-pref__submit-button"

@@ -13,8 +13,6 @@ import {
   act,
   fireEvent,
   getAllByRole,
-  getByLabelText,
-  getByRole,
   getByText,
   queryByText,
   render,

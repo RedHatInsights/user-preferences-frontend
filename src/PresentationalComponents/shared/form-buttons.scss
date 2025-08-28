@@ -4,8 +4,8 @@
     width: 100%;
   }
   &--actions {
-    border-top: 1px solid var(--pf-v5-global--BorderColor--100);
-    background-color: var(--pf-v5-global--BackgroundColor--100);
+    border-top: 1px solid var(--pf-t--global--color--border--default);
+    background-color: var(--pf-t--global--color--background--secondary);
   }
 }
 
