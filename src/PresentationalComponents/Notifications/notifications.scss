@@ -33,13 +33,13 @@
     }
     &--nav {
       grid-area: nav;
-      border-right: 1px solid var(--pf-v5-global--BorderColor--100);
+      border-right: 1px solid var(--pf-t--global--color--border--default, var(--pf-v5-global--BorderColor--100, #d2d2d2));
       overflow: visible;
     }
     &--inputs {
       grid-area: inputs;
-      padding: var(--pf-v5-global--spacer--lg);
-      background-color: var(--pf-v5-global--BackgroundColor--100);
+      padding: var(--pf-t--global--spacer--lg);
+      background-color: var(--pf-t--global--color--background--secondary);
       overflow: visible;
     }
   }
