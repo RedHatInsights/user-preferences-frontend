@@ -5,7 +5,7 @@
     }
     &--wrapper {
       display: block;
-      height: 0;
+      height: 100%;
     }
     &--grid {
       display: grid;
@@ -14,7 +14,8 @@
         "nav inputs" 
         "btn btn";
       grid-template-columns: 1fr 3fr;
-      grid-template-rows: min-content auto 69px;
+      grid-template-rows: min-content 1fr 69px;
+      min-height: 100vh;
     }
     &--head {
       grid-area: head;
@@ -33,14 +34,19 @@
     &--nav {
       grid-area: nav;
       border-right: 1px solid var(--pf-v5-global--BorderColor--100);
+      overflow: visible;
     }
     &--inputs {
       grid-area: inputs;
-      overflow-y: auto;
       padding: var(--pf-v5-global--spacer--lg);
       background-color: var(--pf-v5-global--BackgroundColor--100);
+      overflow: visible;
     }
   }
+
+
+
+
 
 @media only screen and (max-width: 768px) {
   .pref-notifications {
@@ -51,6 +57,7 @@
         "inputs"
         "btn";
       grid-template-rows: min-content auto auto 69px;
+      grid-template-columns: 1fr;
     }
   }
 }
