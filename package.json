@@ -11,7 +11,7 @@
     "@data-driven-forms/mui-component-mapper": "^4.1.1",
     "@data-driven-forms/pf4-component-mapper": "^4.1.1",
     "@data-driven-forms/react-form-renderer": "^4.1.1",
-    "@openshift/dynamic-plugin-sdk": "^4.0.0",
+    "@openshift/dynamic-plugin-sdk": "^5.0.0",
     "@patternfly/react-component-groups": "^6.0.0",
     "@patternfly/react-core": "^6.0.0",
     "@patternfly/react-icons": "^6.0.0",
