@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
-import { Bullseye, Content, Spinner } from '@patternfly/react-core';
+import { Bullseye, Button, Content, Spinner } from '@patternfly/react-core';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { useNotifications } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { ScalprumComponent } from '@scalprum/react-core';
@@ -35,6 +35,7 @@ import FormTabGroup from './TabGroup';
 import { prepareFields } from './utils';
 import FormTemplate from './NotificationTemplate';
 import './notifications.scss';
+import { useLoadModule, useRemoteHook } from '@scalprum/react-core';
 
 const Notifications = () => {
   const { auth } = useChrome();
@@ -65,6 +66,21 @@ const Notifications = () => {
       dispatch(getNotificationsSchema());
     })();
   }, []);
+
+  const { hookResult: vaHookResult, loading: vaLoading } = useRemoteHook({
+    scope: 'virtualAssistant',
+    module: './state/globalState',
+    importName: 'useVirtualAssistant',
+  });
+
+  const [Models] = useLoadModule(
+    {
+      scope: 'virtualAssistant',
+      module: './state/globalState',
+      importName: 'Models',
+    },
+    {}
+  );
 
   const saveValues = (values, formApi) => {
     const notificationValues = {
@@ -133,8 +149,26 @@ const Notifications = () => {
             >
               Opt in or out of receiving notifications, and choose how you want
               to be notified. Your Organization Administrator has configured
-              which notifications you can or can’t receive in their{' '}
-              <a href={`/settings/notifications`}>Settings</a>.
+              which notifications you can or can’t receive on their end.{' '}
+              <Button
+                onClick={() => {
+                  if (!vaLoading && Models) {
+                    const [, setState] = vaHookResult || [];
+                    console.log(Models);
+                    setState({
+                      isOpen: true,
+                      currentModel: Models?.VA,
+                      message:
+                        'Contact my organization administrator to update which notifications I receive',
+                    });
+                  }
+                }}
+                variant="link"
+                isInline
+              >
+                Contact your Organization Administrator
+              </Button>{' '}
+              to have these settings updated..
               <ScalprumComponent
                 module="./ConnectedTimeConfig"
                 scope="notifications"
