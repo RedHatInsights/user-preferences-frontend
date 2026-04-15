@@ -74,7 +74,7 @@ const severityTerms = [
     description: 'Warning',
   },
   {
-    label: 'Minor',
+    label: 'Low',
     icon: SeverityMinorIcon,
     color: 'var(--pf-t--global--icon--color--severity--minor--default)',
     description: 'Information only',

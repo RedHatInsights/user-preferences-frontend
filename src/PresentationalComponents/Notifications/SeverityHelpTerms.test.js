@@ -93,7 +93,7 @@ describe('Severity help terms in Notifications header', () => {
     expect(screen.getByText('Critical')).toBeInTheDocument();
     expect(screen.getByText('Important')).toBeInTheDocument();
     expect(screen.getByText('Moderate')).toBeInTheDocument();
-    expect(screen.getByText('Minor')).toBeInTheDocument();
+    expect(screen.getByText('Low')).toBeInTheDocument();
   });
 
   it('renders the severity description sentence', () => {
@@ -129,8 +129,8 @@ describe('Severity help terms in Notifications header', () => {
     const moderateButton = screen.getByRole('button', { name: /Moderate/i });
     expect(moderateButton).toHaveClass('pref-notifications--severity-term');
 
-    const minorButton = screen.getByRole('button', { name: /Minor/i });
-    expect(minorButton).toHaveClass('pref-notifications--severity-term');
+    const lowButton = screen.getByRole('button', { name: /Low/i });
+    expect(lowButton).toHaveClass('pref-notifications--severity-term');
   });
 
   it('opens a popover when a severity term is clicked', async () => {
@@ -178,14 +178,14 @@ describe('Severity help terms in Notifications header', () => {
     expect(screen.getByText('Warning')).toBeInTheDocument();
   });
 
-  it('shows correct description in Minor popover', async () => {
+  it('shows correct description in Low popover', async () => {
     renderNotifications();
 
-    const minorButton = screen.getByRole('button', { name: /Minor/i });
-    fireEvent.click(minorButton);
+    const lowButton = screen.getByRole('button', { name: /Low/i });
+    fireEvent.click(lowButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Minor severity')).toBeInTheDocument();
+      expect(screen.getByText('Low severity')).toBeInTheDocument();
     });
 
     expect(screen.getByText('Information only')).toBeInTheDocument();
