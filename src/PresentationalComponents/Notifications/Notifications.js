@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import omit from 'lodash/omit';
+import { useFlag } from '@unleash/proxy-client-react';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
@@ -124,6 +125,7 @@ const SeverityHelpTerm = ({
 /* eslint-enable react/prop-types */
 
 const Notifications = () => {
+  const isSeverityEnabled = useFlag('platform.notifications.severity');
   const { auth } = useChrome();
   const dispatch = useDispatch();
   const { addNotification } = useNotifications();
@@ -252,24 +254,30 @@ const Notifications = () => {
                     Contact your Organization Administrator
                   </Button>{' '}
                   to have these settings updated.
-                  <br />
-                  Possible notification severity levels include{' '}
-                  {severityTerms.map((term, index) => (
-                    <React.Fragment key={term.label}>
-                      {index > 0 && index < severityTerms.length - 1 && ', '}
-                      {index === severityTerms.length - 1 && ', and '}
-                      <SeverityHelpTerm {...term} />
-                    </React.Fragment>
-                  ))}
-                  .{' '}
-                  <a
-                    href={SEVERITY_LEARN_MORE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn more
-                  </a>
-                  .
+                  {isSeverityEnabled && (
+                    <>
+                      <br />
+                      Possible notification severity levels include{' '}
+                      {severityTerms.map((term, index) => (
+                        <React.Fragment key={term.label}>
+                          {index > 0 &&
+                            index < severityTerms.length - 1 &&
+                            ', '}
+                          {index === severityTerms.length - 1 && ', and '}
+                          <SeverityHelpTerm {...term} />
+                        </React.Fragment>
+                      ))}
+                      .{' '}
+                      <a
+                        href={SEVERITY_LEARN_MORE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Learn more
+                      </a>
+                      .
+                    </>
+                  )}
                 </>
               }
             >

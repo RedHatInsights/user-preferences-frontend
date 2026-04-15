@@ -7,6 +7,12 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 // in a minimal setup, or by extracting and testing the rendered DOM directly.
 // For better testability, we'll test the rendered output expectations.
 
+// Mock useFlag to control severity feature flag for these tests
+const mockUseFlag = jest.fn().mockReturnValue(true);
+jest.mock('@unleash/proxy-client-react', () => ({
+  useFlag: (...args) => mockUseFlag(...args),
+}));
+
 // Mock the dependencies that Notifications needs
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => {
   return () => ({
@@ -224,6 +230,44 @@ describe('Severity help terms in Notifications header', () => {
       screen.getByRole('button', {
         name: /Contact your Organization Administrator/,
       })
+    ).toBeInTheDocument();
+  });
+});
+
+describe('Severity help terms hidden when feature flag is off', () => {
+  beforeEach(() => {
+    mockUseFlag.mockReturnValue(false);
+  });
+
+  afterEach(() => {
+    mockUseFlag.mockReturnValue(true);
+  });
+
+  it('does not render severity terms when flag is disabled', () => {
+    renderNotifications();
+
+    expect(
+      screen.queryByText(/Possible notification severity levels/)
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Critical/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Important/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Moderate/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Low/i })
+    ).not.toBeInTheDocument();
+  });
+
+  it('preserves existing header text when flag is off', () => {
+    renderNotifications();
+
+    expect(
+      screen.getByText(/Opt in or out of receiving notifications/)
     ).toBeInTheDocument();
   });
 });
