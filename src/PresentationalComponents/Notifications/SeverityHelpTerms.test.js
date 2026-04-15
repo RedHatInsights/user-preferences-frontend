@@ -55,10 +55,18 @@ jest.mock(
   })
 );
 
-jest.mock('@redhat-cloud-services/frontend-components/PageHeader', () => ({
+jest.mock('@patternfly/react-component-groups/dist/dynamic/PageHeader', () => {
   // eslint-disable-next-line react/prop-types
-  PageHeaderTitle: ({ title }) => <h1>{title}</h1>,
-}));
+  const PageHeader = ({ title, subtitle, children }) => (
+    <div>
+      <h1>{title}</h1>
+      <p>{subtitle}</p>
+      {children}
+    </div>
+  );
+  PageHeader.displayName = 'PageHeader';
+  return { __esModule: true, default: PageHeader };
+});
 
 jest.mock('../../Utilities/functions', () => ({
   calculateEmailConfig: () => ({}),

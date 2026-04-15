@@ -6,7 +6,6 @@ import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
 import {
   Bullseye,
   Button,
-  Content,
   Icon,
   Popover,
   Spinner,
@@ -17,7 +16,7 @@ import {
   SeverityMinorIcon,
   SeverityModerateIcon,
 } from '@patternfly/react-icons';
-import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
+import PageHeader from '@patternfly/react-component-groups/dist/dynamic/PageHeader';
 import { useNotifications } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { ScalprumComponent } from '@scalprum/react-core';
 import { useDispatch, useSelector } from 'react-redux';
@@ -226,60 +225,60 @@ const Notifications = () => {
       <div className="pref-notifications--wrapper">
         <div id="notifications-grid" className="pref-notifications--grid">
           <div ref={titleRef} className="pref-notifications--head">
-            <PageHeaderTitle
-              className="pref-notifications--title sticky"
+            <PageHeader
               title="My Notifications"
-            />
-            <Content
-              component="p"
-              className="pref-notifications--subtitle pf-v6-u-font-size-md"
+              subtitle={
+                <>
+                  Opt in or out of receiving notifications, and choose how you
+                  want to be notified. Your Organization Administrator has
+                  configured which notifications you can or can{"'"}t receive on
+                  their end.{' '}
+                  <Button
+                    onClick={() => {
+                      if (!vaLoading && Models) {
+                        const [, setState] = vaHookResult || [];
+                        console.log(Models);
+                        setState({
+                          isOpen: true,
+                          currentModel: Models?.VA,
+                          message:
+                            'Contact my organization administrator to update which notifications I receive',
+                        });
+                      }
+                    }}
+                    variant="link"
+                    isInline
+                  >
+                    Contact your Organization Administrator
+                  </Button>{' '}
+                  to have these settings updated.
+                  <br />
+                  Possible notification severity levels include{' '}
+                  {severityTerms.map((term, index) => (
+                    <React.Fragment key={term.label}>
+                      {index > 0 && index < severityTerms.length - 1 && ', '}
+                      {index === severityTerms.length - 1 && ', and '}
+                      <SeverityHelpTerm {...term} />
+                    </React.Fragment>
+                  ))}
+                  .{' '}
+                  <a
+                    href={SEVERITY_LEARN_MORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn more
+                  </a>
+                  .
+                </>
+              }
             >
-              Opt in or out of receiving notifications, and choose how you want
-              to be notified. Your Organization Administrator has configured
-              which notifications you can or can’t receive on their end.{' '}
-              <Button
-                onClick={() => {
-                  if (!vaLoading && Models) {
-                    const [, setState] = vaHookResult || [];
-                    console.log(Models);
-                    setState({
-                      isOpen: true,
-                      currentModel: Models?.VA,
-                      message:
-                        'Contact my organization administrator to update which notifications I receive',
-                    });
-                  }
-                }}
-                variant="link"
-                isInline
-              >
-                Contact your Organization Administrator
-              </Button>{' '}
-              to have these settings updated.
-              <br />
-              Possible notification severity levels include{' '}
-              {severityTerms.map((term, index) => (
-                <React.Fragment key={term.label}>
-                  {index > 0 && index < severityTerms.length - 1 && ', '}
-                  {index === severityTerms.length - 1 && ', and '}
-                  <SeverityHelpTerm {...term} />
-                </React.Fragment>
-              ))}
-              .{' '}
-              <a
-                href={SEVERITY_LEARN_MORE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn more
-              </a>
-              .
               <ScalprumComponent
                 module="./ConnectedTimeConfig"
                 scope="notifications"
                 store={store}
               />
-            </Content>
+            </PageHeader>
           </div>
 
           <FormRenderer
