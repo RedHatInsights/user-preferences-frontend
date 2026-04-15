@@ -42,6 +42,16 @@
       background-color: var(--pf-t--global--color--background--secondary);
       overflow: visible;
     }
+    &--severity-term {
+      text-decoration-style: dashed !important;
+      text-underline-offset: 3px;
+      gap: var(--pf-t--global--spacer--xs);
+    }
+    &--severity-popover-header {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--pf-t--global--spacer--sm);
+    }
   }
 
 @media only screen and (max-width: 768px) {

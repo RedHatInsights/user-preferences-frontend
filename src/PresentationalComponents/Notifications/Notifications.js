@@ -3,7 +3,20 @@ import omit from 'lodash/omit';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
-import { Bullseye, Button, Content, Spinner } from '@patternfly/react-core';
+import {
+  Bullseye,
+  Button,
+  Content,
+  Icon,
+  Popover,
+  Spinner,
+} from '@patternfly/react-core';
+import {
+  SeverityCriticalIcon,
+  SeverityImportantIcon,
+  SeverityMinorIcon,
+  SeverityModerateIcon,
+} from '@patternfly/react-icons';
 import { PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { useNotifications } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { ScalprumComponent } from '@scalprum/react-core';
@@ -36,6 +49,83 @@ import { prepareFields } from './utils';
 import FormTemplate from './NotificationTemplate';
 import './notifications.scss';
 import { useLoadModule, useRemoteHook } from '@scalprum/react-core';
+
+const SEVERITY_LEARN_MORE_URL =
+  'https://docs.redhat.com/en/documentation/red_hat_hybrid_cloud_console/1-latest/html-single/configuring_notifications_on_the_red_hat_hybrid_cloud_console/index#con-notif-severity_notif-config-intro';
+
+const severityTerms = [
+  {
+    label: 'Critical',
+    icon: SeverityCriticalIcon,
+    color: 'var(--pf-t--global--icon--color--severity--critical--default)',
+    description:
+      'Requires immediate attention. Indicates a serious issue that could significantly impact your environment or data.',
+  },
+  {
+    label: 'Important',
+    icon: SeverityImportantIcon,
+    color: 'var(--pf-t--global--icon--color--severity--important--default)',
+    description:
+      'A high-priority issue that could cause notable impact if not addressed promptly.',
+  },
+  {
+    label: 'Moderate',
+    icon: SeverityModerateIcon,
+    color: 'var(--pf-t--global--icon--color--severity--moderate--default)',
+    description:
+      'An issue that should be reviewed and addressed in a reasonable timeframe.',
+  },
+  {
+    label: 'Minor',
+    icon: SeverityMinorIcon,
+    color: 'var(--pf-t--global--icon--color--severity--minor--default)',
+    description:
+      'A low-priority issue with minimal impact that can be addressed during routine maintenance.',
+  },
+];
+
+/* eslint-disable react/prop-types */
+const SeverityHelpTerm = ({
+  label,
+  icon: SeverityIcon,
+  color,
+  description,
+}) => (
+  <Popover
+    headerContent={
+      <span className="pref-notifications--severity-popover-header">
+        <Icon style={{ color }}>
+          <SeverityIcon />
+        </Icon>
+        {label} severity
+      </span>
+    }
+    bodyContent={description}
+    footerContent={
+      <a
+        href={SEVERITY_LEARN_MORE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn more
+      </a>
+    }
+  >
+    <Button
+      variant="link"
+      isInline
+      className="pref-notifications--severity-term"
+      icon={
+        <Icon style={{ color }}>
+          <SeverityIcon />
+        </Icon>
+      }
+    >
+      {label}
+    </Button>
+  </Popover>
+);
+/* eslint-enable react/prop-types */
 
 const Notifications = () => {
   const { auth } = useChrome();
@@ -168,7 +258,25 @@ const Notifications = () => {
               >
                 Contact your Organization Administrator
               </Button>{' '}
-              to have these settings updated..
+              to have these settings updated.
+              <br />
+              Possible notification severity levels include{' '}
+              {severityTerms.map((term, index) => (
+                <React.Fragment key={term.label}>
+                  {index > 0 && index < severityTerms.length - 1 && ', '}
+                  {index === severityTerms.length - 1 && ', and '}
+                  <SeverityHelpTerm {...term} />
+                </React.Fragment>
+              ))}
+              .{' '}
+              <a
+                href={SEVERITY_LEARN_MORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Learn more
+              </a>
+              .
               <ScalprumComponent
                 module="./ConnectedTimeConfig"
                 scope="notifications"
