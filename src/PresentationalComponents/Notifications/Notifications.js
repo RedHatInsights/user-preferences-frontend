@@ -59,28 +59,25 @@ const severityTerms = [
     icon: SeverityCriticalIcon,
     color: 'var(--pf-t--global--icon--color--severity--critical--default)',
     description:
-      'Requires immediate attention. Indicates a serious issue that could significantly impact your environment or data.',
+      'Urgent notification about an event with impact to your systems',
   },
   {
     label: 'Important',
     icon: SeverityImportantIcon,
     color: 'var(--pf-t--global--icon--color--severity--important--default)',
-    description:
-      'A high-priority issue that could cause notable impact if not addressed promptly.',
+    description: 'Errors or other events that may impact your systems',
   },
   {
     label: 'Moderate',
     icon: SeverityModerateIcon,
     color: 'var(--pf-t--global--icon--color--severity--moderate--default)',
-    description:
-      'An issue that should be reviewed and addressed in a reasonable timeframe.',
+    description: 'Warning',
   },
   {
     label: 'Minor',
     icon: SeverityMinorIcon,
     color: 'var(--pf-t--global--icon--color--severity--minor--default)',
-    description:
-      'A low-priority issue with minimal impact that can be addressed during routine maintenance.',
+    description: 'Information only',
   },
 ];
 

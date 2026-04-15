@@ -144,7 +144,7 @@ describe('Severity help terms in Notifications header', () => {
     });
 
     expect(
-      screen.getByText(/Requires immediate attention/)
+      screen.getByText(/Urgent notification about an event with impact/)
     ).toBeInTheDocument();
   });
 
@@ -160,7 +160,9 @@ describe('Severity help terms in Notifications header', () => {
       expect(screen.getByText('Important severity')).toBeInTheDocument();
     });
 
-    expect(screen.getByText(/high-priority issue/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Errors or other events that may impact/)
+    ).toBeInTheDocument();
   });
 
   it('shows correct description in Moderate popover', async () => {
@@ -173,9 +175,7 @@ describe('Severity help terms in Notifications header', () => {
       expect(screen.getByText('Moderate severity')).toBeInTheDocument();
     });
 
-    expect(
-      screen.getByText(/reviewed and addressed in a reasonable timeframe/)
-    ).toBeInTheDocument();
+    expect(screen.getByText('Warning')).toBeInTheDocument();
   });
 
   it('shows correct description in Minor popover', async () => {
@@ -188,9 +188,7 @@ describe('Severity help terms in Notifications header', () => {
       expect(screen.getByText('Minor severity')).toBeInTheDocument();
     });
 
-    expect(
-      screen.getByText(/low-priority issue with minimal impact/)
-    ).toBeInTheDocument();
+    expect(screen.getByText('Information only')).toBeInTheDocument();
   });
 
   it('popover footer contains a Learn more link', async () => {
