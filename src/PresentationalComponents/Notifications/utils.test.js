@@ -1,6 +1,73 @@
 import { prepareFields } from './utils';
+import { SEVERITY_SUBSCRIPTION_GRID } from '../../SmartComponents/FormComponents/componentTypes';
 
 describe('prepareFields', () => {
+  it('should emit severity subscription grid when all fields define severities', () => {
+    const notifPref = {
+      rhel: {
+        label: 'RHEL',
+        applications: {
+          compliance: {
+            label: 'Compliance',
+            eventTypes: [
+              {
+                name: 'POLICY_FAILED',
+                label: 'Policy failed',
+                fields: [
+                  {
+                    name: 'INSTANT',
+                    label: 'Instant email',
+                    severities: [
+                      {
+                        name: 'CRITICAL',
+                        initialValue: false,
+                        disabled: false,
+                      },
+                      {
+                        name: 'IMPORTANT',
+                        initialValue: true,
+                        disabled: false,
+                      },
+                    ],
+                  },
+                  {
+                    name: 'DAILY',
+                    label: 'Daily digest email',
+                    severities: [
+                      {
+                        name: 'CRITICAL',
+                        initialValue: false,
+                        disabled: false,
+                      },
+                      {
+                        name: 'IMPORTANT',
+                        initialValue: false,
+                        disabled: false,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
+    };
+    const result = prepareFields(notifPref, {}, {});
+    const tab = result[0].fields[0];
+    const eventInput = tab.fields.find((f) => f.name === 'event-notifications');
+    const eventGroup = eventInput.fields[0];
+    const gridField = eventGroup.fields[0];
+    expect(gridField.component).toBe(SEVERITY_SUBSCRIPTION_GRID);
+    expect(gridField.name).toBe(
+      'bundles[rhel].applications[compliance].eventTypes[POLICY_FAILED]'
+    );
+    expect(gridField.subscriptionColumns).toHaveLength(2);
+    expect(gridField.initialValue.subscriptionTypes.INSTANT.IMPORTANT).toBe(
+      true
+    );
+  });
+
   it('should return correct output', () => {
     const notifPref = {
       rhel: {

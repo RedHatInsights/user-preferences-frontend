@@ -1,4 +1,5 @@
 export const BULK_SELECT_BUTTON = 'BULK_SELECT_BUTTON';
+export const SEVERITY_SUBSCRIPTION_GRID = 'severitySubscriptionGrid';
 export const DESCRIPTIVE_CHECKBOX = 'descriptiveCheckbox';
 export const LOADER = 'loader';
 export const DATA_LIST = 'section';

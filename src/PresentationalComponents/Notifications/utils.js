@@ -2,8 +2,28 @@ import omit from 'lodash/omit';
 import {
   BULK_SELECT_BUTTON,
   INPUT_GROUP,
+  SEVERITY_SUBSCRIPTION_GRID,
   TAB_GROUP,
 } from '../../SmartComponents/FormComponents/componentTypes';
+import {
+  buildBulkSeverityGridValue,
+  buildInitialSeverityGridValue,
+  eventTypeUsesSeverityGrid,
+  isEventTypePreferenceOn,
+  isInitialSeverityGridFullyEnabled,
+  isSeverityGridValue,
+} from '../../SmartComponents/FormComponents/severitySubscriptionGridUtils';
+
+const readEventTypeFieldValue = (values, field) => {
+  const m = field.match(
+    /^bundles\[([^\]]+)\]\.applications\[([^\]]+)\]\.eventTypes\[([^\]]+)\]$/
+  );
+  if (!m) {
+    return undefined;
+  }
+  const [, bundle, app, evt] = m;
+  return values?.bundles?.[bundle]?.applications?.[app]?.eventTypes?.[evt];
+};
 
 // update bulk select button's state after every change
 const afterChange = (formOptions, newValue, bundle, app) => {
@@ -16,7 +36,10 @@ const afterChange = (formOptions, newValue, bundle, app) => {
     const allChecked = Object.entries(
       formOptions.getState().values.bundles?.[bundle]?.applications?.[app]
         .eventTypes || {}
-    ).every(([key, value]) => key === BULK_SELECT_BUTTON || value);
+    ).every(
+      ([key, value]) =>
+        key === BULK_SELECT_BUTTON || isEventTypePreferenceOn(value)
+    );
     if (
       allChecked &&
       ((bundle !== 'rhel' && app !== 'advisor') ||
@@ -86,23 +109,64 @@ export const prepareFields = (notifPref, emailPref, emailConfig) =>
                 component: INPUT_GROUP,
                 level: 1,
                 fields: [
-                  ...appData.eventTypes.map((eventType, idx) => ({
-                    label: eventType.label,
-                    name: `${eventType.name}-${idx}`,
-                    component: INPUT_GROUP,
-                    fields: eventType.fields.map((field) => {
-                      selectAllActive = selectAllActive && field.initialValue;
+                  ...appData.eventTypes.map((eventType, idx) => {
+                    if (eventTypeUsesSeverityGrid(eventType)) {
+                      const subscriptionColumns = eventType.fields.map((f) => ({
+                        key: f.name,
+                        label: f.label || f.title || f.name,
+                        severities: (f.severities || []).map((s) => ({
+                          ...s,
+                        })),
+                      }));
+                      const initialGrid =
+                        buildInitialSeverityGridValue(subscriptionColumns);
+                      selectAllActive =
+                        selectAllActive &&
+                        isInitialSeverityGridFullyEnabled(subscriptionColumns);
                       return {
-                        ...omit(field, [
-                          'description',
-                          'infoMessage',
-                          'checkedWarning',
-                        ]),
-                        afterChange: (formOptions, checked) =>
-                          afterChange(formOptions, checked, bundleKey, appKey),
+                        label: eventType.label,
+                        name: `${eventType.name}-${idx}`,
+                        component: INPUT_GROUP,
+                        fields: [
+                          {
+                            name: `bundles[${bundleKey}].applications[${appKey}].eventTypes[${eventType.name}]`,
+                            component: SEVERITY_SUBSCRIPTION_GRID,
+                            subscriptionColumns,
+                            initialValue: initialGrid,
+                            afterChange: (formOptions, checked) =>
+                              afterChange(
+                                formOptions,
+                                checked,
+                                bundleKey,
+                                appKey
+                              ),
+                          },
+                        ],
                       };
-                    }),
-                  })),
+                    }
+                    return {
+                      label: eventType.label,
+                      name: `${eventType.name}-${idx}`,
+                      component: INPUT_GROUP,
+                      fields: eventType.fields.map((field) => {
+                        selectAllActive = selectAllActive && field.initialValue;
+                        return {
+                          ...omit(field, [
+                            'description',
+                            'infoMessage',
+                            'checkedWarning',
+                          ]),
+                          afterChange: (formOptions, checked) =>
+                            afterChange(
+                              formOptions,
+                              checked,
+                              bundleKey,
+                              appKey
+                            ),
+                        };
+                      }),
+                    };
+                  }),
                 ],
               },
             ];
@@ -121,6 +185,7 @@ export const prepareFields = (notifPref, emailPref, emailConfig) =>
                     component: BULK_SELECT_BUTTON,
                     onClick: (formOptions, input) => {
                       formOptions.batch(() => {
+                        const values = formOptions.getState().values;
                         formOptions.getRegisteredFields().forEach((field) => {
                           if (
                             ((field.includes(bundleKey) &&
@@ -130,7 +195,18 @@ export const prepareFields = (notifPref, emailPref, emailConfig) =>
                                 appKey == 'advisor')) &&
                             !field.includes(BULK_SELECT_BUTTON)
                           ) {
-                            formOptions.change(field, input.value);
+                            const current = readEventTypeFieldValue(
+                              values,
+                              field
+                            );
+                            let next = input.value;
+                            if (isSeverityGridValue(current)) {
+                              next = buildBulkSeverityGridValue(
+                                current,
+                                input.value
+                              );
+                            }
+                            formOptions.change(field, next);
                           }
                         });
                       });

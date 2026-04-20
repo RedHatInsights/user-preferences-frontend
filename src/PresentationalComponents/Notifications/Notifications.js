@@ -27,8 +27,11 @@ import {
   InputGroup,
   LOADER,
   Loader,
+  SEVERITY_SUBSCRIPTION_GRID,
+  SeveritySubscriptionGrid,
   TAB_GROUP,
 } from '../../SmartComponents/FormComponents';
+import { stripSeverityGridUiFromEventTypes } from '../../SmartComponents/FormComponents/severitySubscriptionGridUtils';
 import config from '../../config/config.json';
 import FormTabs from './Tabs';
 import FormTabGroup from './TabGroup';
@@ -92,7 +95,9 @@ const Notifications = () => {
               (acc, [appName, appData]) => ({
                 ...acc,
                 [appName]: {
-                  eventTypes: omit(appData.eventTypes, BULK_SELECT_BUTTON),
+                  eventTypes: stripSeverityGridUiFromEventTypes(
+                    omit(appData.eventTypes, BULK_SELECT_BUTTON)
+                  ),
                 },
               }),
               {}
@@ -187,6 +192,7 @@ const Notifications = () => {
               [INPUT_GROUP]: InputGroup,
               [FORM_TABS]: FormTabs,
               [TAB_GROUP]: FormTabGroup,
+              [SEVERITY_SUBSCRIPTION_GRID]: SeveritySubscriptionGrid,
             }}
             FormTemplate={FormTemplate}
             schema={{
