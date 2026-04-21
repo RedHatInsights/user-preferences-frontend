@@ -167,6 +167,7 @@ export const isInitialSeverityGridFullyEnabled = (
 export interface NotificationEventTypeField {
   name?: string;
   label?: string;
+  title?: string;
   severities?: SeverityCell[];
   [key: string]: unknown;
 }

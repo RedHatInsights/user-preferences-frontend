@@ -14,7 +14,10 @@ import {
 } from '@patternfly/react-core';
 import { HttpResponse, http } from 'msw';
 import { fn } from 'storybook/test';
-import SeveritySubscriptionGrid from './SeveritySubscriptionGrid';
+import SeveritySubscriptionGrid, {
+  FREQUENCY_HELP_POPOVER_BODY,
+  PF_ALERT_WARNING_ICON_COLOR,
+} from './SeveritySubscriptionGrid';
 import { INPUT_GROUP, SEVERITY_SUBSCRIPTION_GRID } from './componentTypes';
 import InputGroup from './InputGroup';
 import { buildInitialSeverityGridValue } from './severitySubscriptionGridUtils';
@@ -51,8 +54,7 @@ const meta = {
     },
     docs: {
       description: {
-        component:
-          'Notification event preference grid: column headers **Severity** and **Frequency**; each row shows a severity (PatternFly severity icon + label) and, under Frequency, labeled checkboxes for each subscription type (e.g. **Instant email**, **Daily digest email**—text comes from `subscriptionColumns[].label`). Supports cascade on enable, backend-disabled severities, and matches nested DDF output from the notifications schema.',
+        component: `Notification event preference grid: column headers **Severity** and **Frequency**; **Severity** has a question-circle popover (ratings + learn more link). **Frequency** uses the same question-circle trigger as **Severity**; both column helpers share the same PatternFly \`Popover\` behavior (click to open/close, \`position\` top with flip, outside click dismisses, appended to \`document.body\`—see \`COLUMN_HEADER_HELP_POPOVER_DEFAULTS\` in \`SeveritySubscriptionGrid.tsx\`); the popover header shows the warning triangle beside **Important** (icon \`color\` from exported \`PF_ALERT_WARNING_ICON_COLOR\`: \`${PF_ALERT_WARNING_ICON_COLOR}\`), then this body (from \`FREQUENCY_HELP_POPOVER_BODY\` in \`SeveritySubscriptionGrid.tsx\`): "${FREQUENCY_HELP_POPOVER_BODY}", plus a **Learn more** link to user-preferences documentation. Each row shows a severity (PatternFly severity icon + label) and, under Frequency, labeled checkboxes for each subscription type (e.g. **Instant email**, **Daily digest email**—text comes from \`subscriptionColumns[].label\`). In **My Notifications**, this table is used only when the Unleash flag **\`platform-notifications-severity\`** is on (\`prepareFields\` gates the schema). Supports cascade on enable, backend-disabled severities, and matches nested DDF output from the notifications schema.`,
       },
     },
   },
@@ -198,7 +200,7 @@ export const NotificationPreferencesSection: StoryObj<
     docs: {
       description: {
         story:
-          'Same layout as My Notifications: “Event notifications” category, then one nested group per event type. Each grid uses **Severity** | **Frequency** headers; frequency options are labeled checkboxes per subscription type.',
+          'Same layout as My Notifications: “Event notifications” category, then one nested group per event type. Each grid uses **Severity** | **Frequency** headers; frequency options are labeled checkboxes per subscription type. **Instant email** starts with **Moderate** on so the instant column shows mixed checked state across severities.',
       },
     },
   },

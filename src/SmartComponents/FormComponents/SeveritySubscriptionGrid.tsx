@@ -15,6 +15,7 @@ import SeverityNoneIcon from '@patternfly/react-icons/dist/js/icons/severity-non
 import SeverityUndefinedIcon from '@patternfly/react-icons/dist/js/icons/severity-undefined-icon';
 import OutlinedQuestionCircleIcon from '@patternfly/react-icons/dist/js/icons/outlined-question-circle-icon';
 import ExternalLinkAltIcon from '@patternfly/react-icons/dist/js/icons/external-link-alt-icon';
+import ExclamationTriangleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-triangle-icon';
 import { normalizeSeverityKey } from './severityOrder';
 import {
   type SeverityGridFormValue,
@@ -35,6 +36,13 @@ const SEVERITY_ICON_COLORS = {
   none: 'var(--pf-t--global--icon--color--severity--none--default)',
   undefined: 'var(--pf-t--global--icon--color--severity--undefined--default)',
 } as const;
+
+/**
+ * Same hue as Alert (warning) icon: `--pf-v6-c-alert--m-warning__icon--Color` is only set on
+ * `.pf-v6-c-alert.pf-m-warning`, so outside Alert we fall back to the global token it resolves to.
+ */
+export const PF_ALERT_WARNING_ICON_COLOR =
+  'var(--pf-v6-c-alert--m-warning__icon--Color, var(--pf-t--global--icon--color--status--warning--default))';
 
 const severityIcon = (name: string): React.ReactNode => {
   const key = normalizeSeverityKey(name);
@@ -91,8 +99,23 @@ const humanizeSeverity = (name: string): string =>
     .toLowerCase()
     .replace(/\b\w/g, (c) => c.toUpperCase());
 
+/**
+ * Shared Popover behavior for column header help (Severity + Frequency): click to toggle,
+ * same placement/flip/append so both open and dismiss the same way.
+ */
+const COLUMN_HEADER_HELP_POPOVER_DEFAULTS = {
+  position: 'top' as const,
+  enableFlip: true,
+  triggerAction: 'click' as const,
+  hideOnOutsideClick: true,
+  distance: 25,
+  showClose: true,
+  appendTo: () => document.body,
+};
+
 const SeverityHeaderHelp = () => (
   <Popover
+    {...COLUMN_HEADER_HELP_POPOVER_DEFAULTS}
     headerContent={<div>Severity ratings</div>}
     bodyContent={
       <div>
@@ -118,6 +141,48 @@ const SeverityHeaderHelp = () => (
     <Button
       variant="plain"
       aria-label="Severity ratings help"
+      className="pref-severity-help-trigger"
+    >
+      <OutlinedQuestionCircleIcon />
+    </Button>
+  </Popover>
+);
+
+/** Body copy for the Frequency column help popover (Storybook docs import this string). */
+export const FREQUENCY_HELP_POPOVER_BODY =
+  'Some services do not offer both instant and daily digest emails. If you select Instant notification for any service, you might receive a very large number of emails.';
+
+const FrequencyHeaderHelp = () => (
+  <Popover
+    {...COLUMN_HEADER_HELP_POPOVER_DEFAULTS}
+    headerContent={
+      <div className="pref-frequency-popover-header">
+        <ExclamationTriangleIcon
+          className="pref-frequency-popover-header-icon"
+          color={PF_ALERT_WARNING_ICON_COLOR}
+        />
+        <span>Important</span>
+      </div>
+    }
+    bodyContent={<div>{FREQUENCY_HELP_POPOVER_BODY}</div>}
+    footerContent={
+      <Button
+        variant="link"
+        isInline
+        icon={<ExternalLinkAltIcon />}
+        iconPosition="right"
+        component="a"
+        href="https://docs.redhat.com/en/documentation/red_hat_hybrid_cloud_console/1-latest/html-single/configuring_notifications_on_the_red_hat_hybrid_cloud_console/index#proc-notif-config-user-preferences_notifications"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn more
+      </Button>
+    }
+  >
+    <Button
+      variant="plain"
+      aria-label="Frequency options help"
       className="pref-severity-help-trigger"
     >
       <OutlinedQuestionCircleIcon />
@@ -193,7 +258,10 @@ const SeveritySubscriptionGrid: React.FC<SeveritySubscriptionGridProps> = (
               <span className="pref-severity-th-label">Severity</span>
               <SeverityHeaderHelp />
             </Th>
-            <Th scope="col">Frequency</Th>
+            <Th scope="col">
+              <span className="pref-severity-th-label">Frequency</span>
+              <FrequencyHeaderHelp />
+            </Th>
           </Tr>
         </Thead>
         <Tbody>

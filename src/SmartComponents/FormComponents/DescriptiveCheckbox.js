@@ -4,18 +4,12 @@ import PropTypes from 'prop-types';
 import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import './descriptiveCheckbox.scss';
-import {
-  ExclamationTriangleIcon,
-  InfoCircleIcon,
-} from '@patternfly/react-icons';
 
 const DescriptiveCheckbox = (props) => {
   const {
     label = '',
     title,
     description,
-    checkedWarning,
-    infoMessage,
     afterChange,
     disabled,
     input: { onChange, checked, ...input },
@@ -40,23 +34,9 @@ const DescriptiveCheckbox = (props) => {
       className="pref-c-descriptive-checkbox"
       label={label || title}
       description={
-        <div>
-          {description && (
-            <>
-              <span className="pref-c-checkbox-description">{description}</span>
-            </>
-          )}
-          {!checked && infoMessage && (
-            <span className="pref-c-checkbox-info">
-              <InfoCircleIcon /> {infoMessage}
-            </span>
-          )}
-          {checked && checkedWarning && (
-            <span className="pref-c-checkbox-warning">
-              <ExclamationTriangleIcon /> {checkedWarning}
-            </span>
-          )}
-        </div>
+        description ? (
+          <span className="pref-c-checkbox-description">{description}</span>
+        ) : undefined
       }
     />
   );
@@ -71,6 +51,7 @@ DescriptiveCheckbox.propTypes = {
   label: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
+  disabled: PropTypes.bool,
   afterChange: PropTypes.func,
 };
 

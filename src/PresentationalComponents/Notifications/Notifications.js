@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import omit from 'lodash/omit';
+import { useFlag } from '@unleash/proxy-client-react';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
@@ -32,6 +33,7 @@ import {
   TAB_GROUP,
 } from '../../SmartComponents/FormComponents';
 import { stripSeverityGridUiFromEventTypes } from '../../SmartComponents/FormComponents/severitySubscriptionGridUtils';
+import { PLATFORM_NOTIFICATIONS_SEVERITY_FLAG } from '../../Utilities/featureFlags';
 import config from '../../config/config.json';
 import FormTabs from './Tabs';
 import FormTabGroup from './TabGroup';
@@ -42,6 +44,9 @@ import { useLoadModule, useRemoteHook } from '@scalprum/react-core';
 
 const Notifications = () => {
   const { auth } = useChrome();
+  const platformNotificationsSeverity = useFlag(
+    PLATFORM_NOTIFICATIONS_SEVERITY_FLAG
+  );
   const dispatch = useDispatch();
   const { addNotification } = useNotifications();
   const titleRef = useRef(null);
@@ -202,7 +207,12 @@ const Notifications = () => {
                   name: 'notifTabs',
                   titleRef,
                   bundles: notifPref,
-                  fields: prepareFields(notifPref, emailPref, emailConfig),
+                  fields: prepareFields(
+                    notifPref,
+                    emailPref,
+                    emailConfig,
+                    platformNotificationsSeverity
+                  ),
                 },
               ],
             }}

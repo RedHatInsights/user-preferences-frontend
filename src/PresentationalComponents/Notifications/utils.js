@@ -53,7 +53,18 @@ const afterChange = (formOptions, newValue, bundle, app) => {
   }
 };
 
-export const prepareFields = (notifPref, emailPref, emailConfig) =>
+/**
+ * @param {Record<string, unknown>} notifPref
+ * @param {Record<string, unknown>} emailPref
+ * @param {Record<string, unknown>} emailConfig
+ * @param {boolean} [enableSeveritySubscriptionGrid=false] Unleash `platform-notifications-severity` — when true, event types that expose a severity grid render the severity subscription grid component.
+ */
+export const prepareFields = (
+  notifPref,
+  emailPref,
+  emailConfig,
+  enableSeveritySubscriptionGrid = false
+) =>
   Object.entries(notifPref).reduce((acc, [bundleKey, bundleData]) => {
     return [
       ...acc,
@@ -81,10 +92,7 @@ export const prepareFields = (notifPref, emailPref, emailConfig) =>
                               selectAllActive =
                                 selectAllActive && field.initialValue;
                               return {
-                                ...omit(field, [
-                                  'infoMessage',
-                                  'checkedWarning',
-                                ]),
+                                ...field,
                                 afterChange: (formOptions, checked) =>
                                   afterChange(
                                     formOptions,
@@ -110,7 +118,10 @@ export const prepareFields = (notifPref, emailPref, emailConfig) =>
                 level: 1,
                 fields: [
                   ...appData.eventTypes.map((eventType, idx) => {
-                    if (eventTypeUsesSeverityGrid(eventType)) {
+                    if (
+                      enableSeveritySubscriptionGrid &&
+                      eventTypeUsesSeverityGrid(eventType)
+                    ) {
                       const subscriptionColumns = eventType.fields.map((f) => ({
                         key: f.name,
                         label: f.label || f.title || f.name,
@@ -151,11 +162,7 @@ export const prepareFields = (notifPref, emailPref, emailConfig) =>
                       fields: eventType.fields.map((field) => {
                         selectAllActive = selectAllActive && field.initialValue;
                         return {
-                          ...omit(field, [
-                            'description',
-                            'infoMessage',
-                            'checkedWarning',
-                          ]),
+                          ...omit(field, ['description']),
                           afterChange: (formOptions, checked) =>
                             afterChange(
                               formOptions,
