@@ -24,11 +24,6 @@ exports[`Descriptive checkbox tests should render correctly 1`] = `
     >
       test label
     </label>
-    <span
-      class="pf-v6-c-check__description"
-    >
-      <div />
-    </span>
   </div>
 </div>
 `;

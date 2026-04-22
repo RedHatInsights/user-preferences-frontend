@@ -37,13 +37,6 @@ const SEVERITY_ICON_COLORS = {
   undefined: 'var(--pf-t--global--icon--color--severity--undefined--default)',
 } as const;
 
-/**
- * Same hue as Alert (warning) icon: `--pf-v6-c-alert--m-warning__icon--Color` is only set on
- * `.pf-v6-c-alert.pf-m-warning`, so outside Alert we fall back to the global token it resolves to.
- */
-export const PF_ALERT_WARNING_ICON_COLOR =
-  'var(--pf-v6-c-alert--m-warning__icon--Color, var(--pf-t--global--icon--color--status--warning--default))';
-
 const severityIcon = (name: string): React.ReactNode => {
   const key = normalizeSeverityKey(name);
   switch (key) {
@@ -150,20 +143,12 @@ const SeverityHeaderHelp = () => (
 
 /** Body copy for the Frequency column help popover (Storybook docs import this string). */
 export const FREQUENCY_HELP_POPOVER_BODY =
-  'Some services do not offer both instant and daily digest emails. If you select Instant notification for any service, you might receive a very large number of emails.';
+  'Some services do not offer both instant and daily digest emails. If you select Instant email for any service, you might receive a very large number of emails.';
 
 const FrequencyHeaderHelp = () => (
   <Popover
     {...COLUMN_HEADER_HELP_POPOVER_DEFAULTS}
-    headerContent={
-      <div className="pref-frequency-popover-header">
-        <ExclamationTriangleIcon
-          className="pref-frequency-popover-header-icon"
-          color={PF_ALERT_WARNING_ICON_COLOR}
-        />
-        <span>Important</span>
-      </div>
-    }
+    headerContent={<div>Important</div>}
     bodyContent={<div>{FREQUENCY_HELP_POPOVER_BODY}</div>}
     footerContent={
       <Button
@@ -185,7 +170,7 @@ const FrequencyHeaderHelp = () => (
       aria-label="Frequency options help"
       className="pref-severity-help-trigger"
     >
-      <OutlinedQuestionCircleIcon />
+      <ExclamationTriangleIcon />
     </Button>
   </Popover>
 );
