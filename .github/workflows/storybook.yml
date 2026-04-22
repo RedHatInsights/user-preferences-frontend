@@ -27,10 +27,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Storybook webpack5 + @storybook/addon-webpack5-compiler-swc need @swc/core
-      # native bindings built for the runner (npm ci can leave optional/prebuild mismatches).
-      - name: Rebuild native modules
-        run: npm rebuild
+      # @swc/core uses optional dependencies for platform-specific native bindings.
+      # Sometimes npm ci doesn't install them correctly. Force reinstall to fix.
+      - name: Fix @swc/core native bindings
+        run: |
+          rm -rf node_modules/@swc/core
+          npm install --no-save
 
       - name: Build Storybook
         run: npm run build-storybook
