@@ -1,0 +1,35 @@
+.pref-severity-subscription-grid {
+  margin-top: var(--pf-t--global--spacer--sm);
+}
+
+.pref-severity-th-label {
+  margin-right: var(--pf-t--global--spacer--xs);
+}
+
+.pref-severity-help-trigger {
+  padding: 0;
+  vertical-align: middle;
+}
+
+.pref-severity-row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-t--global--spacer--sm);
+}
+
+.pref-severity-row-label {
+  font-weight: var(--pf-t--global--font--weight--body--default);
+}
+
+.pref-severity-pf-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.pref-severity-frequency-cells {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--pf-t--global--spacer--lg);
+}

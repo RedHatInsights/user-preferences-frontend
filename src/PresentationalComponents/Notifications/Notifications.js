@@ -40,8 +40,12 @@ import {
   InputGroup,
   LOADER,
   Loader,
+  SEVERITY_SUBSCRIPTION_GRID,
+  SeveritySubscriptionGrid,
   TAB_GROUP,
 } from '../../SmartComponents/FormComponents';
+import { stripSeverityGridUiFromEventTypes } from '../../SmartComponents/FormComponents/severitySubscriptionGridUtils';
+import { PLATFORM_NOTIFICATIONS_SEVERITY_FLAG } from '../../Utilities/featureFlags';
 import config from '../../config/config.json';
 import FormTabs from './Tabs';
 import FormTabGroup from './TabGroup';
@@ -127,6 +131,9 @@ const SeverityHelpTerm = ({
 const Notifications = () => {
   const isSeverityEnabled = useFlag('platform.notifications.severity');
   const { auth } = useChrome();
+  const platformNotificationsSeverity = useFlag(
+    PLATFORM_NOTIFICATIONS_SEVERITY_FLAG
+  );
   const dispatch = useDispatch();
   const { addNotification } = useNotifications();
   const titleRef = useRef(null);
@@ -180,7 +187,9 @@ const Notifications = () => {
               (acc, [appName, appData]) => ({
                 ...acc,
                 [appName]: {
-                  eventTypes: omit(appData.eventTypes, BULK_SELECT_BUTTON),
+                  eventTypes: stripSeverityGridUiFromEventTypes(
+                    omit(appData.eventTypes, BULK_SELECT_BUTTON)
+                  ),
                 },
               }),
               {}
@@ -299,6 +308,7 @@ const Notifications = () => {
               [INPUT_GROUP]: InputGroup,
               [FORM_TABS]: FormTabs,
               [TAB_GROUP]: FormTabGroup,
+              [SEVERITY_SUBSCRIPTION_GRID]: SeveritySubscriptionGrid,
             }}
             FormTemplate={FormTemplate}
             schema={{
@@ -308,7 +318,12 @@ const Notifications = () => {
                   name: 'notifTabs',
                   titleRef,
                   bundles: notifPref,
-                  fields: prepareFields(notifPref, emailPref, emailConfig),
+                  fields: prepareFields(
+                    notifPref,
+                    emailPref,
+                    emailConfig,
+                    platformNotificationsSeverity
+                  ),
                 },
               ],
             }}

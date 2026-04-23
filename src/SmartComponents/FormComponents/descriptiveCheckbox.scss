@@ -20,23 +20,4 @@
         color: var(--pf-t--global--color--text--muted);
     }
 
-    .pref-c-checkbox-warning {
-        svg {
-            color: var(--pf-t--global--color--status--warning--default);
-        }
-
-        font-size: var(--pf-t--global--font--size--md);
-        color: var(--pf-t--global--color--status--warning--default);
-        font-weight: var(--pf-t--global--font--weight--heading--bold);
-    }
-
-    .pref-c-checkbox-info {
-        svg {
-            color: var(--pf-t--global--color--status--info--default);
-        }
-
-        font-size: var(--pf-t--global--font--size--md);
-        color: var(--pf-t--global--color--status--info--default);
-        font-weight: var(--pf-t--global--font--weight--heading--bold);
-    }
 }

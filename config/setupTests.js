@@ -1,5 +1,9 @@
 import React from 'react';
 
+jest.mock('@unleash/proxy-client-react', () => ({
+  useFlag: jest.fn(() => false),
+}));
+
 global.React = React;
 global.insights = {
   chrome: {
