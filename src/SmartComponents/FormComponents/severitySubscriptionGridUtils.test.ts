@@ -10,6 +10,7 @@ import {
   isSeverityGridFullyEnabled,
   stripSeverityGridUiFromEventTypes,
 } from './severitySubscriptionGridUtils';
+import { normalizeSeverityKey, severityRank } from './severityOrder';
 
 const sampleColumns = (): SubscriptionColumn[] => [
   {
@@ -61,6 +62,33 @@ describe('eventTypeUsesSeverityGrid', () => {
         ],
       })
     ).toBe(true);
+  });
+});
+
+describe('LOW severity alias (backend) vs MINOR (PatternFly)', () => {
+  it('normalizes LOW to MINOR for rank/icon logic', () => {
+    expect(normalizeSeverityKey('low')).toBe('MINOR');
+    expect(normalizeSeverityKey('LOW')).toBe('MINOR');
+    expect(severityRank('LOW')).toBe(severityRank('MINOR'));
+  });
+
+  it('cascades when enabling a LOW row like MINOR', () => {
+    const columns: SubscriptionColumn[] = [
+      {
+        key: 'INSTANT',
+        label: 'Instant email',
+        severities: [
+          { name: 'CRITICAL', initialValue: false, disabled: false },
+          { name: 'IMPORTANT', initialValue: false, disabled: false },
+          { name: 'LOW', initialValue: false, disabled: false },
+        ],
+      },
+    ];
+    const base = buildInitialSeverityGridValue(columns);
+    const next = applySeverityCascade(base, 'INSTANT', 'LOW', true);
+    expect(next.subscriptionTypes.INSTANT.CRITICAL).toBe(true);
+    expect(next.subscriptionTypes.INSTANT.IMPORTANT).toBe(true);
+    expect(next.subscriptionTypes.INSTANT.LOW).toBe(true);
   });
 });
 

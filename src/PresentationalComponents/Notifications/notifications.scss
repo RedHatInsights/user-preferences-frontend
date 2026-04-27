@@ -38,9 +38,19 @@
       gap: var(--pf-t--global--spacer--xs);
     }
     &--severity-popover-header {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: var(--pf-t--global--spacer--sm);
+      flex-wrap: nowrap;
+    }
+    &--severity-popover-header-title {
+      margin: 0;
+      margin-inline-start: var(--pf-t--global--spacer--sm);
+    }
+    /* PF severity icons use the `color` prop for token fills; align like table rows */
+    &--severity-inline-icon {
+      display: inline-flex;
+      flex-shrink: 0;
+      vertical-align: middle;
     }
   }
 
