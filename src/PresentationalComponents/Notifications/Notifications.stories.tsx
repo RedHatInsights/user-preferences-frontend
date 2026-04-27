@@ -35,6 +35,8 @@ Uses MSW to mock notification and email schema APIs. The global Storybook previe
 
 The Unleash flag \`platform.notifications.severity\` controls both the severity help copy in the page subtitle and whether event types that expose a severity grid render the **Severity × Frequency** table (when the API schema matches).
 
+Subtitle severity terms use six PatternFly tiers; the **Low** term uses the minor severity icon. The severity popover header spaces the icon and title (\`pref-notifications--severity-popover-header-title\`).
+
 **Note:** Redux state is the shared registry store; reload the Storybook canvas if another story left stale data.
         `,
       },
@@ -63,6 +65,21 @@ export const Default = {
     await expect(
       canvas.getByRole('button', { name: 'Critical' })
     ).toBeInTheDocument();
+    await expect(
+      canvas.getByRole('button', { name: 'Important' })
+    ).toBeInTheDocument();
+    await expect(
+      canvas.getByRole('button', { name: 'Moderate' })
+    ).toBeInTheDocument();
+    await expect(
+      canvas.getByRole('button', { name: 'Low' })
+    ).toBeInTheDocument();
+    await expect(
+      canvas.getByRole('button', { name: /^None$/ })
+    ).toBeInTheDocument();
+    await expect(
+      canvas.getByRole('button', { name: 'Undefined' })
+    ).toBeInTheDocument();
   },
 } satisfies StoryObj<typeof meta>;
 
@@ -82,6 +99,15 @@ export const SeverityHelpOff = {
     ).not.toBeInTheDocument();
     expect(
       canvas.queryByRole('button', { name: 'Critical' })
+    ).not.toBeInTheDocument();
+    expect(
+      canvas.queryByRole('button', { name: 'Low' })
+    ).not.toBeInTheDocument();
+    expect(
+      canvas.queryByRole('button', { name: /^None$/ })
+    ).not.toBeInTheDocument();
+    expect(
+      canvas.queryByRole('button', { name: 'Undefined' })
     ).not.toBeInTheDocument();
   },
 } satisfies StoryObj<typeof meta>;

@@ -107,7 +107,9 @@ const SeverityHelpTerm = ({
           color={color}
           className="pref-notifications--severity-inline-icon"
         />
-        {label} severity
+        <span className="pref-notifications--severity-popover-header-title">
+          {label} severity
+        </span>
       </span>
     }
     bodyContent={description}

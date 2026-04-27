@@ -1,6 +1,7 @@
 /**
  * Canonical severity ordering (most critical first) for cascade and row order.
  * Matches backend enum names case-insensitively via normalizeSeverityKey.
+ * `LOW` is treated as PatternFly’s minor severity tier (same as `MINOR`).
  */
 export const SEVERITY_ORDER = [
   'CRITICAL',
@@ -11,11 +12,18 @@ export const SEVERITY_ORDER = [
   'UNDEFINED',
 ] as const;
 
-export const normalizeSeverityKey = (name: string | undefined | null): string =>
-  String(name ?? '')
+export const normalizeSeverityKey = (
+  name: string | undefined | null
+): string => {
+  const key = String(name ?? '')
     .trim()
     .toUpperCase()
     .replace(/\s+/g, '_');
+  if (key === 'LOW') {
+    return 'MINOR';
+  }
+  return key;
+};
 
 export const severityRank = (name: string | undefined | null): number => {
   const key = normalizeSeverityKey(name);

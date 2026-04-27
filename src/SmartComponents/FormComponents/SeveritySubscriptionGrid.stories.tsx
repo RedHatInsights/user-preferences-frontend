@@ -53,7 +53,7 @@ const meta = {
     },
     docs: {
       description: {
-        component: `Notification event preference grid: column headers **Severity** and **Frequency**; **Severity** has a question-circle popover (ratings + learn more link). **Frequency** uses an \`ExclamationTriangleIcon\` trigger (default theme color) with the same PatternFly \`Popover\` wiring as **Severity** (click to open/close, \`position\` top with flip, outside click dismisses, appended to \`document.body\`—see \`COLUMN_HEADER_HELP_POPOVER_DEFAULTS\` in \`SeveritySubscriptionGrid.tsx\`); the popover header is **Important** (text only), then this body (from \`FREQUENCY_HELP_POPOVER_BODY\`): "${FREQUENCY_HELP_POPOVER_BODY}", plus a **Learn more** link to user-preferences documentation. Each row shows a severity (PatternFly severity icon + label) and, under Frequency, labeled checkboxes for each subscription type (e.g. **Instant email**, **Daily digest email**—text comes from \`subscriptionColumns[].label\`). In **My Notifications**, this table is used only when the Unleash flag **\`platform.notifications.severity\`** is on (\`prepareFields\` gates the schema). Supports cascade on enable, backend-disabled severities, and matches nested DDF output from the notifications schema.`,
+        component: `Notification event preference grid: column headers **Severity** and **Frequency**; **Severity** has a question-circle popover (ratings + learn more link). **Frequency** uses an \`ExclamationTriangleIcon\` trigger (default theme color) with the same PatternFly \`Popover\` wiring as **Severity** (click to open/close, \`position\` top with flip, outside click dismisses, appended to \`document.body\`—see \`COLUMN_HEADER_HELP_POPOVER_DEFAULTS\` in \`SeveritySubscriptionGrid.tsx\`); the popover header is **Important** (text only), then this body (from \`FREQUENCY_HELP_POPOVER_BODY\`): "${FREQUENCY_HELP_POPOVER_BODY}", plus a **Learn more** link to user-preferences documentation. Each row shows a severity (PatternFly severity icon + label) and, under Frequency, labeled checkboxes for each subscription type (e.g. **Instant email**, **Daily digest email**—text comes from \`subscriptionColumns[].label\`). In **My Notifications**, this table is used only when the Unleash flag **\`platform.notifications.severity\`** is on (\`prepareFields\` gates the schema). Supports cascade on enable, backend-disabled severities, and matches nested DDF output from the notifications schema. Stories use API-style **\`LOW\`** for the lowest tier (same PatternFly **minor** icon as \`MINOR\`; see \`normalizeSeverityKey\` in \`severityOrder.ts\`).`,
       },
     },
   },
@@ -76,7 +76,7 @@ const subscriptionColumnsStandard = [
       { name: 'CRITICAL', initialValue: false, disabled: false },
       { name: 'IMPORTANT', initialValue: false, disabled: false },
       { name: 'MODERATE', initialValue: true, disabled: false },
-      { name: 'MINOR', initialValue: false, disabled: false },
+      { name: 'LOW', initialValue: false, disabled: false },
       { name: 'NONE', initialValue: false, disabled: false },
       { name: 'UNDEFINED', initialValue: false, disabled: false },
     ],
@@ -88,7 +88,7 @@ const subscriptionColumnsStandard = [
       { name: 'CRITICAL', initialValue: false, disabled: true },
       { name: 'IMPORTANT', initialValue: false, disabled: false },
       { name: 'MODERATE', initialValue: false, disabled: false },
-      { name: 'MINOR', initialValue: false, disabled: false },
+      { name: 'LOW', initialValue: false, disabled: false },
       { name: 'NONE', initialValue: false, disabled: false },
       { name: 'UNDEFINED', initialValue: false, disabled: false },
     ],
@@ -103,7 +103,7 @@ const subscriptionColumnsSecondEvent = [
       { name: 'CRITICAL', initialValue: true, disabled: false },
       { name: 'IMPORTANT', initialValue: true, disabled: false },
       { name: 'MODERATE', initialValue: false, disabled: false },
-      { name: 'MINOR', initialValue: false, disabled: false },
+      { name: 'LOW', initialValue: false, disabled: false },
       { name: 'NONE', initialValue: false, disabled: false },
       { name: 'UNDEFINED', initialValue: false, disabled: false },
     ],
@@ -115,7 +115,7 @@ const subscriptionColumnsSecondEvent = [
       { name: 'CRITICAL', initialValue: false, disabled: false },
       { name: 'IMPORTANT', initialValue: false, disabled: false },
       { name: 'MODERATE', initialValue: false, disabled: false },
-      { name: 'MINOR', initialValue: false, disabled: false },
+      { name: 'LOW', initialValue: false, disabled: false },
       { name: 'NONE', initialValue: false, disabled: false },
       { name: 'UNDEFINED', initialValue: false, disabled: false },
     ],
@@ -136,7 +136,7 @@ export const Default: StoryObj<typeof SeveritySubscriptionGrid> = {
     docs: {
       description: {
         story:
-          'One table: **Severity** | **Frequency**. Six severity rows; the Frequency cell on each row has two checkboxes with labels **Instant email** and **Daily digest email** (from the schema). Daily digest for **Critical** is disabled.',
+          'One table: **Severity** | **Frequency**. Six severity rows (including **Low** from API `LOW`, same minor icon as `MINOR`); the Frequency cell on each row has two checkboxes with labels **Instant email** and **Daily digest email** (from the schema). Daily digest for **Critical** is disabled.',
       },
     },
   },
@@ -150,6 +150,7 @@ export const Default: StoryObj<typeof SeveritySubscriptionGrid> = {
     await expect(
       canvas.getByTestId('severity-subscription-grid')
     ).toBeInTheDocument();
+    await expect(canvas.getByText('Low')).toBeInTheDocument();
     /* 6 severity rows × 2 subscription columns */
     await expect(canvas.getAllByRole('checkbox')).toHaveLength(12);
   },
@@ -228,6 +229,8 @@ export const NotificationPreferencesSection: StoryObj<
     await expect(
       canvas.getAllByTestId('severity-subscription-grid')
     ).toHaveLength(2);
+    /* Two grids, each with a Low (API LOW) row */
+    await expect(canvas.getAllByText('Low')).toHaveLength(2);
     /* Two identical column layouts: 2 × (6 rows × 2 columns) */
     await expect(canvas.getAllByRole('checkbox')).toHaveLength(24);
   },
