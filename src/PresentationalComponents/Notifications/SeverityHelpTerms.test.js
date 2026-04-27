@@ -100,13 +100,15 @@ const renderNotifications = () =>
   );
 
 describe('Severity help terms in Notifications header', () => {
-  it('renders all four severity terms', () => {
+  it('renders all six severity terms', () => {
     renderNotifications();
 
     expect(screen.getByText('Critical')).toBeInTheDocument();
     expect(screen.getByText('Important')).toBeInTheDocument();
     expect(screen.getByText('Moderate')).toBeInTheDocument();
     expect(screen.getByText('Low')).toBeInTheDocument();
+    expect(screen.getByText('None')).toBeInTheDocument();
+    expect(screen.getByText('Undefined')).toBeInTheDocument();
   });
 
   it('renders the severity description sentence', () => {
@@ -144,6 +146,14 @@ describe('Severity help terms in Notifications header', () => {
 
     const lowButton = screen.getByRole('button', { name: /Low/i });
     expect(lowButton).toHaveClass('pref-notifications--severity-term');
+
+    const noneButton = screen.getByRole('button', { name: /^None$/i });
+    expect(noneButton).toHaveClass('pref-notifications--severity-term');
+
+    const undefinedButton = screen.getByRole('button', {
+      name: /Undefined/i,
+    });
+    expect(undefinedButton).toHaveClass('pref-notifications--severity-term');
   });
 
   it('opens a popover when a severity term is clicked', async () => {
@@ -204,6 +214,38 @@ describe('Severity help terms in Notifications header', () => {
     expect(screen.getByText('Information only')).toBeInTheDocument();
   });
 
+  it('shows correct description in None popover', async () => {
+    renderNotifications();
+
+    const noneButton = screen.getByRole('button', { name: /^None$/i });
+    fireEvent.click(noneButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('None severity')).toBeInTheDocument();
+    });
+
+    expect(
+      screen.getByText(/No security-related impact for this notification/)
+    ).toBeInTheDocument();
+  });
+
+  it('shows correct description in Undefined popover', async () => {
+    renderNotifications();
+
+    const undefinedButton = screen.getByRole('button', {
+      name: /Undefined/i,
+    });
+    fireEvent.click(undefinedButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Undefined severity')).toBeInTheDocument();
+    });
+
+    expect(
+      screen.getByText(/Severity may be determined later/)
+    ).toBeInTheDocument();
+  });
+
   it('popover footer contains a Learn more link', async () => {
     renderNotifications();
 
@@ -259,6 +301,12 @@ describe('Severity help terms hidden when feature flag is off', () => {
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole('button', { name: /Low/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /^None$/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Undefined/i })
     ).not.toBeInTheDocument();
   });
 
