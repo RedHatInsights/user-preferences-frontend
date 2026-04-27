@@ -57,7 +57,7 @@ const afterChange = (formOptions, newValue, bundle, app) => {
  * @param {Record<string, unknown>} notifPref
  * @param {Record<string, unknown>} emailPref
  * @param {Record<string, unknown>} emailConfig
- * @param {boolean} [enableSeveritySubscriptionGrid=false] Unleash `platform-notifications-severity` — when true, event types that expose a severity grid render the severity subscription grid component.
+ * @param {boolean} [enableSeveritySubscriptionGrid=false] Unleash `platform.notifications.severity` — when true, event types that expose a severity grid render the severity subscription grid component.
  */
 export const prepareFields = (
   notifPref,
