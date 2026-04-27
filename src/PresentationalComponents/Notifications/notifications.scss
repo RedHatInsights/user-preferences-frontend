@@ -52,6 +52,12 @@
       flex-shrink: 0;
       vertical-align: middle;
     }
+    /* PF severity icons use the `color` prop for token fills; align like table rows */
+    &--severity-inline-icon {
+      display: inline-flex;
+      flex-shrink: 0;
+      vertical-align: middle;
+    }
   }
 
 @media only screen and (max-width: 768px) {
