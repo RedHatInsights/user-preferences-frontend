@@ -4,13 +4,7 @@ import { useFlag } from '@unleash/proxy-client-react';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
-import {
-  Bullseye,
-  Button,
-  Icon,
-  Popover,
-  Spinner,
-} from '@patternfly/react-core';
+import { Bullseye, Button, Popover, Spinner } from '@patternfly/react-core';
 import {
   SeverityCriticalIcon,
   SeverityImportantIcon,
@@ -95,9 +89,10 @@ const SeverityHelpTerm = ({
   <Popover
     headerContent={
       <span className="pref-notifications--severity-popover-header">
-        <Icon style={{ color }}>
-          <SeverityIcon />
-        </Icon>
+        <SeverityIcon
+          color={color}
+          className="pref-notifications--severity-inline-icon"
+        />
         {label} severity
       </span>
     }
@@ -117,9 +112,10 @@ const SeverityHelpTerm = ({
       isInline
       className="pref-notifications--severity-term"
       icon={
-        <Icon style={{ color }}>
-          <SeverityIcon />
-        </Icon>
+        <SeverityIcon
+          color={color}
+          className="pref-notifications--severity-inline-icon"
+        />
       }
     >
       {label}
@@ -129,11 +125,10 @@ const SeverityHelpTerm = ({
 /* eslint-enable react/prop-types */
 
 const Notifications = () => {
-  const isSeverityEnabled = useFlag('platform.notifications.severity');
-  const { auth } = useChrome();
   const platformNotificationsSeverity = useFlag(
     PLATFORM_NOTIFICATIONS_SEVERITY_FLAG
   );
+  const { auth } = useChrome();
   const dispatch = useDispatch();
   const { addNotification } = useNotifications();
   const titleRef = useRef(null);
@@ -263,7 +258,7 @@ const Notifications = () => {
                     Contact your Organization Administrator
                   </Button>{' '}
                   to have these settings updated.
-                  {isSeverityEnabled && (
+                  {platformNotificationsSeverity && (
                     <>
                       <br />
                       Possible notification severity levels include{' '}
