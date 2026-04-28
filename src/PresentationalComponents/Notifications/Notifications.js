@@ -36,11 +36,11 @@ import {
   InputGroup,
   LOADER,
   Loader,
-  SEVERITY_SUBSCRIPTION_GRID,
-  SeveritySubscriptionGrid,
+  NOTIFICATION_EVENT_CARD,
+  NotificationEventCard,
   TAB_GROUP,
 } from '../../SmartComponents/FormComponents';
-import { stripSeverityGridUiFromEventTypes } from '../../SmartComponents/FormComponents/severitySubscriptionGridUtils';
+import { stripSeverityGridUiFromEventTypes } from '../../SmartComponents/FormComponents/severityUtils';
 import { PLATFORM_NOTIFICATIONS_SEVERITY_FLAG } from '../../Utilities/featureFlags';
 import config from '../../config/config.json';
 import FormTabs from './Tabs';
@@ -314,12 +314,12 @@ const Notifications = () => {
               ...componentMapper,
               [DESCRIPTIVE_CHECKBOX]: DescriptiveCheckbox,
               [BULK_SELECT_BUTTON]: BulkSelectButton,
+              [NOTIFICATION_EVENT_CARD]: NotificationEventCard,
               [LOADER]: Loader,
               [DATA_LIST]: DataListLayout,
               [INPUT_GROUP]: InputGroup,
               [FORM_TABS]: FormTabs,
               [TAB_GROUP]: FormTabGroup,
-              [SEVERITY_SUBSCRIPTION_GRID]: SeveritySubscriptionGrid,
             }}
             FormTemplate={FormTemplate}
             schema={{

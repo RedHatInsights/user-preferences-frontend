@@ -1,4 +1,4 @@
-import { moreCriticalSeverityNames, sortSeverityNames } from './severityOrder';
+import { normalizeSeverityKey, sortSeverityNames } from './severityOrder';
 
 export const UI_SEVERITY_COLUMNS_KEY = '_uiSeverityColumns';
 
@@ -92,9 +92,6 @@ export const applySeverityCascade = (
   if (!columns) {
     return value;
   }
-  const allNames = columns.flatMap((c) =>
-    (c.severities || []).map((s) => s.name)
-  );
   const next: SeverityGridFormValue = {
     subscriptionTypes: { ...value.subscriptionTypes },
     [UI_SEVERITY_COLUMNS_KEY]: value[UI_SEVERITY_COLUMNS_KEY],
@@ -106,19 +103,11 @@ export const applySeverityCascade = (
   if (!col) {
     return value;
   }
-  const setCell = (sevName: string, on: boolean) => {
-    const sevMeta = col.severities.find((s) => s.name === sevName);
-    if (!sevMeta || sevMeta.disabled) {
-      return;
-    }
-    next.subscriptionTypes[subKey][sevName] = on;
-  };
-  setCell(severityName, checked);
-  if (checked) {
-    for (const up of moreCriticalSeverityNames(severityName, allNames)) {
-      setCell(up, true);
-    }
+  const sevMeta = col.severities.find((s) => s.name === severityName);
+  if (!sevMeta || sevMeta.disabled) {
+    return value;
   }
+  next.subscriptionTypes[subKey][severityName] = checked;
   return next;
 };
 
@@ -148,6 +137,52 @@ export const buildBulkSeverityGridValue = (
   return next;
 };
 
+/**
+ * Build a severity grid value with only CRITICAL severity enabled across all columns.
+ * Respects disabled cells (preserves their state).
+ * Used for "Select critical only" bulk action.
+ */
+export const buildCriticalOnlySeverityGridValue = (
+  prevValue: boolean | SeverityGridFormValue,
+  columns: SubscriptionColumn[]
+): boolean | SeverityGridFormValue => {
+  if (typeof prevValue === 'boolean') {
+    // For boolean event types, this operation doesn't apply
+    return prevValue;
+  }
+
+  let gridValue: SeverityGridFormValue;
+
+  if (!prevValue?.subscriptionTypes || !prevValue[UI_SEVERITY_COLUMNS_KEY]) {
+    // Initialize from columns if no previous value
+    gridValue = buildInitialSeverityGridValue(columns);
+  } else {
+    gridValue = prevValue;
+  }
+
+  const next: SeverityGridFormValue = {
+    subscriptionTypes: {},
+    [UI_SEVERITY_COLUMNS_KEY]: gridValue[UI_SEVERITY_COLUMNS_KEY],
+  };
+
+  for (const col of gridValue[UI_SEVERITY_COLUMNS_KEY]) {
+    next.subscriptionTypes[col.key] = {};
+    for (const sev of col.severities || []) {
+      const isCritical = normalizeSeverityKey(sev.name) === 'CRITICAL';
+      const prev =
+        gridValue.subscriptionTypes[col.key]?.[sev.name] ??
+        Boolean(sev.initialValue);
+
+      // Enable if CRITICAL and not disabled, otherwise keep previous if disabled, else false
+      next.subscriptionTypes[col.key][sev.name] = sev.disabled
+        ? prev
+        : isCritical;
+    }
+  }
+
+  return next;
+};
+
 /** Whether a single eventTypes entry counts as "fully on" for bulk / afterChange. */
 export const isEventTypePreferenceOn = (value: unknown): boolean => {
   if (typeof value === 'boolean') {
@@ -155,6 +190,10 @@ export const isEventTypePreferenceOn = (value: unknown): boolean => {
   }
   if (isSeverityGridValue(value)) {
     return isSeverityGridFullyEnabled(value);
+  }
+  // Handle simple object structure {INSTANT: bool, DAILY: bool}
+  if (value && typeof value === 'object') {
+    return Object.values(value).some((v) => Boolean(v));
   }
   return Boolean(value);
 };
