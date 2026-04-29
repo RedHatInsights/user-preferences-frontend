@@ -2,17 +2,14 @@ import omit from 'lodash/omit';
 import {
   BULK_SELECT_BUTTON,
   INPUT_GROUP,
-  SEVERITY_SUBSCRIPTION_GRID,
+  NOTIFICATION_EVENT_CARD,
   TAB_GROUP,
 } from '../../SmartComponents/FormComponents/componentTypes';
 import {
   buildBulkSeverityGridValue,
-  buildInitialSeverityGridValue,
-  eventTypeUsesSeverityGrid,
   isEventTypePreferenceOn,
-  isInitialSeverityGridFullyEnabled,
   isSeverityGridValue,
-} from '../../SmartComponents/FormComponents/severitySubscriptionGridUtils';
+} from '../../SmartComponents/FormComponents/severityUtils';
 
 const readEventTypeFieldValue = (values, field) => {
   const m = field.match(
@@ -118,43 +115,62 @@ export const prepareFields = (
                 level: 1,
                 fields: [
                   ...appData.eventTypes.map((eventType, idx) => {
-                    if (
-                      enableSeveritySubscriptionGrid &&
-                      eventTypeUsesSeverityGrid(eventType)
-                    ) {
-                      const subscriptionColumns = eventType.fields.map((f) => ({
-                        key: f.name,
-                        label: f.label || f.title || f.name,
-                        severities: (f.severities || []).map((s) => ({
-                          ...s,
-                        })),
-                      }));
-                      const initialGrid =
-                        buildInitialSeverityGridValue(subscriptionColumns);
-                      selectAllActive =
-                        selectAllActive &&
-                        isInitialSeverityGridFullyEnabled(subscriptionColumns);
+                    if (enableSeveritySubscriptionGrid) {
+                      // Extract event severity from first field's severities array
+                      // Find the enabled (not disabled) severity level
+                      let eventSeverity;
+                      if (eventType.fields?.[0]?.severities) {
+                        const enabledSeverity =
+                          eventType.fields[0].severities.find(
+                            (s) => !s.disabled
+                          );
+                        eventSeverity = enabledSeverity?.name;
+                      }
+
+                      // Map fields to simple subscription field structure
+                      // Extract just the subscription type (INSTANT, DRAWER, etc.) from the nested path
+                      const subscriptionFields = eventType.fields.map((f) => {
+                        // Extract subscription type from name like "bundles[...].emailSubscriptionTypes[INSTANT]"
+                        const match = f.name?.match(
+                          /emailSubscriptionTypes\[([^\]]+)\]/
+                        );
+                        const subscriptionType = match
+                          ? match[1]
+                          : f.name || `field-${idx}`;
+
+                        return {
+                          name: subscriptionType,
+                          label: f.label || f.title || f.name || 'Notification',
+                          initialValue: Boolean(f.initialValue),
+                          disabled: Boolean(f.isDisabled || f.disabled),
+                        };
+                      });
+
+                      // Build initial value as simple object {INSTANT: bool, DRAWER: bool}
+                      const initialValue = subscriptionFields.reduce(
+                        (acc, f) => {
+                          acc[f.name] = f.initialValue;
+                          selectAllActive = selectAllActive && f.initialValue;
+                          return acc;
+                        },
+                        {}
+                      );
+
                       return {
-                        label: eventType.label,
-                        name: `${eventType.name}-${idx}`,
-                        component: INPUT_GROUP,
-                        fields: [
-                          {
-                            name: `bundles[${bundleKey}].applications[${appKey}].eventTypes[${eventType.name}]`,
-                            component: SEVERITY_SUBSCRIPTION_GRID,
-                            subscriptionColumns,
-                            initialValue: initialGrid,
-                            afterChange: (formOptions, checked) =>
-                              afterChange(
-                                formOptions,
-                                checked,
-                                bundleKey,
-                                appKey
-                              ),
-                          },
-                        ],
+                        name: `bundles[${bundleKey}].applications[${appKey}].eventTypes[${eventType.name}]`,
+                        component: NOTIFICATION_EVENT_CARD,
+                        eventName: eventType.name,
+                        eventLabel: eventType.label,
+                        severity: eventSeverity,
+                        subscriptionFields,
+                        bundle: bundleKey,
+                        app: appKey,
+                        initialValue,
+                        afterChange: (formOptions, checked) =>
+                          afterChange(formOptions, checked, bundleKey, appKey),
                       };
                     }
+                    // Fallback to old layout when feature flag is off
                     return {
                       label: eventType.label,
                       name: `${eventType.name}-${idx}`,
@@ -212,6 +228,12 @@ export const prepareFields = (
                                 current,
                                 input.value
                               );
+                            } else if (current && typeof current === 'object') {
+                              // Handle simple object structure {INSTANT: bool, DAILY: bool}
+                              next = Object.keys(current).reduce((acc, key) => {
+                                acc[key] = input.value;
+                                return acc;
+                              }, {});
                             }
                             formOptions.change(field, next);
                           }

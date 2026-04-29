@@ -4,12 +4,13 @@ import {
   UI_SEVERITY_COLUMNS_KEY,
   applySeverityCascade,
   buildBulkSeverityGridValue,
+  buildCriticalOnlySeverityGridValue,
   buildInitialSeverityGridValue,
   eventTypeUsesSeverityGrid,
   isInitialSeverityGridFullyEnabled,
   isSeverityGridFullyEnabled,
   stripSeverityGridUiFromEventTypes,
-} from './severitySubscriptionGridUtils';
+} from './severityUtils';
 import { normalizeSeverityKey, severityRank } from './severityOrder';
 
 const sampleColumns = (): SubscriptionColumn[] => [
@@ -72,7 +73,7 @@ describe('LOW severity alias (backend) vs MINOR (PatternFly)', () => {
     expect(severityRank('LOW')).toBe(severityRank('MINOR'));
   });
 
-  it('cascades when enabling a LOW row like MINOR', () => {
+  it('enables only the selected severity (no cascade)', () => {
     const columns: SubscriptionColumn[] = [
       {
         key: 'INSTANT',
@@ -86,28 +87,40 @@ describe('LOW severity alias (backend) vs MINOR (PatternFly)', () => {
     ];
     const base = buildInitialSeverityGridValue(columns);
     const next = applySeverityCascade(base, 'INSTANT', 'LOW', true);
-    expect(next.subscriptionTypes.INSTANT.CRITICAL).toBe(true);
-    expect(next.subscriptionTypes.INSTANT.IMPORTANT).toBe(true);
+    expect(next.subscriptionTypes.INSTANT.CRITICAL).toBe(false);
+    expect(next.subscriptionTypes.INSTANT.IMPORTANT).toBe(false);
     expect(next.subscriptionTypes.INSTANT.LOW).toBe(true);
   });
 });
 
 describe('applySeverityCascade', () => {
-  it('enables more critical severities when turning on a lower severity', () => {
+  it('toggles only the selected cell without cascade', () => {
     const base = buildInitialSeverityGridValue(sampleColumns());
     const next = applySeverityCascade(base, 'INSTANT', 'MODERATE', true);
-    expect(next.subscriptionTypes.INSTANT.CRITICAL).toBe(true);
-    expect(next.subscriptionTypes.INSTANT.IMPORTANT).toBe(true);
+    expect(next.subscriptionTypes.INSTANT.CRITICAL).toBe(false);
+    expect(next.subscriptionTypes.INSTANT.IMPORTANT).toBe(false);
     expect(next.subscriptionTypes.INSTANT.MODERATE).toBe(true);
     expect(next.subscriptionTypes.DAILY.CRITICAL).toBe(false);
   });
 
-  it('does not enable disabled severities', () => {
+  it('does not modify disabled cells', () => {
     const base = buildInitialSeverityGridValue(sampleColumns());
-    const next = applySeverityCascade(base, 'DAILY', 'MODERATE', true);
+    const next = applySeverityCascade(base, 'DAILY', 'CRITICAL', true);
+    // DAILY.CRITICAL is disabled in sampleColumns, should not change
     expect(next.subscriptionTypes.DAILY.CRITICAL).toBe(false);
-    expect(next.subscriptionTypes.DAILY.IMPORTANT).toBe(true);
-    expect(next.subscriptionTypes.DAILY.MODERATE).toBe(true);
+  });
+
+  it('can disable a cell', () => {
+    const base = buildInitialSeverityGridValue(sampleColumns());
+    const enabled = applySeverityCascade(base, 'INSTANT', 'MODERATE', true);
+    expect(enabled.subscriptionTypes.INSTANT.MODERATE).toBe(true);
+    const disabled = applySeverityCascade(
+      enabled,
+      'INSTANT',
+      'MODERATE',
+      false
+    );
+    expect(disabled.subscriptionTypes.INSTANT.MODERATE).toBe(false);
   });
 });
 
@@ -119,6 +132,52 @@ describe('buildBulkSeverityGridValue', () => {
     const off = buildBulkSeverityGridValue(on, false) as SeverityGridFormValue;
     expect(off.subscriptionTypes.INSTANT.CRITICAL).toBe(false);
     expect(off.subscriptionTypes.DAILY.CRITICAL).toBe(false);
+  });
+});
+
+describe('buildCriticalOnlySeverityGridValue', () => {
+  it('enables only CRITICAL severity cells across all columns', () => {
+    const base = buildInitialSeverityGridValue(sampleColumns());
+    const result = buildCriticalOnlySeverityGridValue(
+      base,
+      sampleColumns()
+    ) as SeverityGridFormValue;
+
+    // INSTANT column: CRITICAL enabled, others disabled
+    expect(result.subscriptionTypes.INSTANT.CRITICAL).toBe(true);
+    expect(result.subscriptionTypes.INSTANT.IMPORTANT).toBe(false);
+    expect(result.subscriptionTypes.INSTANT.MODERATE).toBe(false);
+
+    // DAILY column: CRITICAL is disabled (should preserve disabled state = false)
+    expect(result.subscriptionTypes.DAILY.CRITICAL).toBe(false);
+    expect(result.subscriptionTypes.DAILY.IMPORTANT).toBe(false);
+    expect(result.subscriptionTypes.DAILY.MODERATE).toBe(false);
+  });
+
+  it('respects disabled cells', () => {
+    const base = buildInitialSeverityGridValue(sampleColumns());
+    const result = buildCriticalOnlySeverityGridValue(
+      base,
+      sampleColumns()
+    ) as SeverityGridFormValue;
+
+    // DAILY.CRITICAL is disabled in sampleColumns, should remain false
+    expect(result.subscriptionTypes.DAILY.CRITICAL).toBe(false);
+  });
+
+  it('returns boolean value unchanged for boolean event types', () => {
+    const result = buildCriticalOnlySeverityGridValue(true, sampleColumns());
+    expect(result).toBe(true);
+  });
+
+  it('initializes from columns if no previous value', () => {
+    const result = buildCriticalOnlySeverityGridValue(
+      {} as SeverityGridFormValue,
+      sampleColumns()
+    ) as SeverityGridFormValue;
+
+    expect(result.subscriptionTypes.INSTANT.CRITICAL).toBe(true);
+    expect(result.subscriptionTypes.INSTANT.IMPORTANT).toBe(false);
   });
 });
 
