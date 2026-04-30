@@ -1,0 +1,14 @@
+// Cluster Manager disabled state - show prohibited cursor
+.pref-c-notification-event-card__checkbox--disabled {
+  cursor: not-allowed;
+
+  // Override PatternFly checkbox styles
+  .pf-v6-c-checkbox__input:disabled,
+  .pf-v6-c-checkbox__input[disabled] {
+    cursor: not-allowed;
+  }
+
+  .pf-v6-c-checkbox__label {
+    cursor: not-allowed;
+  }
+}

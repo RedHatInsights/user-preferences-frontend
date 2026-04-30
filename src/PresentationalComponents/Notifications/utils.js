@@ -198,6 +198,7 @@ export const prepareFields = (
               {
                 name: appKey,
                 bundle: bundleKey,
+                app: appKey,
                 label: appData.label,
                 component: TAB_GROUP,
                 fields: [

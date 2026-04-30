@@ -21,6 +21,11 @@ import type { UseFieldApiConfig } from '@data-driven-forms/react-form-renderer';
 import type { FormOptions } from '@data-driven-forms/react-form-renderer';
 import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
+import {
+  CLUSTER_MANAGER_MESSAGE,
+  isClusterManager,
+} from '../../Utilities/clusterManagerConstants';
+import './NotificationEventCard.scss';
 
 export interface SubscriptionField {
   name: string;
@@ -178,6 +183,9 @@ const NotificationEventCard: React.FC<NotificationEventCardProps> = (props) => {
     input: { value = {}, onChange, name },
   } = useFieldApi(fieldProps);
 
+  // Check if this is Cluster Manager context where all controls should be disabled
+  const isClusterManagerContext = isClusterManager(bundle, app);
+
   const handleCheckboxChange = (fieldName: string, checked: boolean) => {
     const next = {
       ...value,
@@ -235,18 +243,34 @@ const NotificationEventCard: React.FC<NotificationEventCardProps> = (props) => {
             flexWrap: 'wrap',
           }}
         >
-          {subscriptionFields.map((field) => (
-            <Checkbox
-              key={field.name}
-              id={`${name}-${field.name}`.replace(/[^a-zA-Z0-9-_]/g, '_')}
-              label={field.label}
-              isChecked={Boolean(value[field.name])}
-              isDisabled={Boolean(field.disabled)}
-              onChange={(_e, checked) =>
-                handleCheckboxChange(field.name, checked)
-              }
-            />
-          ))}
+          {subscriptionFields.map((field) => {
+            const checkbox = (
+              <Checkbox
+                key={field.name}
+                id={`${name}-${field.name}`.replace(/[^a-zA-Z0-9-_]/g, '_')}
+                label={field.label}
+                isChecked={Boolean(value[field.name])}
+                isDisabled={isClusterManagerContext || Boolean(field.disabled)}
+                onChange={(_e, checked) =>
+                  handleCheckboxChange(field.name, checked)
+                }
+                className={
+                  isClusterManagerContext
+                    ? 'pref-c-notification-event-card__checkbox--disabled'
+                    : undefined
+                }
+              />
+            );
+
+            // Wrap in Tooltip if Cluster Manager context
+            return isClusterManagerContext ? (
+              <Tooltip key={field.name} content={CLUSTER_MANAGER_MESSAGE}>
+                {checkbox}
+              </Tooltip>
+            ) : (
+              checkbox
+            );
+          })}
         </div>
       </CardBody>
     </Card>
