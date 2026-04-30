@@ -129,6 +129,10 @@ const FormTabs = ({ fields, titleRef, bundles }) => {
                   ...curr.fields.map((item) => ({
                     ...item,
                     key: `form-${item.bundle}-${item.name}`,
+                    hideField: !(
+                      item.name === navConfig.current.app &&
+                      item.bundle === navConfig.current.bundle
+                    ),
                     fields: [
                       item.fields.map((input) => ({
                         ...input,

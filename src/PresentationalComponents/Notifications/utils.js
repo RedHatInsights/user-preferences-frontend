@@ -1,4 +1,6 @@
+import React from 'react';
 import omit from 'lodash/omit';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import {
   BULK_SELECT_BUTTON,
   INPUT_GROUP,
@@ -10,6 +12,10 @@ import {
   isEventTypePreferenceOn,
   isSeverityGridValue,
 } from '../../SmartComponents/FormComponents/severityUtils';
+import {
+  CLUSTER_MANAGER_URL,
+  isClusterManager,
+} from '../../Utilities/clusterManagerConstants';
 
 const readEventTypeFieldValue = (values, field) => {
   const m = field.match(
@@ -108,8 +114,19 @@ export const prepareFields = (
               ),
               {
                 label: 'Event notifications',
-                description:
-                  'Select how would you like to receive notifications for each event.',
+                description: isClusterManager(bundleKey, appKey) ? (
+                  <>
+                    <InfoCircleIcon
+                      color="var(--pf-t--global--icon--color--status--info--default)"
+                      style={{ marginRight: 'var(--pf-t--global--spacer--sm)' }}
+                    />
+                    Preferences for OpenShift notifications are currently being
+                    managed for individual clusters in the{' '}
+                    <a href={CLUSTER_MANAGER_URL}>Cluster Manager</a> service.
+                  </>
+                ) : (
+                  'Select how would you like to receive notifications for each event.'
+                ),
                 name: 'event-notifications',
                 component: INPUT_GROUP,
                 level: 1,

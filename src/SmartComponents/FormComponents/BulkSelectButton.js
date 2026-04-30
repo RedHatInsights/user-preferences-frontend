@@ -5,6 +5,10 @@ import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 import './BulkSelectButton.scss';
 import { useSearchParams } from 'react-router-dom';
+import {
+  CLUSTER_MANAGER_MESSAGE,
+  isClusterManager,
+} from '../../Utilities/clusterManagerConstants';
 
 const BulkSelectButton = (props) => {
   const formOptions = useFormApi();
@@ -15,19 +19,17 @@ const BulkSelectButton = (props) => {
 
   const [searchParams] = useSearchParams();
 
-  const showTooltipAndDisableButton =
-    searchParams.get('bundle') === 'openshift' &&
-    searchParams.get('app') === 'cluster-manager';
+  const showTooltipAndDisableButton = isClusterManager(
+    searchParams.get('bundle'),
+    searchParams.get('app')
+  );
 
   return showTooltipAndDisableButton ? (
-    <Tooltip content="You can not unsubscribe from these notifications. Please contact your org admin for more information.">
+    <Tooltip content={CLUSTER_MANAGER_MESSAGE}>
       <Button
-        className="pref-c-bulk-select-button"
+        className="pref-c-bulk-select-button pf-v6-u-mb-md"
         variant="secondary"
-        isDisabled={
-          searchParams.get('bundle') === 'openshift' &&
-          searchParams.get('app') === 'cluster-manager'
-        }
+        isDisabled={showTooltipAndDisableButton}
         {...input}
         id={`bulk-select-${section}`}
         onClick={() => onClick?.(formOptions, input)}

@@ -243,7 +243,8 @@ export const unionSeverityRowNames = (
 
 export type StrippedEventPreference =
   | boolean
-  | { subscriptionTypes: Record<string, Record<string, boolean>> };
+  | { subscriptionTypes: Record<string, Record<string, boolean>> }
+  | { emailSubscriptionTypes: Record<string, boolean> };
 
 /** Remove UI-only keys from event type values before POST. */
 export const stripSeverityGridUiFromEventTypes = (
@@ -262,6 +263,12 @@ export const stripSeverityGridUiFromEventTypes = (
           ])
         ),
       };
+      continue;
+    }
+    // Handle simple object structure {INSTANT: bool, DAILY: bool} from NotificationEventCard
+    // Wrap in emailSubscriptionTypes for backend
+    if (typeof v === 'object' && v !== null && !Array.isArray(v)) {
+      out[k] = { emailSubscriptionTypes: v as Record<string, boolean> };
       continue;
     }
     out[k] = v as StrippedEventPreference;

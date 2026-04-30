@@ -1,3 +1,9 @@
 .pref-c-bulk-select-button {
     width: fit-content;
 }
+
+// Cluster Manager disabled state - show prohibited cursor
+.pref-c-bulk-select-button:disabled,
+.pref-c-bulk-select-button[disabled] {
+    cursor: not-allowed;
+}
