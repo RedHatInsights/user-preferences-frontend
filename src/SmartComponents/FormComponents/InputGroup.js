@@ -26,7 +26,7 @@ InputGroup.propTypes = {
   fields: PropTypes.array.isRequired,
   label: PropTypes.string,
   level: PropTypes.number,
-  description: PropTypes.string,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
 export default InputGroup;

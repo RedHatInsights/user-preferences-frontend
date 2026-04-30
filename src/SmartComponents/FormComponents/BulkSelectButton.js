@@ -27,7 +27,7 @@ const BulkSelectButton = (props) => {
   return showTooltipAndDisableButton ? (
     <Tooltip content={CLUSTER_MANAGER_MESSAGE}>
       <Button
-        className="pref-c-bulk-select-button"
+        className="pref-c-bulk-select-button pf-v6-u-mb-md"
         variant="secondary"
         isDisabled={showTooltipAndDisableButton}
         {...input}
