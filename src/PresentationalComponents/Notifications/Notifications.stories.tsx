@@ -35,7 +35,7 @@ Uses MSW to mock notification and email schema APIs. The global Storybook previe
 
 The Unleash flag \`platform.notifications.severity\` controls both the severity help copy in the page subtitle and whether event types that expose a severity grid render the **Severity × Frequency** table (when the API schema matches).
 
-Subtitle severity terms use six PatternFly tiers; the **Low** term uses the minor severity icon. The severity popover header spaces the icon and title (\`pref-notifications--severity-popover-header-title\`).
+Subtitle severity terms use six PatternFly tiers; the **Low** term uses the minor severity icon. The severity popover header uses PatternFly layout and spacing utilities (\`pf-v6-u-display-flex\`, \`pf-v6-u-ml-sm\`, etc.) so spacing follows [design foundations](https://www.patternfly.org/design-foundations/about-design-foundations) tokens.
 
 **Note:** Redux state is the shared registry store; reload the Storybook canvas if another story left stale data.
         `,

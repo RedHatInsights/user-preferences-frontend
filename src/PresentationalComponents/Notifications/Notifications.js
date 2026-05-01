@@ -102,14 +102,12 @@ const SeverityHelpTerm = ({
 }) => (
   <Popover
     headerContent={
-      <span className="pref-notifications--severity-popover-header">
+      <span className="pf-v6-u-display-flex pf-v6-u-align-items-center pf-v6-u-flex-nowrap">
         <SeverityIcon
           color={color}
-          className="pref-notifications--severity-inline-icon"
+          className="pf-v6-u-display-inline-flex pf-v6-u-flex-shrink-0"
         />
-        <span className="pref-notifications--severity-popover-header-title">
-          {label} severity
-        </span>
+        <span className="pf-v6-u-m-0 pf-v6-u-ml-sm">{label} severity</span>
       </span>
     }
     bodyContent={description}
@@ -130,7 +128,7 @@ const SeverityHelpTerm = ({
       icon={
         <SeverityIcon
           color={color}
-          className="pref-notifications--severity-inline-icon"
+          className="pf-v6-u-display-inline-flex pf-v6-u-flex-shrink-0"
         />
       }
     >
@@ -259,7 +257,6 @@ const Notifications = () => {
                     onClick={() => {
                       if (!vaLoading && Models) {
                         const [, setState] = vaHookResult || [];
-                        console.log(Models);
                         setState({
                           isOpen: true,
                           currentModel: Models?.VA,
@@ -274,6 +271,7 @@ const Notifications = () => {
                     Contact your Organization Administrator
                   </Button>{' '}
                   to have these settings updated.
+                  <br></br>
                   {platformNotificationsSeverity && (
                     <>
                       <br />
@@ -295,7 +293,6 @@ const Notifications = () => {
                       >
                         Learn more
                       </a>
-                      .
                     </>
                   )}
                 </>
