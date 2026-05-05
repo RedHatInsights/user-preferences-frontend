@@ -199,4 +199,41 @@ describe('stripSeverityGridUiFromEventTypes', () => {
       (stripped.evt as { subscriptionTypes: unknown }).subscriptionTypes
     ).toBeDefined();
   });
+
+  it('does not double-wrap emailSubscriptionTypes', () => {
+    // When severity flag is OFF, form sends data already wrapped in emailSubscriptionTypes
+    const alreadyWrapped = {
+      emailSubscriptionTypes: {
+        INSTANT: true,
+        DAILY: false,
+      },
+    };
+    const stripped = stripSeverityGridUiFromEventTypes({ evt: alreadyWrapped });
+    // Should not add another layer of wrapping
+    expect(stripped.evt).toEqual({
+      emailSubscriptionTypes: {
+        INSTANT: true,
+        DAILY: false,
+      },
+    });
+    // Verify it's not double-wrapped
+    expect(
+      (stripped.evt as Record<string, unknown>).emailSubscriptionTypes
+    ).not.toHaveProperty('emailSubscriptionTypes');
+  });
+
+  it('wraps plain objects in emailSubscriptionTypes', () => {
+    // When data comes as plain object (no wrapper), wrap it
+    const plainObject = {
+      INSTANT: true,
+      DAILY: false,
+    };
+    const stripped = stripSeverityGridUiFromEventTypes({ evt: plainObject });
+    expect(stripped.evt).toEqual({
+      emailSubscriptionTypes: {
+        INSTANT: true,
+        DAILY: false,
+      },
+    });
+  });
 });

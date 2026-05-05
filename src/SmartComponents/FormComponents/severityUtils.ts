@@ -266,9 +266,19 @@ export const stripSeverityGridUiFromEventTypes = (
       continue;
     }
     // Handle simple object structure {INSTANT: bool, DAILY: bool} from NotificationEventCard
-    // Wrap in emailSubscriptionTypes for backend
+    // Wrap in emailSubscriptionTypes for backend (if not already wrapped)
+    // TODO: Once severity flag is fully rolled out and old INPUT_GROUP code removed,
+    // consider moving this wrapping responsibility into NotificationEventCard itself
+    // to simplify this function's scope to just severity grid data.
     if (typeof v === 'object' && v !== null && !Array.isArray(v)) {
-      out[k] = { emailSubscriptionTypes: v as Record<string, boolean> };
+      // Check if already wrapped in emailSubscriptionTypes to avoid double-wrapping.
+      // Old INPUT_GROUP layout has wrapping already done via backend schema field names.
+      // NotificationEventCard sends unwrapped plain objects.
+      if ('emailSubscriptionTypes' in v) {
+        out[k] = v as StrippedEventPreference;
+      } else {
+        out[k] = { emailSubscriptionTypes: v as Record<string, boolean> };
+      }
       continue;
     }
     out[k] = v as StrippedEventPreference;
