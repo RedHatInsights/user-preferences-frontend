@@ -233,14 +233,7 @@ const Notifications = () => {
         {}
       ),
     };
-    const promises = [
-      dispatch(saveNotificationValues(notificationValues)).catch((err) => {
-        console.error('Notifications save failed:', err);
-        console.error('Error response:', err.response?.data);
-        console.error('Error status:', err.response?.status);
-        throw err;
-      }),
-    ];
+    const promises = [dispatch(saveNotificationValues(notificationValues))];
     const submitEmail = formApi.getState().dirtyFields['is_subscribed'];
     // temporary submitting of RHEL Advisor email pref.
     if (submitEmail) {
@@ -251,12 +244,7 @@ const Notifications = () => {
         url,
         apiName,
       });
-      promises.push(
-        dispatch(action).catch((err) => {
-          console.error('Email preferences save failed:', err);
-          throw err;
-        })
-      );
+      promises.push(dispatch(action));
     }
     Promise.all(promises)
       .then(() => {
@@ -268,23 +256,11 @@ const Notifications = () => {
           title: 'Notification preferences successfully saved',
         });
       })
-      .catch((error) => {
-        console.error('Failed to save notification preferences:', error);
-        const errorMessage =
-          error?.response?.data?.message ||
-          error?.response?.data?.error ||
-          error?.message ||
-          'An unknown error occurred';
-        const errorDetails = error?.response?.data
-          ? JSON.stringify(error.response.data)
-          : '';
+      .catch(() => {
         addNotification({
           dismissable: true,
           variant: 'danger',
           title: 'Notification preferences unsuccessfully saved',
-          description: `${errorMessage}${
-            errorDetails ? ` - Details: ${errorDetails}` : ''
-          }`,
         });
       });
   };
