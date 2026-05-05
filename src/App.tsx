@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
-import { NotificationsPortal, NotificationsProvider } from '@redhat-cloud-services/frontend-components-notifications';
+import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
+import NotificationsProvider from '@redhat-cloud-services/frontend-components-notifications/NotificationsProvider';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import './App.scss';
 import Routing from './Routing';
@@ -7,7 +8,10 @@ import Routing from './Routing';
 const App = () => {
   const { auth, updateDocumentTitle } = useChrome();
 
-  updateDocumentTitle?.('Notification Preferences | Hybrid Cloud Console', true);
+  updateDocumentTitle?.(
+    'Notification Preferences | Hybrid Cloud Console',
+    true
+  );
 
   useEffect(() => {
     (async () => {
