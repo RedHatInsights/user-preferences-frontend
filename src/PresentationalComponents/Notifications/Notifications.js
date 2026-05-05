@@ -138,10 +138,50 @@ const SeverityHelpTerm = ({
 );
 /* eslint-enable react/prop-types */
 
+/* eslint-disable react/prop-types */
+const NotificationsVAButton = () => {
+  const { hookResult: vaHookResult, loading: vaLoading } = useRemoteHook({
+    scope: 'virtualAssistant',
+    module: './state/globalState',
+    importName: 'useVirtualAssistant',
+  });
+
+  const [Models] = useLoadModule(
+    {
+      scope: 'virtualAssistant',
+      module: './state/globalState',
+      importName: 'Models',
+    },
+    {}
+  );
+
+  return (
+    <Button
+      onClick={() => {
+        if (!vaLoading && Models) {
+          const [, setState] = vaHookResult || [];
+          setState({
+            isOpen: true,
+            currentModel: Models?.VA,
+            message:
+              'Contact my organization administrator to update which notifications I receive',
+          });
+        }
+      }}
+      variant="link"
+      isInline
+    >
+      Contact your Organization Administrator
+    </Button>
+  );
+};
+/* eslint-enable react/prop-types */
+
 const Notifications = () => {
   const platformNotificationsSeverity = useFlag(
     PLATFORM_NOTIFICATIONS_SEVERITY_FLAG
   );
+  const isVAEnabled = useFlag('platform.va.environment.enabled');
   const { auth } = useChrome();
   const dispatch = useDispatch();
   const { addNotification } = useNotifications();
@@ -170,21 +210,6 @@ const Notifications = () => {
       dispatch(getNotificationsSchema());
     })();
   }, []);
-
-  const { hookResult: vaHookResult, loading: vaLoading } = useRemoteHook({
-    scope: 'virtualAssistant',
-    module: './state/globalState',
-    importName: 'useVirtualAssistant',
-  });
-
-  const [Models] = useLoadModule(
-    {
-      scope: 'virtualAssistant',
-      module: './state/globalState',
-      importName: 'Models',
-    },
-    {}
-  );
 
   const saveValues = (values, formApi) => {
     const notificationValues = {
@@ -253,23 +278,11 @@ const Notifications = () => {
                   want to be notified. Your Organization Administrator has
                   configured which notifications you can or can{"'"}t receive on
                   their end.{' '}
-                  <Button
-                    onClick={() => {
-                      if (!vaLoading && Models) {
-                        const [, setState] = vaHookResult || [];
-                        setState({
-                          isOpen: true,
-                          currentModel: Models?.VA,
-                          message:
-                            'Contact my organization administrator to update which notifications I receive',
-                        });
-                      }
-                    }}
-                    variant="link"
-                    isInline
-                  >
-                    Contact your Organization Administrator
-                  </Button>{' '}
+                  {isVAEnabled ? (
+                    <NotificationsVAButton />
+                  ) : (
+                    'Contact your Organization Administrator'
+                  )}{' '}
                   to have these settings updated.
                   <br></br>
                   {platformNotificationsSeverity && (
