@@ -4,7 +4,7 @@
 
 /* Storybook documentation styling */
 .sbdocs-wrapper {
-  padding: var(--pf-v5-global--spacer--lg);
+  padding: var(--pf-t--global--spacer--lg);
 }
 
 .sbdocs-content {
@@ -13,9 +13,9 @@
 
 /* Code blocks in MDX */
 .sbdocs pre {
-  background-color: var(--pf-v5-global--BackgroundColor--dark-100);
-  border-radius: var(--pf-v5-global--BorderRadius--sm);
-  padding: var(--pf-v5-global--spacer--md);
+  background-color: var(--pf-t--global--color--background--code);
+  border-radius: var(--pf-t--global--border--radius--small);
+  padding: var(--pf-t--global--spacer--md);
 }
 
 /* Tables in MDX */
@@ -26,12 +26,12 @@
 
 .sbdocs table th,
 .sbdocs table td {
-  border: 1px solid var(--pf-v5-global--BorderColor--100);
-  padding: var(--pf-v5-global--spacer--sm);
+  border: 1px solid var(--pf-t--global--color--border--default);
+  padding: var(--pf-t--global--spacer--sm);
   text-align: left;
 }
 
 .sbdocs table th {
-  background-color: var(--pf-v5-global--BackgroundColor--200);
-  font-weight: var(--pf-v5-global--FontWeight--bold);
+  background-color: var(--pf-t--global--color--background--disabled);
+  font-weight: var(--pf-t--global--font--weight--heading--bold);
 }

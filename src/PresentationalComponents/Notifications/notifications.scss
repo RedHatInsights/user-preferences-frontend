@@ -23,7 +23,7 @@
   }
   &--nav {
     grid-area: nav;
-    border-right: 1px solid var(--pf-t--global--color--border--default, var(--pf-v5-global--BorderColor--100, #d2d2d2));
+    border-right: 1px solid var(--pf-t--global--color--border--default);
     overflow: visible;
   }
   &--inputs {

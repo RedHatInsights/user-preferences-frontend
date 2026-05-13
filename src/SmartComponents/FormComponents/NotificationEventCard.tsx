@@ -94,8 +94,8 @@ const eventLogSeverityLabelStyles: Record<string, React.CSSProperties> = {
   UNDEFINED: severityLabelVars({
     '--pf-v6-c-label--BorderColor':
       'var(--pf-t--global--color--severity--undefined--200)',
-    '--pf-v6-c-label--Color': severityLabelFgOnLight,
-    '--pf-v6-c-label__icon--Color': severityLabelFgOnLight,
+    '--pf-v6-c-label--Color': 'var(--pf-t--global--text--color--regular)',
+    '--pf-v6-c-label__icon--Color': 'var(--pf-t--global--text--color--regular)',
   }),
 };
 
