@@ -38,6 +38,10 @@ const mockInsightsChrome = {
     }),
     getToken: () => Promise.resolve('mock-jwt-token-12345'),
   },
+  // Mock v2 properties
+  _isRbacV2Org: false,
+  _kesselPermissions: [],
+  _kesselMappedPermissions: [],
 };
 
 if (typeof global !== 'undefined') {

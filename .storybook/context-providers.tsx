@@ -77,6 +77,10 @@ export const useChrome = () => {
       push: () => {},
       block: () => () => {},
     },
+    // Add v2 mock properties
+    _isRbacV2Org: chromeConfig._isRbacV2Org || false,
+    _kesselPermissions: chromeConfig._kesselPermissions || [],
+    _kesselMappedPermissions: chromeConfig._kesselMappedPermissions || [],
     ...chromeConfig
   }), [chromeConfig]);
 };

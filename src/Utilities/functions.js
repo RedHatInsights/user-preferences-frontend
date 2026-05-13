@@ -21,10 +21,66 @@ const withNegatedFunction = (booleanFunctions) => {
 export const visibilityFunctions = withNegatedFunction({
   ...insights.chrome?.visibilityFunctions,
   hasLoosePermissions: async (permissions = []) => {
-    const userPermissions = await insights.chrome.getUserPermissions();
-    return permissions.some((item) =>
-      userPermissions?.find(({ permission }) => permission === item)
-    );
+    // Check if org is using RBAC v2 (Kessel)
+    // eslint-disable-next-line rulesdir/no-chrome-api-call-from-window
+    const isV2Org = window.insights?.chrome?._isRbacV2Org || false;
+
+    if (isV2Org) {
+      // Use Kessel permissions for v2 orgs
+      const kesselPermissions =
+        // eslint-disable-next-line rulesdir/no-chrome-api-call-from-window
+        window.insights?.chrome?._kesselMappedPermissions || [];
+
+      // Dynamic import to avoid circular dependency
+      const { mapV1PermissionToKesselRelation } = await import(
+        './kesselWorkspaceRelations'
+      );
+
+      // Check if user has any of the requested permissions
+      const hasPermission = permissions.some((v1Permission) => {
+        const kesselRelation = mapV1PermissionToKesselRelation(v1Permission);
+
+        // If permission is for an unmigrated app (e.g., insights:*:*), grant it
+        // This handles apps that haven't been migrated to v2 yet
+        if (kesselRelation === 'UNMIGRATED') {
+          console.log(
+            '[RBAC v2] Permission not migrated to v2, granting:',
+            v1Permission
+          );
+          return true;
+        }
+
+        // If permission doesn't map (unknown app), deny it
+        if (kesselRelation === null) {
+          console.log('[RBAC v2] Unknown permission, denying:', v1Permission);
+          return false;
+        }
+
+        // Check if user has the Kessel permission
+        const hasKesselPerm = kesselPermissions?.find(
+          ({ permission }) => permission === v1Permission
+        );
+
+        console.log(
+          '[RBAC v2] Permission check:',
+          v1Permission,
+          '→',
+          kesselRelation,
+          '→',
+          hasKesselPerm ? 'ALLOWED' : 'DENIED'
+        );
+
+        return !!hasKesselPerm;
+      });
+
+      return hasPermission;
+    } else {
+      // Use legacy v1 permissions
+      const userPermissions = await insights.chrome.getUserPermissions();
+      return permissions.some((item) =>
+        userPermissions?.find(({ permission }) => permission === item)
+      );
+    }
   },
 });
 
