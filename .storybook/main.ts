@@ -29,6 +29,7 @@ const config: StorybookConfig = {
         '@redhat-cloud-services/frontend-components/useChrome': path.resolve(process.cwd(), '.storybook/hooks/useChrome'),
         '@unleash/proxy-client-react': path.resolve(process.cwd(), '.storybook/hooks/unleash'),
         '@scalprum/react-core': path.resolve(process.cwd(), '.storybook/hooks/scalprum'),
+        '@project-kessel/react-kessel-access-check': path.resolve(process.cwd(), '.storybook/hooks/kessel'),
       },
     };
 

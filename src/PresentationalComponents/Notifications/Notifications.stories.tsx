@@ -8,7 +8,50 @@ import { userPrefInitialState } from './testData';
 const notificationsBundles = userPrefInitialState.notificationsReducer.bundles;
 const advisorEmailSchema = userPrefInitialState.emailReducer.advisor.schema;
 
+// Kessel API handlers for RBAC v2
+const kesselApiHandlers = [
+  // Mock workspace endpoint
+  http.get('/api/rbac/v2/workspaces/', ({ request }) => {
+    const url = new URL(request.url);
+    const type = url.searchParams.get('type');
+    if (type === 'default') {
+      return HttpResponse.json({
+        data: [{
+          id: 'default-workspace-123',
+          name: 'Default Workspace',
+          type: 'default',
+          created: '2024-01-01T00:00:00Z',
+          modified: '2024-01-01T00:00:00Z',
+        }],
+        meta: { count: 1 },
+      });
+    }
+    return HttpResponse.json({ data: [], meta: { count: 0 } });
+  }),
+  // Mock permission check endpoint (checkself) - note: uses /api/kessel/v1beta2
+  http.post('/api/kessel/v1beta2/checkself', async ({ request }) => {
+    const body: any = await request.json();
+    const relation = body?.relation || '';
+
+    // Grant all permissions for this mock
+    const allowedRelations = [
+      'insights_all',
+      'insights_read',
+      'advisor_all',
+      'advisor_read',
+      'advisor_rules_read',
+      'user_preferences_all',
+      'user_preferences_read',
+    ];
+
+    const allowed = allowedRelations.includes(relation) ? 'ALLOWED_TRUE' : 'ALLOWED_FALSE';
+
+    return HttpResponse.json({ allowed });
+  }),
+];
+
 const apiHandlers = [
+  ...kesselApiHandlers,
   http.get(
     /\/api\/notifications\/v1\/user-config\/notification-event-type-preference$/,
     () =>
@@ -109,5 +152,31 @@ export const SeverityHelpOff = {
     expect(
       canvas.queryByRole('button', { name: 'Undefined' })
     ).not.toBeInTheDocument();
+  },
+} satisfies StoryObj<typeof meta>;
+
+export const RbacV2Org = {
+  name: 'With RBAC v2 (Kessel)',
+  render: () => <Notifications />,
+  parameters: {
+    featureFlags: {
+      'platform.rbac.workspaces': true, // Enable v2 org
+      'platform.notifications.severity': true,
+    },
+    chrome: {
+      _isRbacV2Org: true,
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await canvas.findByText(
+      /Possible notification severity levels include/i,
+      {},
+      { timeout: 10000 }
+    );
+    // Verify page loads correctly with Kessel permissions
+    await expect(
+      canvas.getByRole('button', { name: 'Critical' })
+    ).toBeInTheDocument();
   },
 } satisfies StoryObj<typeof meta>;
