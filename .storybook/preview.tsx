@@ -1,13 +1,13 @@
 import type { Preview } from '@storybook/react-webpack5';
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly-addons.css';
-import './storybook.css';
+import '@redhat-cloud-services/hcc-storybook-hub/css/storybook.css';
 import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import NotificationsProvider from '@redhat-cloud-services/frontend-components-notifications/NotificationsProvider';
 import registry from '../src/Utilities/store';
-import { ChromeProvider, FeatureFlagsProvider, type ChromeConfig, type FeatureFlagsConfig } from './context-providers';
+import { ChromeProvider, FeatureFlagsProvider, type ChromeConfig, type FeatureFlagsConfig } from '@redhat-cloud-services/hcc-storybook-hub';
 import { initialize, mswLoader } from 'msw-storybook-addon';
 
 // Mock insights global for Storybook
