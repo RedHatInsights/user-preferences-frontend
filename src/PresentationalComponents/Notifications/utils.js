@@ -139,7 +139,7 @@ export const prepareFields = (
                       if (eventType.fields?.[0]?.severities) {
                         const enabledSeverity =
                           eventType.fields[0].severities.find(
-                            (s) => !s.disabled
+                            (s) => !s.disabled && s.name !== 'UNDEFINED'
                           );
                         eventSeverity = enabledSeverity?.name;
                       }

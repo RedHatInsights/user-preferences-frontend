@@ -11,7 +11,6 @@ import {
   SeverityMinorIcon,
   SeverityModerateIcon,
   SeverityNoneIcon,
-  SeverityUndefinedIcon,
 } from '@patternfly/react-icons';
 import PageHeader from '@patternfly/react-component-groups/dist/dynamic/PageHeader';
 import { useNotifications } from '@redhat-cloud-services/frontend-components-notifications/hooks';
@@ -84,12 +83,6 @@ const severityTerms = [
     icon: SeverityNoneIcon,
     color: 'var(--pf-t--global--icon--color--severity--none--default)',
     description: 'No security-related impact for this notification',
-  },
-  {
-    label: 'Undefined',
-    icon: SeverityUndefinedIcon,
-    color: 'var(--pf-t--global--icon--color--severity--undefined--default)',
-    description: 'Severity may be determined later',
   },
 ];
 

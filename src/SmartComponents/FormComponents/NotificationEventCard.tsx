@@ -166,6 +166,9 @@ const severityDescription: Record<string, string> = {
   UNDEFINED: 'Severity level has not been defined for this event',
 };
 
+const isDisplayableSeverity = (severity?: string): severity is string =>
+  Boolean(severity && severity.toUpperCase() !== 'UNDEFINED');
+
 const NotificationEventCard: React.FC<NotificationEventCardProps> = (props) => {
   const {
     eventName,
@@ -195,12 +198,6 @@ const NotificationEventCard: React.FC<NotificationEventCardProps> = (props) => {
     afterChange?.(formOptions, checked);
   };
 
-  // Check if any option is selected (handle undefined/null value)
-  const hasSelectedOptions =
-    value && typeof value === 'object'
-      ? Object.values(value).some((v) => Boolean(v))
-      : false;
-
   return (
     <Card isCompact style={{ marginBottom: 'var(--pf-t--global--spacer--md)' }}>
       <CardHeader>
@@ -220,7 +217,7 @@ const NotificationEventCard: React.FC<NotificationEventCardProps> = (props) => {
             >
               {eventLabel}
             </span>
-            {severity && hasSelectedOptions && (
+            {isDisplayableSeverity(severity) && (
               <Tooltip
                 content={
                   severityDescription[severity.toUpperCase()] ||
