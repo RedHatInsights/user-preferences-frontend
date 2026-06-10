@@ -16,13 +16,15 @@ const kesselApiHandlers = [
     const type = url.searchParams.get('type');
     if (type === 'default') {
       return HttpResponse.json({
-        data: [{
-          id: 'default-workspace-123',
-          name: 'Default Workspace',
-          type: 'default',
-          created: '2024-01-01T00:00:00Z',
-          modified: '2024-01-01T00:00:00Z',
-        }],
+        data: [
+          {
+            id: 'default-workspace-123',
+            name: 'Default Workspace',
+            type: 'default',
+            created: '2024-01-01T00:00:00Z',
+            modified: '2024-01-01T00:00:00Z',
+          },
+        ],
         meta: { count: 1 },
       });
     }
@@ -44,7 +46,9 @@ const kesselApiHandlers = [
       'user_preferences_read',
     ];
 
-    const allowed = allowedRelations.includes(relation) ? 'ALLOWED_TRUE' : 'ALLOWED_FALSE';
+    const allowed = allowedRelations.includes(relation)
+      ? 'ALLOWED_TRUE'
+      : 'ALLOWED_FALSE';
 
     return HttpResponse.json({ allowed });
   }),
@@ -119,9 +123,6 @@ export const Default = {
     ).toBeInTheDocument();
     await expect(
       canvas.getByRole('button', { name: /^None$/ })
-    ).toBeInTheDocument();
-    await expect(
-      canvas.getByRole('button', { name: 'Undefined' })
     ).toBeInTheDocument();
   },
 } satisfies StoryObj<typeof meta>;

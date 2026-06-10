@@ -89,7 +89,7 @@ describe('NotificationEventCard tests', () => {
     expect(screen.getByLabelText('Daily digest email')).toBeInTheDocument();
   });
 
-  it('should not show severity badge when no options are selected', () => {
+  it('should show severity badge even when no options are selected', () => {
     render(
       <Form onSubmit={() => undefined}>
         {(props) => (
@@ -118,7 +118,39 @@ describe('NotificationEventCard tests', () => {
       </Form>
     );
 
-    expect(screen.queryByText('Critical')).not.toBeInTheDocument();
+    expect(screen.getByText('Critical')).toBeInTheDocument();
+  });
+
+  it('should not show severity badge for undefined severity', () => {
+    render(
+      <Form onSubmit={() => undefined}>
+        {(props) => (
+          <RendererContext.Provider
+            value={
+              {
+                formOptions: {
+                  internalRegisterField: () => undefined,
+                  internalUnRegisterField: () => undefined,
+                } as any,
+              } as any
+            }
+          >
+            <NotificationEventCard
+              name="test-event"
+              eventName="POLICY_FAILED"
+              eventLabel="Policy failed"
+              severity="UNDEFINED"
+              subscriptionFields={sampleFields}
+              bundle="rhel"
+              app="compliance"
+              {...(props as any)}
+            />
+          </RendererContext.Provider>
+        )}
+      </Form>
+    );
+
+    expect(screen.queryByText('Undefined')).not.toBeInTheDocument();
   });
 
   it('should show severity badge when at least one option is selected', () => {
