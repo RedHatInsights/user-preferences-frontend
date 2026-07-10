@@ -15,12 +15,8 @@ rules:
     - ignoreDeclarationSort: true
 overrides:
   - files:
-      - 'src/SmartComponents/FormComponents/severityOrder.ts'
-      - 'src/SmartComponents/FormComponents/severityUtils.ts'
-      - 'src/SmartComponents/FormComponents/severityUtils.test.ts'
-      - 'src/SmartComponents/FormComponents/NotificationEventCard.tsx'
-      - 'src/SmartComponents/FormComponents/NotificationEventCard.test.tsx'
-      - 'src/SmartComponents/FormComponents/NotificationEventCard.stories.tsx'
+      - 'src/**/*.ts'
+      - 'src/**/*.tsx'
     parser: '@typescript-eslint/parser'
     plugins:
       - '@typescript-eslint'

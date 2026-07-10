@@ -57,7 +57,10 @@ const VersionRouter: React.FC = () => {
 
   return hasRbacV2 ? (
     // RBAC v2: Wrap with Kessel providers
-    <AccessCheck.Provider baseUrl={window.location.origin} apiPath="/api/kessel/v1beta2">
+    <AccessCheck.Provider
+      baseUrl={window.location.origin}
+      apiPath="/api/kessel/v1beta2"
+    >
       <KesselRbacAccessProvider>
         <AppInner />
       </KesselRbacAccessProvider>

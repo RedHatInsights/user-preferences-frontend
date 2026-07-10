@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { fetchDefaultWorkspace, Workspace } from '@project-kessel/react-kessel-access-check';
+import {
+  Workspace,
+  fetchDefaultWorkspace,
+} from '@project-kessel/react-kessel-access-check';
 
 /**
  * Hook to fetch and cache the default workspace ID.
@@ -18,7 +21,9 @@ export const useDefaultWorkspace = () => {
         // Use the current origin as the RBAC base endpoint
         const rbacBaseEndpoint = window.location.origin;
 
-        const workspace: Workspace = await fetchDefaultWorkspace(rbacBaseEndpoint);
+        const workspace: Workspace = await fetchDefaultWorkspace(
+          rbacBaseEndpoint
+        );
 
         if (isMounted) {
           setWorkspaceId(workspace.id);
@@ -26,7 +31,11 @@ export const useDefaultWorkspace = () => {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err instanceof Error ? err : new Error('Failed to fetch default workspace'));
+          setError(
+            err instanceof Error
+              ? err
+              : new Error('Failed to fetch default workspace')
+          );
           setIsLoading(false);
         }
       }

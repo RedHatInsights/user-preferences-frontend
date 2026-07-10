@@ -35,16 +35,20 @@ export const mapV1PermissionToKesselRelation = (
 
     // Advisor specific permissions from advisor.ksl
     'advisor:rules:read': 'advisor_rules_read',
-    'advisor:disable_recommendations:read': 'advisor_disable_recommendations_view',
-    'advisor:disable_recommendations:write': 'advisor_disable_recommendations_edit',
+    'advisor:disable_recommendations:read':
+      'advisor_disable_recommendations_view',
+    'advisor:disable_recommendations:write':
+      'advisor_disable_recommendations_edit',
     'advisor:weekly_email:read': 'advisor_weekly_email_view',
     'advisor:weekly_report:read': 'advisor_weekly_report_view',
     'advisor:weekly_report_auto_subscribe:read':
       'advisor_weekly_report_auto_subscribe_view',
     'advisor:weekly_report_auto_subscribe:write':
       'advisor_weekly_report_auto_subscribe_edit',
-    'advisor:recommendation_results:read': 'advisor_recommendation_results_view',
-    'advisor:recommendation_results:write': 'advisor_recommendation_results_edit',
+    'advisor:recommendation_results:read':
+      'advisor_recommendation_results_view',
+    'advisor:recommendation_results:write':
+      'advisor_recommendation_results_edit',
     'advisor:exports:read': 'advisor_exports_view',
   };
 
@@ -70,7 +74,8 @@ export const mapV1PermissionToKesselRelation = (
     // Convert verb: read→read, write→write, *→all
     const kesselVerb = verb === '*' ? 'all' : verb;
     // Convert resource: *→all, kebab-case→snake_case otherwise
-    const kesselResource = resource === '*' ? 'all' : resource.replace(/-/g, '_');
+    const kesselResource =
+      resource === '*' ? 'all' : resource.replace(/-/g, '_');
 
     return `${app}_${kesselResource}_${kesselVerb}`;
   }
