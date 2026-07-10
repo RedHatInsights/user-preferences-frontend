@@ -57,7 +57,8 @@ export const Medium: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Medium loader skeleton - the default size for most form fields.',
+        story:
+          'Medium loader skeleton - the default size for most form fields.',
       },
     },
   },
@@ -70,7 +71,8 @@ export const Large: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Large loader skeleton for larger form sections or content areas.',
+        story:
+          'Large loader skeleton for larger form sections or content areas.',
       },
     },
   },

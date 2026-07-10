@@ -18,84 +18,60 @@ const withNegatedFunction = (booleanFunctions) => {
   };
 };
 
+const hasLoosePermissions = async (
+  permissions = [],
+  { isV2Org = false, kesselMappedPermissions = [] } = {}
+) => {
+  if (isV2Org) {
+    const { mapV1PermissionToKesselRelation } = await import(
+      './kesselWorkspaceRelations'
+    );
+
+    return permissions.some((v1Permission) => {
+      const kesselRelation = mapV1PermissionToKesselRelation(v1Permission);
+
+      if (kesselRelation === 'UNMIGRATED') {
+        return true;
+      }
+
+      if (kesselRelation === null) {
+        return false;
+      }
+
+      return !!kesselMappedPermissions.find(
+        ({ permission }) => permission === v1Permission
+      );
+    });
+  } else {
+    const userPermissions = await insights.chrome.getUserPermissions();
+    return permissions.some((item) =>
+      userPermissions?.find(({ permission }) => permission === item)
+    );
+  }
+};
+
 export const visibilityFunctions = withNegatedFunction({
   ...insights.chrome?.visibilityFunctions,
-  hasLoosePermissions: async (permissions = []) => {
-    // Check if org is using RBAC v2 (Kessel)
-    // eslint-disable-next-line rulesdir/no-chrome-api-call-from-window
-    const isV2Org = window.insights?.chrome?._isRbacV2Org || false;
-
-    if (isV2Org) {
-      // Use Kessel permissions for v2 orgs
-      const kesselPermissions =
-        // eslint-disable-next-line rulesdir/no-chrome-api-call-from-window
-        window.insights?.chrome?._kesselMappedPermissions || [];
-
-      // Dynamic import to avoid circular dependency
-      const { mapV1PermissionToKesselRelation } = await import(
-        './kesselWorkspaceRelations'
-      );
-
-      // Check if user has any of the requested permissions
-      const hasPermission = permissions.some((v1Permission) => {
-        const kesselRelation = mapV1PermissionToKesselRelation(v1Permission);
-
-        // If permission is for an unmigrated app (e.g., insights:*:*), grant it
-        // This handles apps that haven't been migrated to v2 yet
-        if (kesselRelation === 'UNMIGRATED') {
-          console.log(
-            '[RBAC v2] Permission not migrated to v2, granting:',
-            v1Permission
-          );
-          return true;
-        }
-
-        // If permission doesn't map (unknown app), deny it
-        if (kesselRelation === null) {
-          console.log('[RBAC v2] Unknown permission, denying:', v1Permission);
-          return false;
-        }
-
-        // Check if user has the Kessel permission
-        const hasKesselPerm = kesselPermissions?.find(
-          ({ permission }) => permission === v1Permission
-        );
-
-        console.log(
-          '[RBAC v2] Permission check:',
-          v1Permission,
-          '→',
-          kesselRelation,
-          '→',
-          hasKesselPerm ? 'ALLOWED' : 'DENIED'
-        );
-
-        return !!hasKesselPerm;
-      });
-
-      return hasPermission;
-    } else {
-      // Use legacy v1 permissions
-      const userPermissions = await insights.chrome.getUserPermissions();
-      return permissions.some((item) =>
-        userPermissions?.find(({ permission }) => permission === item)
-      );
-    }
-  },
+  hasLoosePermissions,
 });
 
-export const calculatePermissions = (permissions) =>
+export const calculatePermissions = (permissions, rbacContext = {}) =>
   Promise.all(
-    [permissions]
-      .flat()
-      .map(({ method, args }) =>
-        visibilityFunctions?.[method]?.(...(args || []))
-      )
+    [permissions].flat().map(({ method, args }) => {
+      const fn = visibilityFunctions?.[method];
+      if (!fn) return false;
+      const isPermissionCheck =
+        method === 'hasLoosePermissions' || method === '!hasLoosePermissions';
+      return isPermissionCheck
+        ? fn(...(args || []), rbacContext)
+        : fn(...(args || []));
+    })
   ).then((visibility) => visibility.every(Boolean));
 
 export const calculateEmailConfig = (
   { 'email-preference': config } = { 'email-preference': {} },
-  dispatch = () => {}
+  dispatch = () => {},
+  rbacContext = {}
 ) =>
   Object.entries(config)
     .map(
@@ -104,7 +80,7 @@ export const calculateEmailConfig = (
         { permissions, url, apiName, apiVersion, localFile, ...rest },
       ]) => {
         const isVisible = permissions
-          ? calculatePermissions(permissions)
+          ? calculatePermissions(permissions, rbacContext)
           : true;
         (async () => {
           const schemaVisible = await Promise.resolve(isVisible);

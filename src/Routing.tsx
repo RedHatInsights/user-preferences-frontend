@@ -1,9 +1,11 @@
 import React, { Fragment, Suspense, lazy, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import pathnames from './Utilities/pathnames';
-import { InvalidObject } from '@redhat-cloud-services/frontend-components';
+import InvalidObject from '@redhat-cloud-services/frontend-components/InvalidObject';
 
-const Notifications = lazy(() => import('./PresentationalComponents/Notifications/Notifications'));
+const Notifications = lazy(
+  () => import('./PresentationalComponents/Notifications/Notifications')
+);
 
 const routes = [
   {
@@ -28,13 +30,15 @@ const renderRoutes = (routes: RouteType[] = []) =>
 
 export const Routing = () => {
   const renderedRoutes = useMemo(() => renderRoutes(routes), [routes]);
-  return (<Suspense fallback="">
-    <Routes>
-      {renderedRoutes}
-      {/* Catch all unmatched routes */}
-      <Route path="*" element={<Notifications />} />
-    </Routes>
-  </Suspense>
-)}
+  return (
+    <Suspense fallback="">
+      <Routes>
+        {renderedRoutes}
+        {/* Catch all unmatched routes */}
+        <Route path="*" element={<Notifications />} />
+      </Routes>
+    </Suspense>
+  );
+};
 
 export default Routing;

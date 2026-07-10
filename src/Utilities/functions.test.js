@@ -326,81 +326,73 @@ describe('dispatchMessages', () => {
 });
 
 describe('hasLoosePermissions with v2 (Kessel)', () => {
-  beforeEach(() => {
-    // Set up v2 org environment
-    global.insights.chrome._isRbacV2Org = true;
-    global.insights.chrome._kesselMappedPermissions = [
+  const v2Context = {
+    isV2Org: true,
+    kesselMappedPermissions: [
       { permission: 'advisor:*:read', resourceDefinitions: [] },
       { permission: 'user-preferences:*:write', resourceDefinitions: [] },
-    ];
-  });
-
-  afterEach(() => {
-    // Clean up
-    global.insights.chrome._isRbacV2Org = false;
-    global.insights.chrome._kesselMappedPermissions = [];
-  });
+    ],
+  };
 
   it('uses Kessel permissions for v2 org', async () => {
-    const result = await visibilityFunctions.hasLoosePermissions([
-      'advisor:*:read',
-    ]);
+    const result = await visibilityFunctions.hasLoosePermissions(
+      ['advisor:*:read'],
+      v2Context
+    );
     expect(result).toBe(true);
   });
 
   it('returns false when permission not in Kessel list', async () => {
-    const result = await visibilityFunctions.hasLoosePermissions([
-      'advisor:*:*', // User doesn't have advisor:*:* permission
-    ]);
+    const result = await visibilityFunctions.hasLoosePermissions(
+      ['advisor:*:*'],
+      v2Context
+    );
     expect(result).toBe(false);
   });
 
   it('returns true if any permission matches', async () => {
-    const result = await visibilityFunctions.hasLoosePermissions([
-      'advisor:*:*', // Not granted
-      'advisor:*:read', // Granted
-    ]);
+    const result = await visibilityFunctions.hasLoosePermissions(
+      ['advisor:*:*', 'advisor:*:read'],
+      v2Context
+    );
     expect(result).toBe(true);
   });
 
   it('returns false when none of multiple permissions match', async () => {
-    const result = await visibilityFunctions.hasLoosePermissions([
-      'other:*:read',
-      'another:*:write',
-      'missing:*:delete',
-    ]);
-    // All these are not in the Kessel mapped permissions list
+    const result = await visibilityFunctions.hasLoosePermissions(
+      ['other:*:read', 'another:*:write', 'missing:*:delete'],
+      v2Context
+    );
     expect(result).toBe(false);
   });
 
   it('returns false with empty Kessel permissions array', async () => {
-    global.insights.chrome._kesselMappedPermissions = [];
-    const result = await visibilityFunctions.hasLoosePermissions([
-      'advisor:*:read',
-    ]);
+    const result = await visibilityFunctions.hasLoosePermissions(
+      ['advisor:*:read'],
+      { isV2Org: true, kesselMappedPermissions: [] }
+    );
     expect(result).toBe(false);
   });
 
   it('grants permissions for unmigrated apps (insights)', async () => {
-    const result = await visibilityFunctions.hasLoosePermissions([
-      'insights:*:*', // Not migrated to v2, should be granted
-    ]);
+    const result = await visibilityFunctions.hasLoosePermissions(
+      ['insights:*:*'],
+      v2Context
+    );
     expect(result).toBe(true);
   });
 
   it('grants insights permissions even without Kessel perms', async () => {
-    global.insights.chrome._kesselMappedPermissions = [];
-    const result = await visibilityFunctions.hasLoosePermissions([
-      'insights:*:read',
-    ]);
+    const result = await visibilityFunctions.hasLoosePermissions(
+      ['insights:*:read'],
+      { isV2Org: true, kesselMappedPermissions: [] }
+    );
     expect(result).toBe(true);
   });
 });
 
 describe('hasLoosePermissions with v1 (legacy)', () => {
   beforeEach(() => {
-    // Ensure v1 environment
-    global.insights.chrome._isRbacV2Org = false;
     global.insights.chrome.getUserPermissions.mockResolvedValue([
       { permission: 'insights:*:*', resourceDefinitions: [] },
       { permission: 'advisor:*:read', resourceDefinitions: [] },

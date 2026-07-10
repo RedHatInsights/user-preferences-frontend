@@ -1,7 +1,13 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import { FormRenderer, componentTypes } from '@data-driven-forms/react-form-renderer';
-import { componentMapper, FormTemplate } from '@data-driven-forms/pf4-component-mapper';
+import {
+  FormRenderer,
+  componentTypes,
+} from '@data-driven-forms/react-form-renderer';
+import {
+  FormTemplate,
+  componentMapper,
+} from '@data-driven-forms/pf4-component-mapper';
 import { fn } from 'storybook/test';
 import FormButtons from './FormButtons';
 
@@ -66,7 +72,8 @@ export const NoChanges: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Buttons are hidden when the form is pristine (no changes made). Try typing in the field to see them appear.',
+        story:
+          'Buttons are hidden when the form is pristine (no changes made). Try typing in the field to see them appear.',
       },
     },
   },
@@ -105,7 +112,8 @@ export const WithChanges: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Buttons are enabled when the form has unsaved changes. Modify the text field to see the buttons.',
+        story:
+          'Buttons are enabled when the form has unsaved changes. Modify the text field to see the buttons.',
       },
     },
   },
@@ -155,7 +163,8 @@ export const AfterSubmit: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'After a successful submit, buttons are hidden until new changes are made to the form.',
+        story:
+          'After a successful submit, buttons are hidden until new changes are made to the form.',
       },
     },
   },
