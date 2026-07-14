@@ -178,7 +178,8 @@ const Notifications = () => {
   const isVAEnabled = useFlag('platform.va.environment.enabled');
   const isV2Org = useFlag('platform.rbac.workspaces');
   const { auth } = useChrome();
-  const { permissions: kesselMappedPermissions } = useKesselRbacAccess();
+  const { permissions: kesselMappedPermissions, isLoading: kesselLoading } =
+    useKesselRbacAccess();
   const dispatch = useDispatch();
   const { addNotification } = useNotifications();
   const titleRef = useRef(null);
@@ -200,6 +201,7 @@ const Notifications = () => {
   );
 
   useEffect(() => {
+    if (isV2Org && kesselLoading) return;
     (async () => {
       await auth.getUser();
       setEmailConfig(
@@ -210,7 +212,7 @@ const Notifications = () => {
       );
       dispatch(getNotificationsSchema());
     })();
-  }, []);
+  }, [isV2Org, kesselLoading, kesselMappedPermissions]);
 
   const saveValues = (values, formApi) => {
     const notificationValues = {
