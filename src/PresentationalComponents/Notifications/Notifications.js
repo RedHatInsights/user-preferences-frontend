@@ -238,11 +238,11 @@ const Notifications = () => {
     const submitEmail = formApi.getState().dirtyFields['is_subscribed'];
     // temporary submitting of RHEL Advisor email pref.
     if (submitEmail) {
-      const { url, apiName } = emailConfig['advisor'];
+      const { apiName } = emailConfig['advisor'];
       const action = saveEmailValues({
         application: 'advisor',
         values: { is_subscribed: values.is_subscribed },
-        url,
+        url: '/weeklyreportsubscription/',
         apiName,
       });
       promises.push(dispatch(action));
