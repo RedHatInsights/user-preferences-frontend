@@ -1,62 +1,14 @@
-import type { StorybookConfig } from '@storybook/react-webpack5';
+import { createMainConfig } from '@redhat-cloud-services/hcc-storybook-hub/config';
 import path from 'path';
 
-const config: StorybookConfig = {
+export default createMainConfig({
   stories: [
-    "../src/docs/*.mdx",
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
+    '../src/docs/*.mdx',
+    '../src/**/*.mdx',
+    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
-  addons: [
-    "@storybook/addon-webpack5-compiler-swc",
-    "@storybook/addon-docs",
-    "msw-storybook-addon",
-  ],
-  framework: {
-    name: "@storybook/react-webpack5",
-    options: {}
-  },
-  docs: {
-    defaultName: 'Documentation',
-  },
   staticDirs: ['../static'],
-  webpackFinal: async (config) => {
-    // Mock hooks for Storybook - replace real implementations with our context-aware versions
-    config.resolve = {
-      ...config.resolve,
-      alias: {
-        ...config.resolve?.alias,
-        '@redhat-cloud-services/frontend-components/useChrome': path.resolve(process.cwd(), '.storybook/hooks/useChrome'),
-        '@unleash/proxy-client-react': path.resolve(process.cwd(), '.storybook/hooks/unleash'),
-        '@scalprum/react-core': path.resolve(process.cwd(), '.storybook/hooks/scalprum'),
-        '@project-kessel/react-kessel-access-check': path.resolve(process.cwd(), '.storybook/hooks/kessel'),
-      },
-    };
-
-    // Add SCSS support
-    config.module = config.module || {};
-    config.module.rules = config.module.rules || [];
-
-    // Add SCSS rule
-    config.module.rules.push({
-      test: /\.s[ac]ss$/i,
-      use: [
-        'style-loader',
-        'css-loader',
-        'sass-loader',
-      ],
-    });
-
-    return config;
+  extraAliases: {
+    '@scalprum/react-core': path.resolve(process.cwd(), '.storybook/hooks/scalprum'),
   },
-  typescript: {
-    check: false,
-    reactDocgen: 'react-docgen-typescript',
-    reactDocgenTypescriptOptions: {
-      shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
-    },
-  },
-};
-
-export default config;
+});
