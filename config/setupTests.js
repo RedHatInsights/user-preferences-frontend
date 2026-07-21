@@ -15,7 +15,7 @@ if (!global.crypto.randomUUID) {
 }
 
 jest.mock('@unleash/proxy-client-react', () => ({
-  useFlag: jest.fn(() => false), // Default to v1 org
+  useFlag: jest.fn(() => false),
 }));
 
 // Mock Kessel SDK
@@ -40,10 +40,6 @@ global.insights = {
         { permission: 'user-preferences:*:*', resourceDefinitions: [] },
       ])
     ),
-    // Mock v2 properties
-    _isRbacV2Org: false,
-    _kesselPermissions: [],
-    _kesselMappedPermissions: [],
   },
 };
 global.ResizeObserver = jest.fn().mockImplementation(() => ({

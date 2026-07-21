@@ -155,29 +155,3 @@ export const SeverityHelpOff = {
     ).not.toBeInTheDocument();
   },
 } satisfies StoryObj<typeof meta>;
-
-export const RbacV2Org = {
-  name: 'With RBAC v2 (Kessel)',
-  render: () => <Notifications />,
-  parameters: {
-    featureFlags: {
-      'platform.rbac.workspaces': true, // Enable v2 org
-      'platform.notifications.severity': true,
-    },
-    chrome: {
-      _isRbacV2Org: true,
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await canvas.findByText(
-      /Possible notification severity levels include/i,
-      {},
-      { timeout: 10000 }
-    );
-    // Verify page loads correctly with Kessel permissions
-    await expect(
-      canvas.getByRole('button', { name: 'Critical' })
-    ).toBeInTheDocument();
-  },
-} satisfies StoryObj<typeof meta>;

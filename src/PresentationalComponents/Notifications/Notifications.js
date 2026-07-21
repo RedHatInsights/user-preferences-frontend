@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 import { useFlag } from '@unleash/proxy-client-react';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { useKesselRbacAccess } from '../../Utilities/kesselRbac';
+
 import { FormRenderer } from '@data-driven-forms/react-form-renderer';
 import { componentMapper } from '@data-driven-forms/pf4-component-mapper';
 import { Bullseye, Button, Popover, Spinner } from '@patternfly/react-core';
@@ -176,7 +177,6 @@ const Notifications = () => {
     PLATFORM_NOTIFICATIONS_SEVERITY_FLAG
   );
   const isVAEnabled = useFlag('platform.va.environment.enabled');
-  const isV2Org = useFlag('platform.rbac.workspaces');
   const { auth } = useChrome();
   const { permissions: kesselMappedPermissions } = useKesselRbacAccess();
   const dispatch = useDispatch();
@@ -204,7 +204,6 @@ const Notifications = () => {
       await auth.getUser();
       setEmailConfig(
         calculateEmailConfig(config, dispatch, {
-          isV2Org,
           kesselMappedPermissions,
         })
       );
@@ -252,7 +251,6 @@ const Notifications = () => {
         submitEmail &&
           setEmailConfig(
             calculateEmailConfig(config, dispatch, {
-              isV2Org,
               kesselMappedPermissions,
             })
           );

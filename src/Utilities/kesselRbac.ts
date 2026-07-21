@@ -97,7 +97,7 @@ export const KesselRbacAccessProvider: React.FC<{
 
     return ADVISOR_RELATIONS.map((relation) => ({
       id: workspaceId,
-      type: 'rbac/workspace' as const,
+      type: 'workspace' as const,
       reporter: { type: 'rbac' as const },
       relation,
     })) as NonEmptyResources;

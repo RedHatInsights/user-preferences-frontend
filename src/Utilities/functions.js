@@ -20,34 +20,27 @@ const withNegatedFunction = (booleanFunctions) => {
 
 const hasLoosePermissions = async (
   permissions = [],
-  { isV2Org = false, kesselMappedPermissions = [] } = {}
+  { kesselMappedPermissions = [] } = {}
 ) => {
-  if (isV2Org) {
-    const { mapV1PermissionToKesselRelation } = await import(
-      './kesselWorkspaceRelations'
+  const { mapV1PermissionToKesselRelation } = await import(
+    './kesselWorkspaceRelations'
+  );
+
+  return permissions.some((v1Permission) => {
+    const kesselRelation = mapV1PermissionToKesselRelation(v1Permission);
+
+    if (kesselRelation === 'UNMIGRATED') {
+      return true;
+    }
+
+    if (kesselRelation === null) {
+      return false;
+    }
+
+    return !!kesselMappedPermissions.find(
+      ({ permission }) => permission === v1Permission
     );
-
-    return permissions.some((v1Permission) => {
-      const kesselRelation = mapV1PermissionToKesselRelation(v1Permission);
-
-      if (kesselRelation === 'UNMIGRATED') {
-        return true;
-      }
-
-      if (kesselRelation === null) {
-        return false;
-      }
-
-      return !!kesselMappedPermissions.find(
-        ({ permission }) => permission === v1Permission
-      );
-    });
-  } else {
-    const userPermissions = await insights.chrome.getUserPermissions();
-    return permissions.some((item) =>
-      userPermissions?.find(({ permission }) => permission === item)
-    );
-  }
+  });
 };
 
 export const visibilityFunctions = withNegatedFunction({
