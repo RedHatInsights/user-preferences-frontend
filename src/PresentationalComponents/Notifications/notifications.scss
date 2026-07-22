@@ -1,7 +1,6 @@
 .pref-notifications {
   &--container {
     height: 100%;
-    background-color: var(--pf-t--global--color--background--secondary);
   }
   &--wrapper {
     display: block;
@@ -25,11 +24,26 @@
     grid-area: nav;
     border-right: 1px solid var(--pf-t--global--color--border--default);
     overflow: visible;
+    background: var(--pf-t--global--background--color--primary--default);
+
+    // Ensure Menu component and search inside nav get glass treatment
+    .pf-v6-c-menu,
+    .pf-v6-c-menu__search,
+    .pf-v6-c-menu__content {
+      background: transparent;
+    }
+
+    // Make menu item highlights semi-transparent for glass effect
+    .pf-v6-c-menu__list-item {
+      &.pf-m-focus,
+      &.pf-m-focused {
+        background-color: var(--pf-t--global--background--color--action--hover--default);
+      }
+    }
   }
   &--inputs {
     grid-area: inputs;
     padding: var(--pf-t--global--spacer--lg);
-    background-color: var(--pf-t--global--color--background--secondary);
     overflow: visible;
   }
   &--severity-term {
