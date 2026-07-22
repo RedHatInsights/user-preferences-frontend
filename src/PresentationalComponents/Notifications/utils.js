@@ -61,12 +61,14 @@ const afterChange = (formOptions, newValue, bundle, app) => {
  * @param {Record<string, unknown>} emailPref
  * @param {Record<string, unknown>} emailConfig
  * @param {boolean} [enableSeveritySubscriptionGrid=false] Unleash `platform.notifications.severity` — when true, event types that expose a severity grid render the severity subscription grid component.
+ * @param {number} [customThreshold] Custom threshold percentage from org preferences
  */
 export const prepareFields = (
   notifPref,
   emailPref,
   emailConfig,
-  enableSeveritySubscriptionGrid = false
+  enableSeveritySubscriptionGrid = false,
+  customThreshold
 ) =>
   Object.entries(notifPref).reduce((acc, [bundleKey, bundleData]) => {
     return [
@@ -131,71 +133,93 @@ export const prepareFields = (
                 component: INPUT_GROUP,
                 level: 1,
                 fields: [
-                  ...appData.eventTypes.map((eventType, idx) => {
-                    if (enableSeveritySubscriptionGrid) {
-                      // Extract event severity from first field's severities array
-                      // Find the enabled (not disabled) severity level
-                      let eventSeverity;
-                      if (eventType.fields?.[0]?.severities) {
-                        const enabledSeverity =
-                          eventType.fields[0].severities.find(
-                            (s) => !s.disabled && s.name !== 'UNDEFINED'
-                          );
-                        eventSeverity = enabledSeverity?.name;
+                  ...appData.eventTypes
+                    .slice()
+                    .sort((a, b) => {
+                      // Check if events are threshold-related
+                      const aIsCustomThreshold =
+                        a.label?.toLowerCase().includes('custom') &&
+                        a.label?.toLowerCase().includes('threshold');
+                      const bIsCustomThreshold =
+                        b.label?.toLowerCase().includes('custom') &&
+                        b.label?.toLowerCase().includes('threshold');
+                      const aIsThreshold = a.label
+                        ?.toLowerCase()
+                        .includes('threshold');
+                      const bIsThreshold = b.label
+                        ?.toLowerCase()
+                        .includes('threshold');
+
+                      // If both are threshold events, put regular before custom
+                      if (aIsThreshold && bIsThreshold) {
+                        if (aIsCustomThreshold && !bIsCustomThreshold) return 1;
+                        if (!aIsCustomThreshold && bIsCustomThreshold)
+                          return -1;
                       }
 
-                      // Map fields to simple subscription field structure
-                      // Extract just the subscription type (INSTANT, DRAWER, etc.) from the nested path
-                      const subscriptionFields = eventType.fields.map((f) => {
-                        // Extract subscription type from name like "bundles[...].emailSubscriptionTypes[INSTANT]"
-                        const match = f.name?.match(
-                          /emailSubscriptionTypes\[([^\]]+)\]/
+                      // Keep original order for non-threshold events
+                      return 0;
+                    })
+                    .map((eventType, idx) => {
+                      if (enableSeveritySubscriptionGrid) {
+                        // Extract event severity from first field's severities array
+                        // Find the enabled (not disabled) severity level
+                        let eventSeverity;
+                        if (eventType.fields?.[0]?.severities) {
+                          const enabledSeverity =
+                            eventType.fields[0].severities.find(
+                              (s) => !s.disabled && s.name !== 'UNDEFINED'
+                            );
+                          eventSeverity = enabledSeverity?.name;
+                        }
+
+                        // Map fields to simple subscription field structure
+                        // Extract just the subscription type (INSTANT, DRAWER, etc.) from the nested path
+                        const subscriptionFields = eventType.fields.map((f) => {
+                          // Extract subscription type from name like "bundles[...].emailSubscriptionTypes[INSTANT]"
+                          const match = f.name?.match(
+                            /emailSubscriptionTypes\[([^\]]+)\]/
+                          );
+                          const subscriptionType = match
+                            ? match[1]
+                            : f.name || `field-${idx}`;
+
+                          return {
+                            name: subscriptionType,
+                            label:
+                              f.label || f.title || f.name || 'Notification',
+                            initialValue: Boolean(f.initialValue),
+                            disabled: Boolean(f.isDisabled || f.disabled),
+                          };
+                        });
+
+                        // Build initial value as simple object {INSTANT: bool, DRAWER: bool}
+                        const initialValue = subscriptionFields.reduce(
+                          (acc, f) => {
+                            acc[f.name] = f.initialValue;
+                            selectAllActive = selectAllActive && f.initialValue;
+                            return acc;
+                          },
+                          {}
                         );
-                        const subscriptionType = match
-                          ? match[1]
-                          : f.name || `field-${idx}`;
 
-                        return {
-                          name: subscriptionType,
-                          label: f.label || f.title || f.name || 'Notification',
-                          initialValue: Boolean(f.initialValue),
-                          disabled: Boolean(f.isDisabled || f.disabled),
-                        };
-                      });
+                        // Check if this is a custom threshold event and add description/helpText
+                        const isCustomThreshold =
+                          eventType.label?.toLowerCase().includes('custom') &&
+                          eventType.label?.toLowerCase().includes('threshold');
 
-                      // Build initial value as simple object {INSTANT: bool, DRAWER: bool}
-                      const initialValue = subscriptionFields.reduce(
-                        (acc, f) => {
-                          acc[f.name] = f.initialValue;
-                          selectAllActive = selectAllActive && f.initialValue;
-                          return acc;
-                        },
-                        {}
-                      );
-
-                      return {
-                        name: `bundles[${bundleKey}].applications[${appKey}].eventTypes[${eventType.name}]`,
-                        component: NOTIFICATION_EVENT_CARD,
-                        eventName: eventType.name,
-                        eventLabel: eventType.label,
-                        severity: eventSeverity,
-                        subscriptionFields,
-                        bundle: bundleKey,
-                        app: appKey,
-                        initialValue,
-                        afterChange: (formOptions, checked) =>
-                          afterChange(formOptions, checked, bundleKey, appKey),
-                      };
-                    }
-                    // Fallback to old layout when feature flag is off
-                    return {
-                      label: eventType.label,
-                      name: `${eventType.name}-${idx}`,
-                      component: INPUT_GROUP,
-                      fields: eventType.fields.map((field) => {
-                        selectAllActive = selectAllActive && field.initialValue;
-                        return {
-                          ...omit(field, ['description']),
+                        const cardProps = {
+                          name: `bundles[${bundleKey}].applications[${appKey}].eventTypes[${eventType.name}]`,
+                          component: NOTIFICATION_EVENT_CARD,
+                          eventName: eventType.name,
+                          eventLabel: isCustomThreshold
+                            ? 'Usage at custom percentage'
+                            : eventType.label,
+                          severity: eventSeverity,
+                          subscriptionFields,
+                          bundle: bundleKey,
+                          app: appKey,
+                          initialValue,
                           afterChange: (formOptions, checked) =>
                             afterChange(
                               formOptions,
@@ -204,9 +228,40 @@ export const prepareFields = (
                               appKey
                             ),
                         };
-                      }),
-                    };
-                  }),
+
+                        // Add custom threshold-specific properties
+                        if (
+                          isCustomThreshold &&
+                          customThreshold !== undefined
+                        ) {
+                          cardProps.description = `Custom percentage has been set to ${customThreshold}%`;
+                          cardProps.helpText =
+                            'Please contact your admin if you have any question regarding the custom percentage.';
+                        }
+
+                        return cardProps;
+                      }
+                      // Fallback to old layout when feature flag is off
+                      return {
+                        label: eventType.label,
+                        name: `${eventType.name}-${idx}`,
+                        component: INPUT_GROUP,
+                        fields: eventType.fields.map((field) => {
+                          selectAllActive =
+                            selectAllActive && field.initialValue;
+                          return {
+                            ...omit(field, ['description']),
+                            afterChange: (formOptions, checked) =>
+                              afterChange(
+                                formOptions,
+                                checked,
+                                bundleKey,
+                                appKey
+                              ),
+                          };
+                        }),
+                      };
+                    }),
                 ],
               },
             ];

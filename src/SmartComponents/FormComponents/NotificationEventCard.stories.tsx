@@ -320,3 +320,62 @@ export const SeverityBadgeVisibility = {
     </Card>
   ),
 };
+
+export const WithDescriptionAndHelpIcon = {
+  render: () => (
+    <Card>
+      <CardBody>
+        <Content>
+          <Title headingLevel="h2">
+            Usage at custom percentage event with help icon
+          </Title>
+          <p>
+            This example demonstrates the usage at custom percentage event with
+            a help icon tooltip and a description showing the configured
+            threshold percentage.
+          </p>
+        </Content>
+        <FormRenderer
+          componentMapper={{
+            ...componentMapper,
+            [NOTIFICATION_EVENT_CARD]: NotificationEventCard,
+          }}
+          FormTemplate={FormTemplate}
+          schema={{
+            fields: [
+              {
+                name: 'bundles[subscriptions].applications[usage].eventTypes[CUSTOM_THRESHOLD]',
+                component: NOTIFICATION_EVENT_CARD,
+                eventName: 'CUSTOM_THRESHOLD',
+                eventLabel: 'Usage at custom percentage',
+                severity: 'MODERATE',
+                subscriptionFields: [
+                  {
+                    name: 'INSTANT',
+                    label: 'Instant notification',
+                    initialValue: false,
+                  },
+                  {
+                    name: 'DRAWER',
+                    label: 'Drawer notification',
+                    initialValue: false,
+                  },
+                ],
+                bundle: 'subscriptions',
+                app: 'usage',
+                initialValue: {
+                  INSTANT: false,
+                  DRAWER: false,
+                },
+                description: 'Custom percentage has been set to 85%',
+                helpText:
+                  'Please contact your admin if you have any question regarding the custom percentage.',
+              },
+            ],
+          }}
+          onSubmit={(values) => console.log('Form submitted:', values)}
+        />
+      </CardBody>
+    </Card>
+  ),
+};
