@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from '@patternfly/react-core';
 import type { LabelProps } from '@patternfly/react-core';
+import { HelpIcon } from '@patternfly/react-icons';
 import {
   SeverityCriticalIcon,
   SeverityImportantIcon,
@@ -41,7 +42,9 @@ export interface NotificationEventCardProps extends UseFieldApiConfig {
   subscriptionFields: SubscriptionField[];
   bundle: string;
   app: string;
-  afterChange?: (formOptions: FormOptions, checked: boolean) => void;
+  afterChange?: (_formOptions: FormOptions, _checked: boolean) => void;
+  description?: string;
+  helpText?: string;
 }
 
 /**
@@ -178,6 +181,8 @@ const NotificationEventCard: React.FC<NotificationEventCardProps> = (props) => {
     bundle,
     app,
     afterChange,
+    description,
+    helpText,
     ...fieldProps
   } = props;
 
@@ -213,9 +218,22 @@ const NotificationEventCard: React.FC<NotificationEventCardProps> = (props) => {
             <span
               style={{
                 fontWeight: 'var(--pf-t--global--font--weight--body--bold)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--pf-t--global--spacer--sm)',
               }}
             >
               {eventLabel}
+              {helpText && (
+                <Tooltip content={helpText}>
+                  <HelpIcon
+                    style={{
+                      color: 'var(--pf-t--global--icon--color--subtle)',
+                      cursor: 'pointer',
+                    }}
+                  />
+                </Tooltip>
+              )}
             </span>
             {isDisplayableSeverity(severity) && (
               <Tooltip
@@ -269,6 +287,17 @@ const NotificationEventCard: React.FC<NotificationEventCardProps> = (props) => {
             );
           })}
         </div>
+        {description && (
+          <div
+            style={{
+              marginTop: 'var(--pf-t--global--spacer--sm)',
+              color: 'var(--pf-t--global--text--color--subtle)',
+              fontSize: 'var(--pf-t--global--font--size--body--sm)',
+            }}
+          >
+            {description}
+          </div>
+        )}
       </CardBody>
     </Card>
   );
