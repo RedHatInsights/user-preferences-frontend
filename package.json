@@ -62,7 +62,7 @@
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-flow": "^7.27.1",
     "@babel/preset-react": "^7.28.5",
-    "@babel/preset-typescript": "^7.28.5",
+    "@babel/preset-typescript": "^8.0.1",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "@patternfly/patternfly": "^6.4.0",
