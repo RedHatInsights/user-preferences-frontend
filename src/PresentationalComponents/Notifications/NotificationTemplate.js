@@ -30,7 +30,12 @@ const NotificationsTemplate = ({ schema, formFields }) => {
       !formApi.getState().dirty ||
       triggerExit.confirmed ||
       triggerExit.search.length > 0;
+    // Only navigate once `block` has told us where the user actually wanted to go.
+    // On mount `triggerExit.pathname` is still empty, and `chromeHistory.push('')`
+    // resolves to the current pathname with the query string dropped -- which would
+    // discard deep-link params such as `?bundle=console&app=rbac`.
     navigationAllowed &&
+      triggerExit.pathname.length > 0 &&
       handleGoToIntendedPage(triggerExit.pathname, triggerExit.search);
 
     const unblock = chromeHistory.block(({ location }) => {
