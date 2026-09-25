@@ -42,6 +42,46 @@ describe('getNavFromURL', () => {
     const expected = { bundle: 'group', app: 'test' };
     expect(result).toMatchObject(expected);
   });
+
+  it('keeps a known bundle and falls back to its first app when app is missing', () => {
+    const result = getNavFromURL(
+      { search: '?bundle=console' },
+      mockedNavigate,
+      [
+        { name: 'rhel', fields: [{ name: 'advisor' }] },
+        { name: 'console', fields: [{ name: 'sources' }, { name: 'rbac' }] },
+      ],
+      { bundle: 'rhel', app: 'advisor' }
+    );
+    expect(mockedNavigate).toBeCalledWith(
+      { pathname: undefined, search: 'bundle=console&app=sources' },
+      { replace: true }
+    );
+    expect(result).toMatchObject({ bundle: 'console', app: 'sources' });
+  });
+
+  it('keeps a known bundle when the app is not one of its own', () => {
+    const result = getNavFromURL(
+      { search: '?bundle=console&app=advisor' },
+      mockedNavigate,
+      [
+        { name: 'rhel', fields: [{ name: 'advisor' }] },
+        { name: 'console', fields: [{ name: 'sources' }, { name: 'rbac' }] },
+      ],
+      { bundle: 'rhel', app: 'advisor' }
+    );
+    expect(result).toMatchObject({ bundle: 'console', app: 'sources' });
+  });
+
+  it('falls back to the defaults when the bundle is unknown', () => {
+    const result = getNavFromURL(
+      { search: '?bundle=nope&app=nope' },
+      mockedNavigate,
+      [{ name: 'rhel', fields: [{ name: 'advisor' }] }],
+      { bundle: 'rhel', app: 'advisor' }
+    );
+    expect(result).toMatchObject({ bundle: 'rhel', app: 'advisor' });
+  });
 });
 
 describe('setNavToURL', () => {
