@@ -1,3 +1,4 @@
+import { defineMessages, injectIntl } from 'react-intl';
 import React, { Component } from 'react';
 import {
   DataList,
@@ -10,7 +11,7 @@ import PropTypes from 'prop-types';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import useFieldApi from '@data-driven-forms/react-form-renderer/use-field-api';
 
-class DataListRow extends Component {
+class DataListRowBase extends Component {
   state = {
     hasError: false,
   };
@@ -35,7 +36,7 @@ class DataListRow extends Component {
             </DataListCell>,
             <DataListCell isFilled key={`${fieldsKey}-content`}>
               {hasError
-                ? 'Error while mapping fields, please check your schema if it has valid component types'
+                ? this.props.intl.formatMessage(messages.mappingError)
                 : formOptions?.renderForm(fields, formOptions)}
             </DataListCell>,
           ]}
@@ -45,7 +46,7 @@ class DataListRow extends Component {
   }
 }
 
-DataListRow.propTypes = {
+DataListRowBase.propTypes = {
   fieldsKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fields: PropTypes.array,
   FieldProvider: PropTypes.any,
@@ -54,9 +55,21 @@ DataListRow.propTypes = {
   name: PropTypes.string,
   validate: PropTypes.any,
   FormSpyProvider: PropTypes.any,
+  intl: PropTypes.object,
 };
 
 // eslint-disable-next-line no-unused-vars
+
+const messages = defineMessages({
+  mappingError: {
+    id: 'userPrefs.dataList.mappingError',
+    defaultMessage:
+      'Error while mapping fields, please check your schema if it has valid component types',
+  },
+});
+
+const DataListRow = injectIntl(DataListRowBase);
+
 const DataListLayout = (props) => {
   const { sections, label, name } = useFieldApi(props);
   const formOptions = useFormApi();

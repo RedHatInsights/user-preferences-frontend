@@ -51,41 +51,130 @@ import { prepareFields } from './utils';
 import FormTemplate from './NotificationTemplate';
 import './notifications.scss';
 import { useLoadModule, useRemoteHook } from '@scalprum/react-core';
+import { FormattedMessage, defineMessages, useIntl } from 'react-intl';
 
 const SEVERITY_LEARN_MORE_URL =
   'https://docs.redhat.com/en/documentation/red_hat_hybrid_cloud_console/1-latest/html-single/configuring_notifications_on_the_red_hat_hybrid_cloud_console/index#con-notif-severity_notif-config-intro';
 
-const severityTerms = [
-  {
-    label: 'Critical',
-    icon: SeverityCriticalIcon,
-    color: 'var(--pf-t--global--icon--color--severity--critical--default)',
-    description:
+const messages = defineMessages({
+  contactAdminUpdate: {
+    id: 'userPrefs.notifications.contactAdminUpdate',
+    defaultMessage:
+      'Contact my organization administrator to update which notifications I receive',
+  },
+  contactYourAdmin: {
+    id: 'userPrefs.notifications.contactYourAdmin',
+    defaultMessage: 'Contact your Organization Administrator',
+  },
+  severityLabel: {
+    id: 'userPrefs.notifications.severityLabel',
+    defaultMessage: '{label} severity',
+  },
+  learnMore: {
+    id: 'userPrefs.notifications.learnMore',
+    defaultMessage: 'Learn more',
+  },
+  myNotifications: {
+    id: 'userPrefs.notifications.myNotifications',
+    defaultMessage: 'My Notifications',
+  },
+  subtitle: {
+    id: 'userPrefs.notifications.subtitle',
+    defaultMessage:
+      'Opt in or out of receiving notifications, and choose how you want to be notified. Your Organization Administrator has configured which notifications you can or cannot receive on their end. {adminContact} to have these settings updated.',
+  },
+  severityIntro: {
+    id: 'userPrefs.notifications.severityIntro',
+    defaultMessage: 'Possible notification severity levels include ',
+  },
+  savedSuccess: {
+    id: 'userPrefs.notifications.savedSuccess',
+    defaultMessage: 'Notification preferences successfully saved',
+  },
+  savedFail: {
+    id: 'userPrefs.notifications.savedFail',
+    defaultMessage: 'Notification preferences unsuccessfully saved',
+  },
+  criticalLabel: {
+    id: 'userPrefs.severity.critical',
+    defaultMessage: 'Critical',
+  },
+  criticalDescription: {
+    id: 'userPrefs.severity.criticalDescription',
+    defaultMessage:
       'Urgent notification about an event with impact to your systems',
   },
+  importantLabel: {
+    id: 'userPrefs.severity.important',
+    defaultMessage: 'Important',
+  },
+  importantDescription: {
+    id: 'userPrefs.severity.importantDescription',
+    defaultMessage: 'Errors or other events that may impact your systems',
+  },
+  moderateLabel: {
+    id: 'userPrefs.severity.moderate',
+    defaultMessage: 'Moderate',
+  },
+  moderateDescription: {
+    id: 'userPrefs.severity.moderateDescription',
+    defaultMessage: 'Warning',
+  },
+  lowLabel: {
+    id: 'userPrefs.severity.low',
+    defaultMessage: 'Low',
+  },
+  lowDescription: {
+    id: 'userPrefs.severity.lowDescription',
+    defaultMessage: 'Information only',
+  },
+  noneLabel: {
+    id: 'userPrefs.severity.none',
+    defaultMessage: 'None',
+  },
+  noneDescription: {
+    id: 'userPrefs.severity.noneDescription',
+    defaultMessage: 'No security-related impact for this notification',
+  },
+});
+
+const LIST_SEPARATOR = ', ';
+const PERIOD_SPACE = '. ';
+const LIST_FINAL_SEPARATOR = ', and ';
+const SCALPRUM_MODULE = './ConnectedTimeConfig';
+const SCALPRUM_SCOPE = 'notifications';
+const NOTIF_TABS_NAME = 'notifTabs';
+
+const severityTerms = [
   {
-    label: 'Important',
+    label: messages.criticalLabel,
+    icon: SeverityCriticalIcon,
+    color: 'var(--pf-t--global--icon--color--severity--critical--default)',
+    description: messages.criticalDescription,
+  },
+  {
+    label: messages.importantLabel,
     icon: SeverityImportantIcon,
     color: 'var(--pf-t--global--icon--color--severity--important--default)',
-    description: 'Errors or other events that may impact your systems',
+    description: messages.importantDescription,
   },
   {
-    label: 'Moderate',
+    label: messages.moderateLabel,
     icon: SeverityModerateIcon,
     color: 'var(--pf-t--global--icon--color--severity--moderate--default)',
-    description: 'Warning',
+    description: messages.moderateDescription,
   },
   {
-    label: 'Low',
+    label: messages.lowLabel,
     icon: SeverityMinorIcon,
     color: 'var(--pf-t--global--icon--color--severity--minor--default)',
-    description: 'Information only',
+    description: messages.lowDescription,
   },
   {
-    label: 'None',
+    label: messages.noneLabel,
     icon: SeverityNoneIcon,
     color: 'var(--pf-t--global--icon--color--severity--none--default)',
-    description: 'No security-related impact for this notification',
+    description: messages.noneDescription,
   },
 ];
 
@@ -95,47 +184,55 @@ const SeverityHelpTerm = ({
   icon: SeverityIcon,
   color,
   description,
-}) => (
-  <Popover
-    headerContent={
-      <span className="pf-v6-u-display-flex pf-v6-u-align-items-center pf-v6-u-flex-nowrap">
-        <SeverityIcon
-          color={color}
-          className="pf-v6-u-display-inline-flex pf-v6-u-flex-shrink-0"
-        />
-        <span className="pf-v6-u-m-0 pf-v6-u-ml-sm">{label} severity</span>
-      </span>
-    }
-    bodyContent={description}
-    footerContent={
-      <a
-        href={SEVERITY_LEARN_MORE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn more
-      </a>
-    }
-  >
-    <Button
-      variant="link"
-      isInline
-      className="pref-notifications--severity-term"
-      icon={
-        <SeverityIcon
-          color={color}
-          className="pf-v6-u-display-inline-flex pf-v6-u-flex-shrink-0"
-        />
+}) => {
+  const intl = useIntl();
+  return (
+    <Popover
+      headerContent={
+        <span className="pf-v6-u-display-flex pf-v6-u-align-items-center pf-v6-u-flex-nowrap">
+          <SeverityIcon
+            color={color}
+            className="pf-v6-u-display-inline-flex pf-v6-u-flex-shrink-0"
+          />
+          <span className="pf-v6-u-m-0 pf-v6-u-ml-sm">
+            {intl.formatMessage(messages.severityLabel, {
+              label: intl.formatMessage(label),
+            })}
+          </span>
+        </span>
+      }
+      bodyContent={intl.formatMessage(description)}
+      footerContent={
+        <a
+          href={SEVERITY_LEARN_MORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {intl.formatMessage(messages.learnMore)}
+        </a>
       }
     >
-      {label}
-    </Button>
-  </Popover>
-);
+      <Button
+        variant="link"
+        isInline
+        className="pref-notifications--severity-term"
+        icon={
+          <SeverityIcon
+            color={color}
+            className="pf-v6-u-display-inline-flex pf-v6-u-flex-shrink-0"
+          />
+        }
+      >
+        {intl.formatMessage(label)}
+      </Button>
+    </Popover>
+  );
+};
 /* eslint-enable react/prop-types */
 
 /* eslint-disable react/prop-types */
 const NotificationsVAButton = () => {
+  const intl = useIntl();
   const { hookResult: vaHookResult, loading: vaLoading } = useRemoteHook({
     scope: 'virtualAssistant',
     module: './state/globalState',
@@ -159,21 +256,21 @@ const NotificationsVAButton = () => {
           setState({
             isOpen: true,
             currentModel: Models?.VA,
-            message:
-              'Contact my organization administrator to update which notifications I receive',
+            message: messages.contactAdminUpdate.defaultMessage,
           });
         }
       }}
       variant="link"
       isInline
     >
-      Contact your Organization Administrator
+      {intl.formatMessage(messages.contactYourAdmin)}
     </Button>
   );
 };
 /* eslint-enable react/prop-types */
 
 const Notifications = () => {
+  const intl = useIntl();
   const platformNotificationsSeverity = useFlag(
     PLATFORM_NOTIFICATIONS_SEVERITY_FLAG
   );
@@ -264,14 +361,14 @@ const Notifications = () => {
         addNotification({
           dismissable: true,
           variant: 'success',
-          title: 'Notification preferences successfully saved',
+          title: intl.formatMessage(messages.savedSuccess),
         });
       })
       .catch(() => {
         addNotification({
           dismissable: true,
           variant: 'danger',
-          title: 'Notification preferences unsuccessfully saved',
+          title: intl.formatMessage(messages.savedFail),
         });
       });
   };
@@ -282,40 +379,41 @@ const Notifications = () => {
         <div id="notifications-grid" className="pref-notifications--grid">
           <div ref={titleRef} className="pref-notifications--head">
             <PageHeader
-              title="My Notifications"
+              title={intl.formatMessage(messages.myNotifications)}
               subtitle={
                 <>
-                  Opt in or out of receiving notifications, and choose how you
-                  want to be notified. Your Organization Administrator has
-                  configured which notifications you can or can{"'"}t receive on
-                  their end.{' '}
-                  {isVAEnabled ? (
-                    <NotificationsVAButton />
-                  ) : (
-                    'Contact your Organization Administrator'
-                  )}{' '}
-                  to have these settings updated.
-                  <br></br>
+                  <FormattedMessage
+                    {...messages.subtitle}
+                    values={{
+                      adminContact: isVAEnabled ? (
+                        <NotificationsVAButton />
+                      ) : (
+                        intl.formatMessage(messages.contactYourAdmin)
+                      ),
+                    }}
+                  />
+                  <br />
                   {platformNotificationsSeverity && (
                     <>
                       <br />
-                      Possible notification severity levels include{' '}
+                      {intl.formatMessage(messages.severityIntro)}
                       {severityTerms.map((term, index) => (
-                        <React.Fragment key={term.label}>
+                        <React.Fragment key={term.label.id}>
                           {index > 0 &&
                             index < severityTerms.length - 1 &&
-                            ', '}
-                          {index === severityTerms.length - 1 && ', and '}
+                            LIST_SEPARATOR}
+                          {index === severityTerms.length - 1 &&
+                            LIST_FINAL_SEPARATOR}
                           <SeverityHelpTerm {...term} />
                         </React.Fragment>
                       ))}
-                      .{' '}
+                      {PERIOD_SPACE}
                       <a
                         href={SEVERITY_LEARN_MORE_URL}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Learn more
+                        {intl.formatMessage(messages.learnMore)}
                       </a>
                     </>
                   )}
@@ -323,8 +421,8 @@ const Notifications = () => {
               }
             >
               <ScalprumComponent
-                module="./ConnectedTimeConfig"
-                scope="notifications"
+                module={SCALPRUM_MODULE}
+                scope={SCALPRUM_SCOPE}
                 store={store}
               />
             </PageHeader>
@@ -347,7 +445,7 @@ const Notifications = () => {
               fields: [
                 {
                   component: FORM_TABS,
-                  name: 'notifTabs',
+                  name: NOTIF_TABS_NAME,
                   titleRef,
                   bundles: notifPref,
                   fields: prepareFields(

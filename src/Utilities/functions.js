@@ -2,6 +2,26 @@ import React from 'react';
 import { Skeleton } from '@redhat-cloud-services/frontend-components/Skeleton';
 import { getEmailSchema } from '../redux/actions/email-actions';
 import { loaderField } from './constants';
+import { defineMessages } from 'react-intl';
+
+const messages = defineMessages({
+  emailSaved: {
+    id: 'userPrefs.functions.emailSaved',
+    defaultMessage: 'Email preferences for {apps} successfully saved',
+  },
+  emailFailed: {
+    id: 'userPrefs.functions.emailFailed',
+    defaultMessage: 'Email preferences for {apps} unsuccessfully saved',
+  },
+  saved: {
+    id: 'userPrefs.functions.saved',
+    defaultMessage: 'Preferences successfully saved',
+  },
+  failed: {
+    id: 'userPrefs.functions.failed',
+    defaultMessage: 'Preferences unsuccessfully saved',
+  },
+});
 
 export const getSchema = (app) =>
   !app || !app.loaded ? loaderField : app.schema;
@@ -173,13 +193,19 @@ export const dispatchMessages = (
     addNotification({
       dismissable: false,
       variant: 'success',
-      title: `Email preferences for ${concatApps(success)} successfully saved`,
+      title: messages.emailSaved.defaultMessage.replace(
+        '{apps}',
+        concatApps(success)
+      ),
     });
 
     addNotification({
       dismissable: false,
       variant: 'danger',
-      title: `Email preferences for ${concatApps(error)} unsuccessfully saved`,
+      title: messages.emailFailed.defaultMessage.replace(
+        '{apps}',
+        concatApps(error)
+      ),
     });
   }
 
@@ -187,7 +213,7 @@ export const dispatchMessages = (
     addNotification({
       dismissable: false,
       variant: 'success',
-      title: 'Preferences successfully saved',
+      title: messages.saved.defaultMessage,
     });
   }
 
@@ -195,7 +221,7 @@ export const dispatchMessages = (
     addNotification({
       dismissable: false,
       variant: 'danger',
-      title: 'Preferences unsuccessfully saved',
+      title: messages.failed.defaultMessage,
     });
   }
 };

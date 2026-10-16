@@ -154,9 +154,7 @@ exports[`Tabs tests should render correctly 1`] = `
       data-ouia-safe="true"
       data-pf-content="true"
     >
-      Configure your 
-      Advisor
-       notifications.
+      Configure your Advisor notifications.
     </p>
     <div />
   </div>
@@ -333,8 +331,7 @@ exports[`Tabs tests should render loading correctly 1`] = `
       data-ouia-safe="true"
       data-pf-content="true"
     >
-      Configure your 
-       notifications.
+      Configure your  notifications.
     </p>
     <div />
   </div>

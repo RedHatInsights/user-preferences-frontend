@@ -14,8 +14,7 @@ exports[`BulkSelectButton tests should render correctly 1`] = `
     <span
       class="pf-v6-c-button__text"
     >
-      Select
-       all
+      Select all
     </span>
   </button>
 </div>
