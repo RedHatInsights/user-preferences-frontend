@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage, defineMessages } from 'react-intl';
 import omit from 'lodash/omit';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import {
@@ -16,6 +17,31 @@ import {
   CLUSTER_MANAGER_URL,
   isClusterManager,
 } from '../../Utilities/clusterManagerConstants';
+
+const messages = defineMessages({
+  reports: {
+    id: 'userPrefs.utils.reports',
+    defaultMessage: 'Reports',
+  },
+  eventNotifications: {
+    id: 'userPrefs.utils.eventNotifications',
+    defaultMessage: 'Event notifications',
+  },
+  clusterManagerDescription: {
+    id: 'userPrefs.utils.clusterManagerDescription',
+    defaultMessage:
+      'Preferences for OpenShift notifications are currently being managed for individual clusters in the {clusterManager} service.',
+  },
+  clusterManagerLink: {
+    id: 'userPrefs.utils.clusterManagerLink',
+    defaultMessage: 'Cluster Manager',
+  },
+  selectHowToReceive: {
+    id: 'userPrefs.utils.selectHowToReceive',
+    defaultMessage:
+      'Select how would you like to receive notifications for each event.',
+  },
+});
 
 const readEventTypeFieldValue = (values, field) => {
   const m = field.match(
@@ -90,7 +116,7 @@ export const prepareFields = (
                   emailSectionValue.schema.length !== 0
                     ? [
                         {
-                          label: 'Reports',
+                          label: <FormattedMessage {...messages.reports} />,
                           name: 'email-reports',
                           component: INPUT_GROUP,
                           level: 1,
@@ -117,19 +143,20 @@ export const prepareFields = (
                 []
               ),
               {
-                label: 'Event notifications',
+                label: <FormattedMessage {...messages.eventNotifications} />,
                 description: isClusterManager(bundleKey, appKey) ? (
-                  <>
-                    <InfoCircleIcon
-                      color="var(--pf-t--global--icon--color--status--info--default)"
-                      style={{ marginRight: 'var(--pf-t--global--spacer--sm)' }}
-                    />
-                    Preferences for OpenShift notifications are currently being
-                    managed for individual clusters in the{' '}
-                    <a href={CLUSTER_MANAGER_URL}>Cluster Manager</a> service.
-                  </>
+                  <FormattedMessage
+                    {...messages.clusterManagerDescription}
+                    values={{
+                      clusterManager: (
+                        <a href={CLUSTER_MANAGER_URL}>
+                          <FormattedMessage {...messages.clusterManagerLink} />
+                        </a>
+                      ),
+                    }}
+                  />
                 ) : (
-                  'Select how would you like to receive notifications for each event.'
+                  <FormattedMessage {...messages.selectHowToReceive} />
                 ),
                 name: 'event-notifications',
                 component: INPUT_GROUP,

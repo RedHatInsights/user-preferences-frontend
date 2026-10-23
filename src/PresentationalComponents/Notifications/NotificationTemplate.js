@@ -5,8 +5,21 @@ import WarningModal from '@patternfly/react-component-groups/dist/dynamic/Warnin
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import FormButtons from '../shared/FormButtons';
 import pathnames from '../../Utilities/pathnames';
+import { defineMessages, useIntl } from 'react-intl';
+
+const messages = defineMessages({
+  unsavedChanges: {
+    id: 'userPrefs.notificationTemplate.unsavedChanges',
+    defaultMessage: 'Unsaved changes',
+  },
+  unsavedChangesBody: {
+    id: 'userPrefs.notificationTemplate.unsavedChangesBody',
+    defaultMessage: 'Your page contains unsaved changes. Do you want to leave?',
+  },
+});
 
 const NotificationsTemplate = ({ schema, formFields }) => {
+  const intl = useIntl();
   const formApi = useFormApi();
   const [isVisibleDialog, setVisibleDialog] = useState(false);
 
@@ -66,7 +79,7 @@ const NotificationsTemplate = ({ schema, formFields }) => {
     <>
       <WarningModal
         isOpen={isVisibleDialog}
-        title="Unsaved changes"
+        title={intl.formatMessage(messages.unsavedChanges)}
         onConfirm={() => {
           setTriggerExit((obj) => ({
             ...obj,
@@ -76,7 +89,7 @@ const NotificationsTemplate = ({ schema, formFields }) => {
         }}
         onClose={() => setVisibleDialog(false)}
       >
-        Your page contains unsaved changes. Do you want to leave?
+        {intl.formatMessage(messages.unsavedChangesBody)}
       </WarningModal>
 
       <form onSubmit={formApi.handleSubmit} style={{ display: 'contents' }}>

@@ -1,3 +1,4 @@
+import { defineMessages, useIntl } from 'react-intl';
 import React from 'react';
 import useFormApi from '@data-driven-forms/react-form-renderer/use-form-api';
 import PropTypes from 'prop-types';
@@ -7,11 +8,23 @@ import { ActionGroup } from '@patternfly/react-core';
 import { FormSpy } from '@data-driven-forms/react-form-renderer';
 import './form-buttons.scss';
 
+const messages = defineMessages({
+  save: {
+    id: 'userPrefs.formButtons.save',
+    defaultMessage: 'Save',
+  },
+  cancel: {
+    id: 'userPrefs.formButtons.cancel',
+    defaultMessage: 'Cancel',
+  },
+});
+
 const FormButtons = ({
   dirtyFieldsSinceLastSubmit,
   submitSucceeded,
   pristine,
 }) => {
+  const intl = useIntl();
   const { reset } = useFormApi();
   const noChanges =
     isEmpty(dirtyFieldsSinceLastSubmit) || (!submitSucceeded && pristine);
@@ -27,7 +40,7 @@ const FormButtons = ({
           isDisabled={noChanges}
           variant="primary"
         >
-          Save
+          {intl.formatMessage(messages.save)}
         </Button>
         <Button
           variant="link"
@@ -35,7 +48,7 @@ const FormButtons = ({
           isDisabled={noChanges}
           onClick={() => reset()}
         >
-          Cancel
+          {intl.formatMessage(messages.cancel)}
         </Button>
       </ActionGroup>
     </div>

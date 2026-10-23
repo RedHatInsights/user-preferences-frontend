@@ -1,3 +1,4 @@
+import { defineMessages, useIntl } from 'react-intl';
 import React, { useMemo } from 'react';
 import {
   Button,
@@ -21,24 +22,46 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getNavFromURL } from './urlSync';
 
-const renderEmptyState = (setSearch) => (
+const messages = defineMessages({
+  noMatchingServices: {
+    id: 'userPrefs.tabsMenu.noMatchingServices',
+    defaultMessage: 'No matching services found',
+  },
+  adjustFilters: {
+    id: 'userPrefs.tabsMenu.adjustFilters',
+    defaultMessage: 'Adjust your filters and try again.',
+  },
+  clearFilters: {
+    id: 'userPrefs.tabsMenu.clearFilters',
+    defaultMessage: 'Clear filters',
+  },
+  filterMenuAria: {
+    id: 'userPrefs.tabsMenu.filterMenuAria',
+    defaultMessage: 'Filter menu items',
+  },
+});
+
+const renderEmptyState = (intl, setSearch) => (
   <EmptyState
     headingLevel="h4"
     icon={SearchIcon}
-    titleText="No matching services found"
+    titleText={intl.formatMessage(messages.noMatchingServices)}
     variant={EmptyStateVariant.sm}
     className="pf-v6-u-mt-lg"
   >
-    <EmptyStateBody>Adjust your filters and try again.</EmptyStateBody>
+    <EmptyStateBody>
+      {intl.formatMessage(messages.adjustFilters)}
+    </EmptyStateBody>
     <EmptyStateFooter>
       <Button variant={ButtonVariant.link} onClick={() => setSearch('')}>
-        Clear filters
+        {intl.formatMessage(messages.clearFilters)}
       </Button>
     </EmptyStateFooter>
   </EmptyState>
 );
 
 const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
+  const intl = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -53,7 +76,7 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
         <MenuSearchInput ref={searchRef} className="pf-v6-u-mx-sm">
           <SearchInput
             data-testid="search-input"
-            aria-label="Filter menu items"
+            aria-label={intl.formatMessage(messages.filterMenuAria)}
             placeholder="Search services"
             customIcon={<SearchIcon />}
             type="search"
@@ -92,7 +115,7 @@ const TabsMenu = ({ searchRef, search, setSearch, fields, onClick }) => {
                 </MenuGroup>
               ) : null
             )
-          : renderEmptyState(setSearch)}
+          : renderEmptyState(intl, setSearch)}
       </MenuContent>
     </Menu>
   );

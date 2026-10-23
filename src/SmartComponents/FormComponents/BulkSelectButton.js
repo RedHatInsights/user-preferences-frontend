@@ -1,3 +1,4 @@
+import { defineMessages, useIntl } from 'react-intl';
 import React from 'react';
 import { Button, Tooltip } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
@@ -10,7 +11,23 @@ import {
   isClusterManager,
 } from '../../Utilities/clusterManagerConstants';
 
+const messages = defineMessages({
+  selectAll: {
+    id: 'userPrefs.bulkSelect.selectAll',
+    defaultMessage: '{action} all',
+  },
+  select: {
+    id: 'userPrefs.bulkSelect.select',
+    defaultMessage: 'Select',
+  },
+  deselect: {
+    id: 'userPrefs.bulkSelect.deselect',
+    defaultMessage: 'Deselect',
+  },
+});
+
 const BulkSelectButton = (props) => {
+  const intl = useIntl();
   const formOptions = useFormApi();
   const { input, section, onClick } = useFieldApi({
     ...props,
@@ -34,7 +51,11 @@ const BulkSelectButton = (props) => {
         id={`bulk-select-${section}`}
         onClick={() => onClick?.(formOptions, input)}
       >
-        {input.value ? 'Select' : 'Deselect'} all
+        {intl.formatMessage(messages.selectAll, {
+          action: input.value
+            ? intl.formatMessage(messages.select)
+            : intl.formatMessage(messages.deselect),
+        })}
       </Button>
     </Tooltip>
   ) : (
@@ -46,7 +67,11 @@ const BulkSelectButton = (props) => {
       id={`bulk-select-${section}`}
       onClick={() => onClick?.(formOptions, input)}
     >
-      {input.value ? 'Select' : 'Deselect'} all
+      {intl.formatMessage(messages.selectAll, {
+        action: input.value
+          ? intl.formatMessage(messages.select)
+          : intl.formatMessage(messages.deselect),
+      })}
     </Button>
   );
 };

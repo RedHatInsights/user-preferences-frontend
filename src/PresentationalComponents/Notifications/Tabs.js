@@ -1,3 +1,4 @@
+import { defineMessages, useIntl } from 'react-intl';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormApi } from '@data-driven-forms/react-form-renderer';
@@ -7,18 +8,26 @@ import { useFormState } from 'react-final-form';
 import { getNavFromURL, setNavToURL } from './urlSync';
 import TabsMenu from './TabsMenu';
 
-const renderPageHeading = (bundleTitle, sectionTitle) => (
+const messages = defineMessages({
+  configureNotifications: {
+    id: 'userPrefs.tabs.configureNotifications',
+    defaultMessage: 'Configure your {sectionTitle} notifications.',
+  },
+});
+
+const renderPageHeading = (intl, bundleTitle, sectionTitle) => (
   <React.Fragment>
     <Title headingLevel="h3" size="xl" className="pf-v6-u-pb-xs">
       {`${sectionTitle} | ${bundleTitle}`}
     </Title>
     <Content component="p" className="pf-v6-u-mb-md">
-      Configure your {sectionTitle} notifications.
+      {intl.formatMessage(messages.configureNotifications, { sectionTitle })}
     </Content>
   </React.Fragment>
 );
 
 const FormTabs = ({ fields, titleRef, bundles }) => {
+  const intl = useIntl();
   const location = useLocation();
   const navigate = useNavigate();
   const formOptions = useFormApi();
@@ -112,6 +121,7 @@ const FormTabs = ({ fields, titleRef, bundles }) => {
       <div className="pref-notifications--inputs">
         <React.Fragment>
           {renderPageHeading(
+            intl,
             bundles[navConfig.current.bundle]?.label,
             fields
               .reduce((acc, curr) => [...acc, ...curr.fields], [])

@@ -1,0 +1,125 @@
+{
+  "userPrefs.bulkSelect.deselect": {
+    "defaultMessage": "Deselect"
+  },
+  "userPrefs.bulkSelect.select": {
+    "defaultMessage": "Select"
+  },
+  "userPrefs.bulkSelect.selectAll": {
+    "defaultMessage": "{action} all"
+  },
+  "userPrefs.dataList.mappingError": {
+    "defaultMessage": "Error while mapping fields, please check your schema if it has valid component types"
+  },
+  "userPrefs.formButtons.cancel": {
+    "defaultMessage": "Cancel"
+  },
+  "userPrefs.formButtons.save": {
+    "defaultMessage": "Save"
+  },
+  "userPrefs.functions.emailFailed": {
+    "defaultMessage": "Email preferences for {apps} unsuccessfully saved"
+  },
+  "userPrefs.functions.emailSaved": {
+    "defaultMessage": "Email preferences for {apps} successfully saved"
+  },
+  "userPrefs.functions.failed": {
+    "defaultMessage": "Preferences unsuccessfully saved"
+  },
+  "userPrefs.functions.saved": {
+    "defaultMessage": "Preferences successfully saved"
+  },
+  "userPrefs.notificationTemplate.unsavedChanges": {
+    "defaultMessage": "Unsaved changes"
+  },
+  "userPrefs.notificationTemplate.unsavedChangesBody": {
+    "defaultMessage": "Your page contains unsaved changes. Do you want to leave?"
+  },
+  "userPrefs.notifications.contactAdminUpdate": {
+    "defaultMessage": "Contact my organization administrator to update which notifications I receive"
+  },
+  "userPrefs.notifications.contactYourAdmin": {
+    "defaultMessage": "Contact your Organization Administrator"
+  },
+  "userPrefs.notifications.learnMore": {
+    "defaultMessage": "Learn more"
+  },
+  "userPrefs.notifications.myNotifications": {
+    "defaultMessage": "My Notifications"
+  },
+  "userPrefs.notifications.savedFail": {
+    "defaultMessage": "Notification preferences unsuccessfully saved"
+  },
+  "userPrefs.notifications.savedSuccess": {
+    "defaultMessage": "Notification preferences successfully saved"
+  },
+  "userPrefs.notifications.severityIntro": {
+    "defaultMessage": "Possible notification severity levels include"
+  },
+  "userPrefs.notifications.severityLabel": {
+    "defaultMessage": "{label} severity"
+  },
+  "userPrefs.notifications.subtitle": {
+    "defaultMessage": "Opt in or out of receiving notifications, and choose how you want to be notified. Your Organization Administrator has configured which notifications you can or cannot receive on their end. {adminContact} to have these settings updated."
+  },
+  "userPrefs.severity.critical": {
+    "defaultMessage": "Critical"
+  },
+  "userPrefs.severity.criticalDescription": {
+    "defaultMessage": "Urgent notification about an event with impact to your systems"
+  },
+  "userPrefs.severity.important": {
+    "defaultMessage": "Important"
+  },
+  "userPrefs.severity.importantDescription": {
+    "defaultMessage": "Errors or other events that may impact your systems"
+  },
+  "userPrefs.severity.low": {
+    "defaultMessage": "Low"
+  },
+  "userPrefs.severity.lowDescription": {
+    "defaultMessage": "Information only"
+  },
+  "userPrefs.severity.moderate": {
+    "defaultMessage": "Moderate"
+  },
+  "userPrefs.severity.moderateDescription": {
+    "defaultMessage": "Warning"
+  },
+  "userPrefs.severity.none": {
+    "defaultMessage": "None"
+  },
+  "userPrefs.severity.noneDescription": {
+    "defaultMessage": "No security-related impact for this notification"
+  },
+  "userPrefs.tabs.configureNotifications": {
+    "defaultMessage": "Configure your {sectionTitle} notifications."
+  },
+  "userPrefs.tabsMenu.adjustFilters": {
+    "defaultMessage": "Adjust your filters and try again."
+  },
+  "userPrefs.tabsMenu.clearFilters": {
+    "defaultMessage": "Clear filters"
+  },
+  "userPrefs.tabsMenu.filterMenuAria": {
+    "defaultMessage": "Filter menu items"
+  },
+  "userPrefs.tabsMenu.noMatchingServices": {
+    "defaultMessage": "No matching services found"
+  },
+  "userPrefs.utils.clusterManagerDescription": {
+    "defaultMessage": "Preferences for OpenShift notifications are currently being managed for individual clusters in the {clusterManager} service."
+  },
+  "userPrefs.utils.clusterManagerLink": {
+    "defaultMessage": "Cluster Manager"
+  },
+  "userPrefs.utils.eventNotifications": {
+    "defaultMessage": "Event notifications"
+  },
+  "userPrefs.utils.reports": {
+    "defaultMessage": "Reports"
+  },
+  "userPrefs.utils.selectHowToReceive": {
+    "defaultMessage": "Select how would you like to receive notifications for each event."
+  }
+}

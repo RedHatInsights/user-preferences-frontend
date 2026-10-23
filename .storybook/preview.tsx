@@ -8,6 +8,7 @@ import { MemoryRouter } from 'react-router-dom';
 import NotificationsProvider from '@redhat-cloud-services/frontend-components-notifications/NotificationsProvider';
 import registry from '../src/Utilities/store';
 import { HccStorybookProvider, hccPreviewDefaults } from '@redhat-cloud-services/hcc-storybook-hub';
+import { IntlMessagesProvider } from '../src/i18n';
 
 const preview: Preview = {
   ...hccPreviewDefaults,
@@ -37,7 +38,9 @@ const preview: Preview = {
             <MemoryRouter>
               <Fragment>
                 <NotificationsProvider>
-                  <Story />
+                  <IntlMessagesProvider locale="en">
+                    <Story />
+                  </IntlMessagesProvider>
                 </NotificationsProvider>
               </Fragment>
             </MemoryRouter>
