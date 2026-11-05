@@ -38,6 +38,7 @@ spec:
 
       npm install
       npm run lint
+      npm run lint:translations
       npm test --  --runInBand --no-cache
   pipelineRef:
     name: docker-build
