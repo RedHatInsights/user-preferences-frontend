@@ -131,11 +131,12 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "chromatic --exit-zero-on-changes",
-    "translations:extract": "npx formatjs extract 'src/**/*.{js,jsx,ts,tsx}' --out-file locales/translation-template.json",
+    "translations:extract": "npx formatjs extract 'src/**/*.{js,jsx,ts,tsx}' --ignore '**/*.stories.*' --ignore '**/*.test.*' --out-file locales/translation-template.json",
     "lint:translations": "npm run translations:extract && git diff --exit-code locales/translation-template.json",
     "test-storybook": "test-storybook --testTimeout=30000",
     "test-storybook:ci": "test-storybook --ci --testTimeout=30000",
-    "test:storybook": "storybook build && start-server-and-test 'http-server storybook-static -p 6007 -s' http://127.0.0.1:6007 'npx test-storybook --ci --testTimeout=30000 --url http://127.0.0.1:6007'"
+    "test:storybook": "storybook build && start-server-and-test 'http-server storybook-static -p 6007 -s' http://127.0.0.1:6007 'npx test-storybook --ci --testTimeout=30000 --url http://127.0.0.1:6007'",
+    "translations:validate": "i18n-pipeline validate-ci --mode error --config .github/i18n/catalog-validation.json"
   },
   "insights": {
     "appname": "user-preferences"
