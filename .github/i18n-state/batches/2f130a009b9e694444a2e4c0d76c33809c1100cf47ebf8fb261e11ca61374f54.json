@@ -303,8 +303,10 @@
       "pullRequestUrl": "https://github.com/RedHatInsights/user-preferences-frontend/pull/489",
       "pullRequestBranch": "i18n/phrase-2f130a009b9e6944-ja",
       "pullRequestBatchKey": "2f130a009b9e694444a2e4c0d76c33809c1100cf47ebf8fb261e11ca61374f54",
-      "pullRequestAssigneesPending": true,
-      "toolingCommitSha": "56eda24afc2d36873359005fe665b37ea3b514c1"
+      "toolingCommitSha": "56eda24afc2d36873359005fe665b37ea3b514c1",
+      "pullRequestAssignees": [
+        "riccardo-forina"
+      ]
     },
     "ko": {
       "phase": "pr-created",
