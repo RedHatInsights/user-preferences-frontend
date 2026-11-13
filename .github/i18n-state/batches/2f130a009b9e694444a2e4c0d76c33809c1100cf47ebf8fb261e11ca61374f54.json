@@ -293,7 +293,10 @@
       ]
     },
     "ja": {
-      "phase": "exporting"
+      "phase": "exporting",
+      "toolingCommitShas": [
+        "56eda24afc2d36873359005fe665b37ea3b514c1"
+      ]
     },
     "ko": {
       "phase": "pr-created",
