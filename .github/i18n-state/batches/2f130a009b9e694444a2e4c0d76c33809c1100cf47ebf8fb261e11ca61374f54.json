@@ -219,7 +219,7 @@
     {
       "uid": "JZnZ16NJcHjQbWtudHWQm2",
       "innerId": "32",
-      "status": "ACCEPTED",
+      "status": "COMPLETED",
       "providers": [
         {
           "type": "USER",
