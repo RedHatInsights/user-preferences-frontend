@@ -293,10 +293,18 @@
       ]
     },
     "ja": {
-      "phase": "exporting",
+      "phase": "pr-created",
       "toolingCommitShas": [
         "56eda24afc2d36873359005fe665b37ea3b514c1"
-      ]
+      ],
+      "validationErrors": [],
+      "validationWarnings": [],
+      "pullRequestBodyDigest": "0e5f6f724bb1919d5b5b9fe7bd73a4c4d385ed6adaf83c6fa7e667b9d0ae9f2d",
+      "pullRequestUrl": "https://github.com/RedHatInsights/user-preferences-frontend/pull/489",
+      "pullRequestBranch": "i18n/phrase-2f130a009b9e6944-ja",
+      "pullRequestBatchKey": "2f130a009b9e694444a2e4c0d76c33809c1100cf47ebf8fb261e11ca61374f54",
+      "pullRequestAssigneesPending": true,
+      "toolingCommitSha": "56eda24afc2d36873359005fe665b37ea3b514c1"
     },
     "ko": {
       "phase": "pr-created",
