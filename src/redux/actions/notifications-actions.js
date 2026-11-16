@@ -1,12 +1,9 @@
-import {
-  getNotificationsSchema as getSchema,
-  saveValues as save,
-} from '../../api';
+import { getNotificationsApi } from '../../api';
 import { ACTION_TYPES } from '../action-types';
 
-export const getNotificationsSchema = (props) => ({
+export const getNotificationsSchema = () => ({
   type: ACTION_TYPES.GET_NOTIFICATIONS_SCHEMA,
-  payload: getSchema(props),
+  payload: getNotificationsApi().getSubscriptions(),
   meta: {
     notifications: {
       rejected: {
@@ -18,7 +15,7 @@ export const getNotificationsSchema = (props) => ({
   },
 });
 
-export const saveNotificationValues = (values, apiVersion) => ({
+export const saveNotificationValues = (values) => ({
   type: ACTION_TYPES.SAVE_NOTIFICATION_SCHEMA,
-  payload: save('notifications', values, apiVersion),
+  payload: getNotificationsApi().updateSubscriptions({ body: values }),
 });
